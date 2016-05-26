@@ -1,0 +1,32 @@
+Package: Pigengene
+Type: Package
+Title: Infers biological signatures from gene expression data
+Version: 0.99.9
+Date: 2016-03-24
+Author: Habil Zare, Amir Foroushani, and Rupesh Agrahari
+Maintainer: Habil Zare <zare@txstate.edu>
+biocViews: GeneExpression, RNASeq, NetworkInference, Network,
+        GraphAndNetwork, BiomedicalInformatics, SystemsBiology,
+        Transcriptomics, Classification, Clustering, DecisionTree,
+        DimensionReduction, PrincipalComponent, Microarray,
+        Normalization
+Depends: R (>= 3.3.0), graph
+Description: Pigengene package provides an efficient way to infer
+        biological signatures from gene expression profiles. The
+        signatures are independent from the underlying platform, e.g.,
+        the input can be microarray or RNA Seq data. It can even infer
+        the signatures using data from one platform, and evaluate them
+        on the other. Pigengene identifies the modules (clusters) of
+        highly coexpressed genes using coexpression network analysis,
+        summarizes the biological information of each module in an
+        eigengene, learns a Bayesian network that models the
+        probabilistic dependencies between modules, and builds a
+        decision tree based on the expression of eigengenes.
+License: GPL (>=2)
+Imports: bnlearn, C50, MASS, matrixStats, partykit, pheatmap (>=
+        1.0.8), Rgraphviz, WGCNA, GO.db, impute, preprocessCore,
+        grDevices, graphics, stats, utils, parallel
+Suggests: org.Hs.eg.db, org.Mm.eg.db, biomaRt, knitr, BiocStyle,
+        AnnotationDbi, energy
+VignetteBuilder: knitr
+NeedsCompilation: no

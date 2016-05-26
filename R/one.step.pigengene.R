@@ -1,0 +1,96 @@
+one.step.pigengene <- function(
+    Data, saveDir="Pigengene", 
+    Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, 
+    costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, 
+    mit="All", ## unique(Labels)[1], 
+    verbose=0, doHeat=TRUE, seed=NULL)
+{
+    ## costRatio: Implemented only for 2 classes.
+    ##^Determines how severe it is to misclassify a sample accross types.
+    ##^E.g., if costRatio=2, misclassification of a sample of the 1st type is
+    ##considered twice worse than misclassification of a sample of the 2nd type.
+    results <- list()
+    results[["call"]] <- match.call()
+    m1 <- paste("Pigengene started analizing", nrow(Data), 
+                "samples using", ncol(Data), "genes...")
+    message.if(me=m1, verbose=verbose)
+    if(verbose>1){
+        print(table(Labels))
+    }
+    ## QC:
+    c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE)
+    Data <- c1$Data
+    Labels <- c1$Labels
+    if(!is.null(testD)){
+        ct <- check.pigengene.input(Data=testD, Labels=testLabels, na.rm=TRUE)
+        testD <- ct$Data
+        testLabels <- ct$Labels
+    }
+    ## saveDir:
+    if(length(grep(saveDir, pattern=" ")>0))
+        stop("saveDir cannot have space!")
+    dir.create(path=saveDir, recursive=TRUE, showWarnings=FALSE)
+
+    ## Data for WGCNA:
+    wData <- switch(mit, 
+                    "All"=Data, 
+                    Data[which(Labels %in% mit), ])
+    ##stop('mit must be equal to "cond1", "cond2", or "Both"!'))
+    ## WGCNA:
+    if(doBalance)
+        wData <- balance(Data=wData, Labels=Labels, verbose=verbose-1)$balanced
+    calculateBetaRes <- calculate.beta(saveFile=NULL, RsquaredCut=0.8,
+                                       Data=wData, verbose=verbose-1)
+    results[["betaRes"]] <- calculateBetaRes
+    if(is.na(calculateBetaRes[["power"]]))
+        stop("power is NA!")
+    wgRes <- wgcna.one.step(Data=wData, seed=seed, 
+                            power=calculateBetaRes[["power"]], 
+                            saveDir=saveDir, verbose=verbose-1)
+    rm(wData)
+    results[["moduleRes"]] <- wgRes
+    ## Eigengenes:
+    pigengene <- compute.pigengene(Data=Data, Labels=Labels, 
+                                   modules=wgRes$net$colors, 
+                                   saveFile=combinedPath(saveDir, 'pigengene.RData'), 
+                                   doPlot='TRUE', verbose=verbose)
+    results[["pigengene"]] <- pigengene
+    ## Multiple conditions?
+    if(length(unique(Labels))<2){
+        message.if("A single condition in Labels. BN and trees are skipped.",
+                   verbose=verbose)
+        return(results)
+    }
+    selectedFeatures <- NULL
+    ## BN:
+    if(bnNum !=0){
+        bnPath <- combinedPath(saveDir, 'bn')
+        doShuffle <- if(!is.null(bnArgs$doShuffle)) bnArgs$doShuffle else TRUE
+        tasks <- if(!is.null(bnArgs$tasks)) bnArgs$tasks else "All"
+        learnt <- learn.bn(pigengene=pigengene, bnPath=bnPath, tasks=tasks, bnNum=bnNum, 
+                           doShuffle=doShuffle, verbose=verbose, seed=seed)
+        results[["leanrtBn"]] <- learnt  
+        BN <- learnt$consensus1$BN  
+        results[["BN"]] <- BN
+        ##^ The fist threshould is used for selecting.
+        selectedFeatures <- setdiff(children('Disease', x=BN), "Effect")
+        if(length(selectedFeatures)==0){
+            warning("The condition variable has no child. BN results will be ignored.")
+            selectedFeatures <- NULL
+        }
+    }
+
+    ## Trees:
+    c5Path <- combinedPath(saveDir, 'C5Trees')
+    dir.create(path=c5Path, recursive=TRUE, showWarnings=FALSE)
+    c5treeRes <- make.decision.tree(pigengene=pigengene, Data=Data, 
+                                    testD=testD, testL=testLabels, 
+                                    selectedFeatures=selectedFeatures, saveDir=c5Path, 
+                                    minPerLeaf=NULL, useMod0=useMod0, doHeat=doHeat, 
+                                    costRatio=costRatio, verbose=verbose, 
+                                    toCompact=toCompact)
+    ##
+    results[["selectedFeatures"]] <- selectedFeatures
+    results[["c5treeRes"]] <- c5treeRes
+    return(results)
+}

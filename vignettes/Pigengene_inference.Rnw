@@ -1,0 +1,162 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+
+% \VignetteIndexEntry{Pigengene: Computing and using eigengenes}
+%\VignetteDepends{Pigengene}
+%\VignetteKeywords{Gene expression, Network, Biomedical Informatics, Systems Biology}
+%\VignettePackage{Pigengene}
+%\VignetteEngine{knitr::knitr}
+
+\newcommand{\pipa}{\Biocpkg{Pigengene} }
+
+\documentclass[12pt]{article}
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
+
+\bioctitle{\Biocpkg{Pigengene}: Computing and using eigengenes}
+\author{Habil Zare}
+\date{Modified: 26 April, 2016. Compiled: \today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+
+\section{Introduction}
+Gene expression profiling technologies such as microarray or RNA Seq provide 
+valuable datasets, however, inferring biological information from these data 
+remains cumbersome. \pipa address two challenges:
+\begin{enumerate}
+\item 
+  \textbf{Curse of dimensionality:} The number of features in an expression profile is
+  usually very high. For instance, there are about 20,000 genes in human. In contrast, the number
+  of samples (patients) is often very limited in practice, and may not exceed a few
+  hundreds. Yeung et al. have shown that standard data reduction methods such as principal 
+  component analysis (PCA) are not appropriate to directly apply on gene expression data 
+  \cite{yeung2001principal}.
+  Instead, \pipa  addresses this challenge by applying PCA on gene modules.
+\item
+  \textbf{Normalization:} Data produced using different technologies, or in different labs,
+  are not easily comparable. \pipa identifies {\em eigengenes}, informative biological signatures
+  that are robust with respect to the profiling platform. For instance, it
+  can identify the signatures (compute the eigengenes) on microarray data, and infer them
+  on biologically-related RNA Seq data. The resulting  signatures are directly comparable even if the
+  set of samples (patients)  are independent and disjoint in the two analyzed datasets.
+\end{enumerate}
+
+
+\section{How to run \pipa?}
+\subsection{Installation}
+\pipa is an \R{} package that can be downloaded and 
+installed from \Bioconductor{} by the followig commands in R:
+\newline\newline
+\texttt{source("http://bioconductor.org/biocLite.R")}
+\newline
+\texttt{biocLite("Pigengene")}
+
+Alternatively, if the source code is already available, 
+the package can be installed by the following command in Linux:
+\newline
+$\\$
+\texttt{R CMD INSTALL Pigengene\_x.y.z.tar.gz}
+\newline
+$\\$
+where x.y.z. determines the version. The second approach requires all 
+the dependencies be installed manually, therefore, the first approach
+is preferred.
+
+\subsection{A quick overview}
+\pipa identifies gene modules (clusters), computes an eigengene for each 
+module, and uses these biological signatures as features for classification.
+The main function is \Rfunction{one.step.pigengene} which requires a gene 
+expression profile and the corresponding conditions (types).
+Individual functions are also provided to facilitate running the pipeline in a 
+customized way. The inferred biological signatures (eigengenes)
+are useful for supervised or unsupervised analyses.
+
+\subsection{What is an eigengene?}
+In most functions of this package, eigenegenes are computed or used as robust
+biological signatures. Briefly, each eigengene is a weighted average of the
+expression of all genes in a given set of genes (also known as a gene module or a cluster of genes).
+The weights are adjusted  in a way that the explained variance is maximized. 
+This guarantees that the loss in the biological information in minimized.
+
+\subsection{A toy example}
+For a quick start, the application of \pipa pipeline on some leukemia dataset is
+demonstrated below \cite{mills2009microarray}. 
+The first step is to load the package and data in \R{}:
+
+<<loading,fig=TRUE, fig.width=6, fig.height=6, eigengenesecho=TRUE>>=
+library(Pigengene)
+data(aml)
+data(mds)
+d1 <- rbind(aml,mds)
+Labels <- c(rep("AML",nrow(aml)),rep("MDS",nrow(mds)))
+names(Labels) <- rownames(d1)
+Disease <- as.data.frame(Labels)
+p1 <- pheatmap.type(d1[,1:20],annRow=Disease,show_rownames=FALSE)
+@ 
+
+Please note that the provided data in the package is
+sub-sampled for a quicker demonstration. For real applications, the expression of
+thousands of genes should be provided in order to the co-expression network analysis to 
+be appropriate. It is common to first perform differential expression analysis, sort all the genes based
+on p-values, and use the top-third as the input \cite{zhang2013integrated}.
+Analyzing such input with \pipa can take a few hours and may require 5-10 GB of memory. 
+The following command runs Pigengene pipeline on the toy data:
+%%
+<<oneStep, echo=TRUE>>=
+p1 <- one.step.pigengene(Data=d1,saveDir='pigengene', bnNum=0, verbose=1,
+      seed=1, Labels=Labels, toCompact=FALSE, doHeat=FALSE)
+@ 
+
+Results and figures are saved in \Rcode{pigengene} folder under the current directory.  
+For more advanced applications, the user is encouraged to analyze the data step-by-step
+and customize  the individual functions such as \Rfunction{compute.pigenegene} and 
+\Rfunction{make.decision.tree}.
+
+In addition to the provided decision trees, the user can also take alternative approaches to perform 
+classification, clustering, survival analysis, etc. {\em using eigengenes as robust biological
+signatures (informative features)}. Eigengenes and other useful objects can be retrieved from the output.
+For instance, \Rcode{c5treeRes} is a list containing the results of fitting decision trees to
+the eigengenes.  As shown above, a couple of trees were fitted, one per a value for 
+\Rcode{minPerLeaf}. The following command plots the tree corresponding to 34, i.e.,
+it was fitted requiring the minimum number of samples per every leaf to be at least 34.
+%%
+<<tree, fig=TRUE, fig.width=5, fig.height=5, echo=TRUE>>=
+plot(p1$c5treeRes$c5Trees[["34"]])
+@ 
+The tree corresponding to other values are saved in \Rcode{pigengene} folder.
+Of note, is the \Robject{pigenegene} object that contains the matrix of inferred eigenegenes.
+Each row corresponds to a sample, and each column represents an eigengene.
+%%
+<<pigengene, fig=TRUE, fig.width=5, fig.height=5, echo=TRUE>>=
+dim(p1$pigengene$eigengenes)
+p1 <- pheatmap.type(p1$pigengene$eigengenes,annRow=Disease,show_rownames=FALSE)
+
+
+@ 
+ 
+
+\subsection{Citation}
+The methodology and an interesting application of \pipa on studying
+hematological malignancies is presented in the following reference \cite{foroushani2016large}.
+<<citation, results='asis', print=TRUE, eval=TRUE>>=
+citation("Pigengene")
+@ 
+
+\section{Session Information}
+The output of \Rfunction{sessionInfo} on the system that compiled 
+this document is as follows:
+
+<<sessionInfo, results='asis', print=TRUE, eval=TRUE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{pigengene}
+
+\end{document}

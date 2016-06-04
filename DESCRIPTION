@@ -1,7 +1,7 @@
 Package: Pigengene
 Type: Package
 Title: Infers biological signatures from gene expression data
-Version: 0.99.9
+Version: 0.99.15
 Date: 2016-03-24
 Author: Habil Zare, Amir Foroushani, and Rupesh Agrahari
 Maintainer: Habil Zare <zare@txstate.edu>

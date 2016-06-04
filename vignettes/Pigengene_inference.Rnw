@@ -1,5 +1,6 @@
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
+%% Modified using Sweave2knitr().
 
 % \VignetteIndexEntry{Pigengene: Computing and using eigengenes}
 %\VignetteDepends{Pigengene}
@@ -90,7 +91,7 @@ For a quick start, the application of \pipa pipeline on some leukemia dataset is
 demonstrated below \cite{mills2009microarray}. 
 The first step is to load the package and data in \R{}:
 
-<<loading,fig=TRUE, fig.width=6, fig.height=6, eigengenesecho=TRUE>>=
+<<loading, fig.width=6, fig.height=6, echo=TRUE>>=
 library(Pigengene)
 data(aml)
 data(mds)
@@ -127,14 +128,14 @@ the eigengenes.  As shown above, a couple of trees were fitted, one per a value 
 \Rcode{minPerLeaf}. The following command plots the tree corresponding to 34, i.e.,
 it was fitted requiring the minimum number of samples per every leaf to be at least 34.
 %%
-<<tree, fig=TRUE, fig.width=5, fig.height=5, echo=TRUE>>=
+<<tree, fig.width=5, fig.height=5, echo=TRUE>>=
 plot(p1$c5treeRes$c5Trees[["34"]])
 @ 
 The tree corresponding to other values are saved in \Rcode{pigengene} folder.
 Of note, is the \Robject{pigenegene} object that contains the matrix of inferred eigenegenes.
 Each row corresponds to a sample, and each column represents an eigengene.
 %%
-<<pigengene, fig=TRUE, fig.width=5, fig.height=5, echo=TRUE>>=
+<<pigengene, fig.width=5, fig.height=5, echo=TRUE>>=
 dim(p1$pigengene$eigengenes)
 p1 <- pheatmap.type(p1$pigengene$eigengenes,annRow=Disease,show_rownames=FALSE)
 
@@ -145,7 +146,7 @@ p1 <- pheatmap.type(p1$pigengene$eigengenes,annRow=Disease,show_rownames=FALSE)
 \subsection{Citation}
 The methodology and an interesting application of \pipa on studying
 hematological malignancies is presented in the following reference \cite{foroushani2016large}.
-<<citation, results='asis', print=TRUE, eval=TRUE>>=
+<<citation, results='asis', eval=TRUE>>=
 citation("Pigengene")
 @ 
 
@@ -153,7 +154,7 @@ citation("Pigengene")
 The output of \Rfunction{sessionInfo} on the system that compiled 
 this document is as follows:
 
-<<sessionInfo, results='asis', print=TRUE, eval=TRUE>>=
+<<sessionInfo, results='asis', eval=TRUE>>=
 toLatex(sessionInfo())
 @
 

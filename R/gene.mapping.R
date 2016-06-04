@@ -22,14 +22,16 @@ gene.mapping <- function (
     }
     key <- unlist(lapply(X=mtrim(ids), FUN=versrem))
     key0 <- key
-    ## The default db:
-    if(inputDb=="Human"){
-        inDbChar <- "org.Hs.eg.db"
+    ## The default db: ## AFTER ACCEPTANCE
+    if(class(inputDb)=="character"){
+        if(inputDb=="Human")
+            inDbChar <- "org.Hs.eg.db"
     } else {
         inDbChar <- inputDb$packageName
     }
-    if(outputDb=="Human"){
-        outDbChar <- "org.Hs.eg.db"
+    if(class(outputDb)=="character"){
+        if(outputDb=="Human")
+            outDbChar <- "org.Hs.eg.db"
     } else {
         outDbChar <- outputDb$packageName
     }

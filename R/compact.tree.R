@@ -38,14 +38,14 @@ compact.tree <- function(
     compRes[["predTrain"]] <- predict(c5Tree, as.data.frame(p1$projected))
     startM <- table(compRes[["predTrain"]], testL)
     startErr <- startM[2]+ startM[3]
-    ## while(ERR3< (0.4*nrow(testD)) &qupos3< (length(queue)-10) ){
     hTresh <- startErr+(0.1*nrow(testD))
     m1 <- paste(unique(testL), "-err", collapse=" ", sep="")
     message.if("Affect on the test dataset:", verbose=verbose-2)
     message.if(paste("Removed Left", m1, "Total-err"), verbose=verbose-2)
     if(-1 %in% tmpEig$orderedModules)
-        stop("Compacting a tree having module -1 is not implemented!") 
-    while(ERR3< (hTresh) &qupos3< (length(queue)-10) ){
+        stop("Compacting a tree having module -1 is not implemented!")
+    repeat{
+        ##while(ERR3< (hTresh) &qupos3< (length(queue)-10) )
         modulesTmp <- tmpEig$orderedModules
         curmod <- modulesTmp[names(queue[qupos3])]
         ##^ current module for this position.
@@ -70,7 +70,10 @@ compact.tree <- function(
         message.if(paste(qupos3, left, ert3[2], ert3[3], ERR3, collapse=" "), 
                    verbose=verbose-2)
         qupos3 <- qupos3+1 ## the next position.
-    }
+        ## Until:
+        if(ERR3 >= (hTresh) | qupos3 >= (length(queue)-10) )
+            break
+    }##End loop.
     ## Genes:
     inds2 <- which(tmpEig$orderedModules %in% featsN)
     genesCompacted <- names(tmpEig$orderedModules[inds2])
@@ -111,15 +114,16 @@ compact.tree <- function(
     legend("topleft", col=c("orange", "blue", "red"), pch=c(1, 8, 8), mLegend)
     dev.off()
     message.if(paste("Changes to accuracy were plotted in", saveDir), verbose=verbose)
+    ## Plots done.
+
     m3 <- "Confusion matrices and other details on compacting were reported in"
     message.if(paste(m3, txtFile), verbose=verbose)
-    ##
     trainErrors <- ERR3Ms[,2:4]
     colnames(trainErrors) <- c(unique(testL), "Total")
     rownames(trainErrors) <- ERR3Ms[,1]
     testErrors <- ERR3s[,2:4]
     colnames(testErrors) <- colnames(ERR3Ms)
-    rownames(testErrors) <- ERR3s[,1]
+    rownames(testErrors) <- ERR3s[,1]   
     ## Output:
     compRes[['genes']] <- genes 
     compRes[['genesCompacted']] <- genesCompacted 

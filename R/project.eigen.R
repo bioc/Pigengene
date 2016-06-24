@@ -48,7 +48,7 @@ project.eigen <- function(
         p1 <- cbind(p1, pm2)
         colnames(p1)[ncol(p1)] <- moduleName
         if(any(is.na(matching)) & verbose >1)
-            print(paste("In module", moduleName, sum(is.na(matching)), 
+            message(paste("In module", moduleName, sum(is.na(matching)), 
                         "genes out of", length(genes), "did not match."))
     }##End for (m1 in unique(modules)).
     ## All matched?
@@ -61,8 +61,7 @@ project.eigen <- function(
     res[["notMatched"]] <- notMatched
     projected <- res
     if (!is.null(saveFile)) {
-        save.if(projected, file=saveFile)
-        message(paste("projected was saved in:", saveFile),verbose=verbose)
+        save.if(projected, file=saveFile, verbose=verbose)
     }
     invisible(res)
 }

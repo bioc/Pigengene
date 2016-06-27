@@ -33,7 +33,6 @@ compute.pigengene <- function(
                 "samples...")
     message.if(me=m1, verbose=verbose-1)
     ## Main computation:
-    browser()
     eigenResults <- moduleEigengenes(myDat, modules[colnames(myDat)], verbose=verbose-4)
     names(eigenResults$varExplained) <- colnames(eigenResults$eigengenes)
     rownames(eigenResults$eigengenes) <- rownames(myDat)

@@ -16,7 +16,7 @@ module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
 \arguments{
   \item{c5Tree}{
     A decision tree of class \code{C50} that uses module eigengenes, 
-    or \code{NULL}. If \code{NULL}, If \code{NULL}, expression plots for
+    or \code{NULL}. If \code{NULL}, expression plots for
     all modules are created.}
 
   \item{pigengene}{

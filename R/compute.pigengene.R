@@ -51,12 +51,13 @@ compute.pigengene <- function(
     eigengenesOrdered <- eigengenes[, matched, drop=FALSE]
     ## Pvalues:
     if(length(unique(Labels))>1){
+        pvalues.function <- welch.pvalue ## Can be pvalues.manova or welch.pvalue
         message.if("Eigengene Pvalues ...", verbose=verbose-1)
-        pvalues <- pvalues.manova(Data=as.matrix(eigengenes), Labels[rownames(eigengenes)])   
+        pvalues <- pvalues.function(Data=as.matrix(eigengenes), Labels[rownames(eigengenes)])   
         log.pvalue <- as.data.frame(log10(as.numeric(pvalues$pvals[, "Bonferroni"])))
         row.names(log.pvalue) <- colnames(eigengenes)
         colnames(log.pvalue) <- "pvalue(log)"
-        Size <- table(modules)
+        Size <- table(modules)[selectedModules]
         names(Size) <- paste("ME", names(Size), sep="")
         pvalCsv <- cbind(Size, pvalues$pvals) 
         write.csv(pvalues$pvals, file=pvalueCsvFile)

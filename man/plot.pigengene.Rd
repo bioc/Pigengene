@@ -12,7 +12,8 @@ weights (memberships), and so on. Saves the plots in png format.}
 \method{plot}{pigengene}(x, saveDir = NULL, 
   DiseaseColors = c("red", "cyan"), 
   fontsize = 35, doShowColnames = TRUE, fontsizeCol = 25, 
-  doClusterCols = TRUE, verbose = 2, doShowRownames = "Auto", 
+  doClusterCols = ncol(pigengene$eigengenes) > 1, 
+  verbose = 2, doShowRownames = "Auto", 
   pngfactor = max(2, ncol(pigengene$eigengenes)/16), ...)
 }
 

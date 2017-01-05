@@ -11,8 +11,7 @@ all genes in the module, where the weight of each gene corresponds
 to its membership in the module.}
 
 \usage{
-make.decision.tree(pigengene, 
-  Data = Data[rownames(pigengene$eigengenes), ],
+make.decision.tree(pigengene, Data, 
   Labels = structure(pigengene$annotation[rownames(pigengene$eigengenes),
           1], names = rownames(pigengene$eigengenes)),
   testD = NULL, testL = NULL, selectedFeatures = NULL,
@@ -30,7 +29,9 @@ make.decision.tree(pigengene,
     The training expression data}
 
   \item{Labels}{
-    Labels (condition types) for the (training) expression data}
+    Labels (condition types) for the (training) expression data. It is a
+    named vector of characters. \code{Data} and \code{pigengene} will be
+    subset according to these names.}
 
   \item{testD}{
     The test expression data, for example, from an independent dataset. 

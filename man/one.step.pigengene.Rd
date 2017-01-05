@@ -13,7 +13,7 @@ decision trees, and compact them.}
 
 \usage{
 one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL, 
-  testLabels = NULL, doBalance, costRatio = 1, toCompact = FALSE, bnNum = 0,
+  testLabels = NULL, doBalance = TRUE, costRatio = 1, toCompact = FALSE, bnNum = 0,
   bnArgs = NULL, useMod0 = FALSE, mit = "All", verbose = 0, doHeat = TRUE, 
   seed = NULL)
 }

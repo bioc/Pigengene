@@ -37,7 +37,8 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
         message.if(paste("Ploting heatmaps in:", saveDir1), verbose=verbose)
         fn <- paste(f1, '.png', sep='') ## Habil.
         ##fn=paste('heat', f1, '.png', sep='')
-        legwidth=16*max(nchar(as.character(pigengene$annotation[, 1])))
+        legwidth=16*max(nchar(as.character(anR)))
+        ##legwidth=16*max(nchar(as.character(pigengene$annotation[, 1])))
         wdt <- 220+(7*ncol(data))+legwidth
         hgt <- 210+(7.8*nrow(data))
         png(combinedPath(dir=saveDir1, fn=fn), width=wdt, height=hgt)

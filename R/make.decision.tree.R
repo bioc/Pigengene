@@ -1,7 +1,6 @@
 make.decision.tree <- function(
-    pigengene, Data=Data[rownames(pigengene$eigengenes), ],
-    Labels=structure(pigengene$annotation[rownames(
-        pigengene$eigengenes),1],
+    pigengene, Data=pigengene$Data,
+    Labels=structure(pigengene$annotation[rownames(pigengene$eigengenes),1],
         names=rownames(pigengene$eigengenes)),
     testD=NULL, testL=NULL, 
     selectedFeatures=NULL, saveDir='C5Trees', minPerLeaf=NULL, 
@@ -27,11 +26,11 @@ make.decision.tree <- function(
     ## noiseRepNum: Number of repeats for computing the average accuracy over noisy data.
     ## took out: Data1=NULL, Data2=NULL , testD1=NULL,  testD2=NULL, 
     message.if("Making decision trees...", verbose=verbose)
+    Data <- Data[names(Labels), ]
+    ##Data <- Data[rownames(pigengene$eigengenes), ]
     ## QC:
     if(class(pigengene)!="pigengene")
         stop("pigengene must be an object of class pigengene!")
-    ##Labels <- pigengene$annotation[, 1] ##AMIR
-    ##Data <- Data[rownames(pigengene$eigengenes), ]##AMIR
     c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE)
     Data <- c1$Data
     Labels <- c1$Labels
@@ -61,7 +60,7 @@ make.decision.tree <- function(
         warning("costRatio for multiClass case not supported yet, reverting to costRatio=1.")
     }
 
-    inpD <- as.data.frame(cbind(pigengene$eigengenes[, selectedFeatures], Labels))
+    inpD <- as.data.frame(cbind(pigengene$eigengenes[names(Labels), selectedFeatures], Labels))
     assign('inpD', inpD , envir=parent.env(parent.frame()), inherits=TRUE)
     colnames(inpD) <- c(selectedFeatures, 'Labels')
     ## Costs:

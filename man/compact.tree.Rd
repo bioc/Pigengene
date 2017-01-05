@@ -29,7 +29,9 @@ compact.tree(c5Tree, pigengene, Data=pigengene$Data, Labels=pigengene$Labels,
     samples. Rows and columns must be named.}
 
   \item{Labels}{
-    Labels (condition types) for the (training) expression data.}
+    Labels (condition types) for the (training) expression data.  It is a
+    named vector of characters. \code{Data}  will be subset according to
+    these names.}
 
   \item{testD}{
     The test expression data, for example, from an independent 

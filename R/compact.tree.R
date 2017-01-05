@@ -6,6 +6,7 @@ compact.tree <- function(
     ##!((is.null(testD) & is.null(testL))), "test data?")
     compRes <- list()
     message.if("Compacting the tree...", verbose=verbose)
+    Data <- Data[names(Labels), ]
     compRes[["call"]] <- match.call()
     dir.create(path=saveDir, recursive=TRUE, showWarnings=FALSE)
     txtFile <- combinedPath(dir=saveDir, fn="compact.txt")

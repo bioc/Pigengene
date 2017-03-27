@@ -1,5 +1,5 @@
 module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL, 
-                           pos=0, verbose=0, ... ){
+                           pos=0, verbose=0, doAddEigengene=TRUE,... ){
     ## Takes a decision tree and a pigengene as input
     ## and creates one heatmap for each module
     ## pos > 0 removes genes similar to compact.tree behaviour
@@ -80,6 +80,8 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
     for(f1 in feats){
         ##long lines :)
         data <- rmnas(D1[, names(modules)[which(modules==gsub("ME", "", f1))]])
+        if(doAddEigengene)
+            data <- cbind(data,pigengene$eigengenes[,f1,drop=FALSE])
         mkpngs(f1=f1, data=data, saveDir1=trainDir, anR=anR)
         if(!is.null(anRtest)){
             testdata <- rmnas(D1test[, match(colnames(data), colnames(D1test))])

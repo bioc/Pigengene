@@ -10,7 +10,7 @@ it plots one gene expression heatmap.}
 
 \usage{
 module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
-  testL = NULL, pos = 0, verbose=0, ...)
+  testL = NULL, pos = 0, verbose=0, doAddEigengene=TRUE, ...)
 }
 
 \arguments{
@@ -38,6 +38,9 @@ module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
     The integer level of verbosity. 0 means silent and higher values    
     produce more details of computation.}
 
+  \item{doAddEigengene}{
+    If \code{TRUE}, the eigengene of each module will be added to the
+    corresponding heatmap.}
   \item{\dots}{
     Additional arguments. Passed to \code{\link{pheatmap.type}}}
 

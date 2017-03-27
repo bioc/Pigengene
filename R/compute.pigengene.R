@@ -57,10 +57,11 @@ compute.pigengene <- function(
         log.pvalue <- as.data.frame(log10(as.numeric(pvalues$pvals[, "Bonferroni"])))
         row.names(log.pvalue) <- colnames(eigengenes)
         colnames(log.pvalue) <- "pvalue(log)"
-        Size <- table(modules)[selectedModules]
+        Size <- table(modules)
         names(Size) <- paste("ME", names(Size), sep="")
-        pvalCsv <- cbind(Size, pvalues$pvals) 
-        write.csv(pvalues$pvals, file=pvalueCsvFile)
+        pvalCsv <- cbind(Size[rownames(pvalues$pvals)], pvalues$pvals)
+        colnames(pvalCsv)[1] <- "Size" 
+        write.csv(pvalCsv, file=pvalueCsvFile)
         result[["pvalues"]] <- pvalues
         result[["log.pvalue"]] <- log.pvalue ## base 10
     }

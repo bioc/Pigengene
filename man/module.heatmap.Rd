@@ -10,7 +10,7 @@ it plots one gene expression heatmap.}
 
 \usage{
 module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
-  testL = NULL, pos = 0, verbose=0, doAddEigengene=TRUE, ...)
+  testL = NULL, pos = 0, verbose=0, doAddEigengene=TRUE, scalePngs=1, ...)
 }
 
 \arguments{
@@ -41,6 +41,11 @@ module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
   \item{doAddEigengene}{
     If \code{TRUE}, the eigengene of each module will be added to the
     corresponding heatmap.}
+
+  \item{scalePngs}{
+    If not 1, the size of pngs will be adjusted using this
+    parameter. A typical value would be 7.}
+  
   \item{\dots}{
     Additional arguments. Passed to \code{\link{pheatmap.type}}}
 

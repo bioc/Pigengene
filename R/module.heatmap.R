@@ -1,5 +1,5 @@
 module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL, 
-                           pos=0, verbose=0, doAddEigengene=TRUE,... ){
+                           pos=0, verbose=0, doAddEigengene=TRUE,  scalePngs=1,... ){
     ## Takes a decision tree and a pigengene as input
     ## and creates one heatmap for each module
     ## pos > 0 removes genes similar to compact.tree behaviour
@@ -34,23 +34,31 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
         return(ret)}
     mkpngs <- function(f1, data, saveDir1, anR){
         dir.create(path=saveDir1, recursive=TRUE, showWarnings=FALSE)
-        message.if(paste("Ploting heatmaps in:", saveDir1), verbose=verbose)
+        message.if(paste("Ploting heatmaps for",f1,"with",ncol(data),"columns in:", saveDir1), verbose=verbose)
         fn <- paste(f1, '.png', sep='') ## Habil.
         ##fn=paste('heat', f1, '.png', sep='')
         legwidth=16*max(nchar(as.character(anR)))
         ##legwidth=16*max(nchar(as.character(pigengene$annotation[, 1])))
-        wdt <- 220+(7*ncol(data))+legwidth
-        hgt <- 210+(7.8*nrow(data))
+        if(scalePngs!=1){
+            wdt <- 220+(scalePngs*ncol(data))+legwidth  ## scalePngs used to be 7 here.
+            hgt <- 210+(scalePngs*nrow(data)) ##scalePngs used to be 7.8 here.
+            fontsizeH <- scalePngs*10
+        } else {
+            wdt <- 4*480
+            hgt <- 2*480
+            fontsizeH <- 20
+        }
         png(combinedPath(dir=saveDir1, fn=fn), width=wdt, height=hgt)
-        pheatmap.type(Data=data, annRow=anR, type='type', fontsize_col=7, show_rownames = FALSE, ...)
+        pheatmap.type(Data=data, annRow=anR, type='type', fontsize=fontsizeH, show_rownames = FALSE, ...)
         dev.off()
         fn2 <- paste("scaled_", fn, sep='')
         png(combinedPath(dir=saveDir1, fn=fn2), width=wdt, height=hgt)
-        pheatmap.type(Data=scale(data), annRow=anR, type='type', ...)
+        pheatmap.type(Data=scale(data), annRow=anR, type='type',fontsize=fontsizeH, ...)
         dev.off()
         fn3 <- paste("scaledMinMax_", fn, sep='')
         png(combinedPath(dir=saveDir1, fn=fn3), width=wdt, height=hgt)
-        pheatmap.type(Data=apply(scale(data), FUN=minmax, MARGIN=2), annRow=anR, type='type', ...)
+        pheatmap.type(Data=apply(scale(data), FUN=minmax, MARGIN=2), annRow=anR, type='type',
+                      fontsize=fontsizeH, ...)
         dev.off()
     }
     

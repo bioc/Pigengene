@@ -42,7 +42,7 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
         if(scalePngs!=1){
             wdt <- 220+(scalePngs*ncol(data))+legwidth  ## scalePngs used to be 7 here.
             hgt <- 210+(scalePngs*nrow(data)) ##scalePngs used to be 7.8 here.
-            fontsizeH <- scalePngs*10
+            fontsizeH <- scalePngs*20
         } else {
             wdt <- 4*480
             hgt <- 2*480

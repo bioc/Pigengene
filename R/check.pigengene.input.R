@@ -9,6 +9,8 @@ check.pigengene.input <- function(
         stop("The number of rows of Data is not equal to the length of Labels!")
     if(is.null(names(Labels)))
         stop("Labels must be a named vector!")
+    ## In case Lebels is a factor:
+    Labels <- setNames(as.character(Labels),names(Labels))
     ## Rownames:
     if(is.null(rownames(Data)))
         stop("All input matrices must have rownames!")

@@ -34,7 +34,7 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
         return(ret)}
     mkpngs <- function(f1, data, saveDir1, anR){
         dir.create(path=saveDir1, recursive=TRUE, showWarnings=FALSE)
-        message.if(paste("Ploting heatmaps for",f1,"with",ncol(data),"columns in:", saveDir1), verbose=verbose)
+        message.if(paste("Plotting heatmaps for",f1,"with",ncol(data),"columns in:", saveDir1), verbose=verbose)
         fn <- paste(f1, '.png', sep='') ## Habil.
         ##fn=paste('heat', f1, '.png', sep='')
         legwidth=16*max(nchar(as.character(anR)))
@@ -65,7 +65,15 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
     D1 <- pigengene$Data
     anR <- pigengene$annotation
     colnames(anR) <- 'type'
-    rownames(anR) <- rownames(D1)
+    ##Check
+    if(is.null(rownames(anR)))
+        stop("Not a valid pigengene object because 'annotation' does not have row names!")
+    if(is.null(rownames(D1)))
+        stop("Not a valid pigengene object because 'Data' does not have row names!")
+    if(any(sort(rownames(anR))!=sort(rownames(D1))))
+        stop("Not a valid pigengene object because row names differ in 'Data' and annotations!")
+    anR <- anR[rownames(D1),,drop=FALSE]
+    ##rownames(anR) <- rownames(D1)
     ## for testD
     D1test <- NULL
     anRtest <- NULL
@@ -73,7 +81,8 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
         D1test <- testD
         anRtest <- as.data.frame(testL)
         colnames(anRtest) <- 'type'
-        rownames(anRtest) <- rownames(D1test) 
+        anRtest <- anRtest[rownames(D1test),,drop=FALSE]
+        ##rownames(anRtest) <- rownames(D1test) 
     }
     ## combined expression plot of the genes in relevant modules 
     if(!is.null(c5Tree)){

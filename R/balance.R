@@ -17,7 +17,7 @@ balance <- function(
     condNames <- unique(Labels)
     for(h1 in condNames){
         assign(paste("nCond", h1, sep=""), sum(Labels==h1))
-        dataH1 <- Data[names(which(Labels==h1)), , drop=FALSE]
+        dataH1 <- Data[which(Labels==h1), , drop=FALSE]
         assign(paste("Data", h1, sep=""), dataH1)
     }
     myDat <- NULL
@@ -30,6 +30,8 @@ balance <- function(
         ##onm <- paste("cond", h1, "RepTimes", sep='')
         oncond <- get(paste("nCond", h1, sep=''))
         rptim <- round(amplification * (nrow(Data)/oncond))
+        if(length(unique(table(Labels)))==1) ## All sampls have the same size,
+            rptim <- 1 ## Do not oversample.
         origSampleInds <- c (origSampleInds, brkpts:((brkpts+oncond)-1))
         Reptimes <- c(Reptimes, rptim)
         m2 <- paste(m2, rptim*oncond, 'of type', h1, ", ")

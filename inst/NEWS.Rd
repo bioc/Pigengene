@@ -1,6 +1,25 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
    
+\section{Changes in version 1.1.14 (2017-05-10)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item A bug in the module.heatmap() function fixed.
+    }
+  }
+}
+
+\section{Changes in version 1.1.12 (2017-04-15)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The mouseHomologFilter argument is added to the unexported
+      furntion hu.mouse() with a default value of
+      "with_mmusculus_homolog". This is now compatible with
+      biomaRt_2.30.0, it used to be "with_homolog_mmus" in older versions of biomaRt.
+    }
+  }
+}
+
 \section{Changes in version 1.1.10 (2017-03-30)}{
   \subsection{Changes in existing functions}{
     \itemize{

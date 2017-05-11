@@ -86,7 +86,7 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
     }
     ## combined expression plot of the genes in relevant modules 
     if(!is.null(c5Tree)){
-        data <- rmnas(D1[, names(modules)[which(modules %in%gsub("ME", "", feats))]]) 
+        data <- rmnas(D1[, names(modules)[which(modules %in%gsub("ME", "", feats))]])
         mkpngs(f1="combined", data=data, saveDir1=trainDir, anR=anR)
         if(!is.null(anRtest)){
             testdata <- rmnas(D1test[, match(colnames(data), colnames(D1test))])
@@ -98,7 +98,7 @@ module.heatmap <- function(c5Tree, pigengene, saveDir, testD=NULL, testL=NULL,
         ##long lines :)
         data <- rmnas(D1[, names(modules)[which(modules==gsub("ME", "", f1))]])
         if(doAddEigengene)
-            data <- cbind(data,pigengene$eigengenes[,f1,drop=FALSE])
+            data <- cbind(data,pigengene$eigengenes[rownames(data),f1,drop=FALSE])
         mkpngs(f1=f1, data=data, saveDir1=trainDir, anR=anR)
         if(!is.null(anRtest)){
             testdata <- rmnas(D1test[, match(colnames(data), colnames(D1test))])

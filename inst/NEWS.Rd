@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
    
+\section{Changes in version 1.3.4 (2017-07-31)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The doTranspose argument added to the  heatmap.type() function.
+    }
+  }
+}
+
 \section{Changes in version 1.1.14 (2017-05-10)}{
   \subsection{Changes in existing functions}{
     \itemize{

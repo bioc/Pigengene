@@ -1,4 +1,4 @@
-pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], ...){
+pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], doTranspose=FALSE,...){
     ## annRow: A data frame with row names the same as row names of Data.
     ## type: The column name of annRow representing two or more conditions.
     ## This function first performs hierarchical clustering on samples
@@ -21,13 +21,16 @@ pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], ...){
     o1 <- c()
     for(cond in conditions){
         condSamples <- rownames(annRow)[which(annRow==cond)]  
-        ##relData <- rbind(relData, Data[condSamples, , drop=FALSE])
         pa <- pheatmap(Data[condSamples, , drop=FALSE], cluster_cols=FALSE, silent=TRUE)
         pheatmapS[[as.character(cond)]] <- pa
         o1 <- c(o1, pa$tree_row$order+length(o1))
     }
     ann1 <- annRow[o1, , drop=FALSE]
-    pAll <- pheatmap(Data[o1, , drop=FALSE], annotation_row=ann1, cluster_rows=FALSE, ...)
+    if(!doTranspose){
+        pAll <- pheatmap(Data[o1, , drop=FALSE], annotation_row=ann1, cluster_rows=FALSE, ...)
+    } else { ## Transpose
+        pAll <- pheatmap(t(Data[o1, , drop=FALSE]), annotation_col=ann1, cluster_cols=FALSE, ...)
+    }
     res[["pheatmapS"]] <- pheatmapS
     res[["pheat"]] <- pAll
     res[["ordering"]] <- o1

@@ -20,7 +20,10 @@ gene.mapping <- function (
         ids <- gsub(ids, pattern="_at", replacement="")
         inputType <- "ENTREZID"
     }
-    key <- unlist(lapply(X=mtrim(ids), FUN=versrem))
+    key <- mtrim(ids)
+    ##Remove the version number, i.e. anything after the second "_". 
+    if(inputType=="REFSEQ")
+        key <- unlist(lapply(X=key, FUN=versrem))
     key0 <- key
     ## The default db: ## AFTER ACCEPTANCE
     if(class(inputDb)=="character"){

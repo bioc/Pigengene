@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
    
+\section{Changes in version 1.3.6 (2017-08-20)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item A bug in gene.mapping () function fixed to better map probe IDs.
+    }
+  }
+}
+
 \section{Changes in version 1.3.4 (2017-07-31)}{
   \subsection{Changes in existing functions}{
     \itemize{

@@ -40,7 +40,7 @@ wgcna.one.step <- function(
         save.if(net, file=netFile, verbose=verbose)
         result[["netFile"]] <- netFile
         ##Plot:
-        sizeGrWindow(12, 9)
+        ##sizeGrWindow(12, 9), an extra window left open.
         png(filename=plotFile)
         plotDendroAndColors(net$dendrograms[[1]],  addGuide=TRUE,
                             moduleColors[net$blockGenes[[1]]], 

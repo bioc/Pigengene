@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
    
+\section{Changes in version 1.3.8 (2017-09-13)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Order of conditions in pheatmap.type can now be determined
+  by the user.
+    }
+  }
+}
+
 \section{Changes in version 1.3.6 (2017-08-20)}{
   \subsection{Changes in existing functions}{
     \itemize{

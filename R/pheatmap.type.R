@@ -1,4 +1,4 @@
-pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], doTranspose=FALSE,...){
+pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], doTranspose=FALSE, conditions="Auto", ...){
     ## annRow: A data frame with row names the same as row names of Data.
     ## type: The column name of annRow representing two or more conditions.
     ## This function first performs hierarchical clustering on samples
@@ -14,26 +14,33 @@ pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], doTranspose=FA
         stop("annRow has rows that are not present in Data!")
     ## Put all samples in the same condition together.
     annRow <- annRow[order(annRow[, 1]), , drop=FALSE]
-    Data <- Data[rownames(annRow), , drop=FALSE]
-    conditions <- unique(as.character(annRow[, 1]))
-    ##relData <- c() ## The relevant data.
+    samplesOriginalOrder <- rownames(Data)
+    ##Data <- Data[rownames(annRow), , drop=FALSE]
+    if(conditions=="Auto")
+        conditions <- unique(as.character(annRow[, 1]))
+    if(any(!conditions %in% unique(as.character(annRow[, 1])))){
+        warning("Some of the conditions are not in annRow.")
+        conditions <- intersect(conditions, unique(as.character(annRow[, 1])))
+    }
     pheatmapS <- list()
-    o1 <- c()
+    dataPlot <- c()
+    ann1 <- c()
     for(cond in conditions){
         condSamples <- rownames(annRow)[which(annRow==cond)]  
         pa <- pheatmap(Data[condSamples, , drop=FALSE], cluster_cols=FALSE, silent=TRUE)
         pheatmapS[[as.character(cond)]] <- pa
-        o1 <- c(o1, pa$tree_row$order+length(o1))
+        o2 <- pa$tree_row$order
+        dataPlot <- rbind(dataPlot, Data[condSamples[o2], , drop=FALSE])
+        ann1 <- rbind(ann1, annRow[condSamples[o2], , drop=FALSE])
     }
-    ann1 <- annRow[o1, , drop=FALSE]
     if(!doTranspose){
-        pAll <- pheatmap(Data[o1, , drop=FALSE], annotation_row=ann1, cluster_rows=FALSE, ...)
+        pAll <- pheatmap(dataPlot, annotation_row=ann1, cluster_rows=FALSE, ...)
     } else { ## Transpose
-        pAll <- pheatmap(t(Data[o1, , drop=FALSE]), annotation_col=ann1, cluster_cols=FALSE, ...)
+        pAll <- pheatmap(t(dataPlot), annotation_col=ann1, cluster_cols=FALSE, ...)
     }
     res[["pheatmapS"]] <- pheatmapS
     res[["pheat"]] <- pAll
-    res[["ordering"]] <- o1
+    res[["ordering"]] <- match(rownames(dataPlot), samplesOriginalOrder)
     res[["annRowAll"]] <- ann1
     invisible(res)
 }

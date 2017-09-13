@@ -10,7 +10,8 @@ Plots heatmap with clustering only within types.}
      without further clustering of rows.}
 
 \usage{
-pheatmap.type(Data, annRow, type = colnames(annRow)[1], doTranspose=FALSE, ...)
+pheatmap.type(Data, annRow, type = colnames(annRow)[1],
+doTranspose=FALSE, conditions="Auto",...)
 }
 
 \arguments{
@@ -28,6 +29,11 @@ pheatmap.type(Data, annRow, type = colnames(annRow)[1], doTranspose=FALSE, ...)
     If \code{TRUE}, the matrix will be transposed for the final
     plot. E.g., if the genes are on the columns of \code{Data}, they
     will be shown on rows of the heatmap.}
+
+  \item{conditions}{
+    A character vector that determines the conditions, and their order,
+    to be included in the heatmap. By default ("Auto"), an alphabetical
+    order of all available conditions in annRow will be used.}
 
   \item{\dots}{
     Additional arguments passed to \code{pheatmap} function.}

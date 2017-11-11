@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
    
+\section{Changes in version 1.5.2 (2017-11-10)}{
+  \subsection{New functions}{
+    \itemize{
+      \item The \code{check.nas} function is now exported.
+    }
+  }
+}
+
 \section{Changes in version 1.3.8 (2017-09-13)}{
   \subsection{Changes in existing functions}{
     \itemize{

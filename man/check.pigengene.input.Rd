@@ -36,7 +36,7 @@
 \author{Habil Zare}
 
 \seealso{
-\code{\link{one.step.pigengene}}, \code{\link{Pigengene-package}}
+\code{\link{check.nas}}, \code{\link{one.step.pigengene}}, \code{\link{Pigengene-package}}
 }
 
 \examples{

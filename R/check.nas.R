@@ -16,7 +16,6 @@ check.nas <- function(
     if(any(tooNaCols)){
         Data <- Data[, -tooNaCols, drop=FALSE]
         tooNaGenes <- c(tooNaGenes, colnames(Data)[tooNaCols])
-        ##genesMatched <- genesMatched[-tooNaCols]
     }
     nas <- is.na(Data)
     if(any(nas)){
@@ -35,6 +34,5 @@ check.nas <- function(
     result[["replacedNaNum"]] <- replacedNaNum
     result[["tooNaGenes"]] <- tooNaGenes
     result[["cleaned"]] <- Data
-    result[["tooNaCols"]] <- tooNaCols
     return(result)
 }##End check.nas <- function.

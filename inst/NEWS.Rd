@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
-   
+
+\section{Changes in version 1.5.6 (2018-01-19)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item In the \code{get.fitted.leaf} function, the function
+  C50:::as.party.C5.0 is used, which used to be exported in the previous
+  versions of C50, but not in version 0.1.1.
+    }
+  }
+}
+
 \section{Changes in version 1.5.2 (2017-11-10)}{
   \subsection{New functions}{
     \itemize{

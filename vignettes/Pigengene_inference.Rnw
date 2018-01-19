@@ -99,7 +99,7 @@ d1 <- rbind(aml,mds)
 Labels <- c(rep("AML",nrow(aml)),rep("MDS",nrow(mds)))
 names(Labels) <- rownames(d1)
 Disease <- as.data.frame(Labels)
-p1 <- pheatmap.type(d1[,1:20],annRow=Disease,show_rownames=FALSE)
+h1 <- pheatmap.type(d1[,1:20],annRow=Disease,show_rownames=FALSE)
 @ 
 
 Please note that the provided data in the package is

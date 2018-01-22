@@ -19,7 +19,8 @@ get.fitted.leaf <- function(c5Tree, inpDTemp, epsi=10^(-7)){
         inpDTemp[, notypeCols] <- inpDTemp[, notypeCols]+epsi
     }
     assign('inpD', inpDTemp , envir=parent.env(parent.frame()), inherits=TRUE)
-    qq <- eval(parse(text=(as.character(partykit::as.party(c5Tree))[3])))[[1]]
+    qq <- eval(parse(text=(as.character(C50:::as.party.C5.0(c5Tree))[3])))[[1]]
+    ##qq <- eval(parse(text=(as.character(partykit::as.party(c5Tree))[3])))[[1]]
     assign('inpD', inpDbk , envir=parent.env(parent.frame()), inherits=TRUE)
     names(qq) <- rownames(inpDTemp)
     return(qq)

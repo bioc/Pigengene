@@ -13,7 +13,7 @@ decision trees, and compact them.}
 
 \usage{
 one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL, 
-  testLabels = NULL, doBalance = TRUE, costRatio = 1, toCompact = FALSE, bnNum = 0,
+  testLabels = NULL, doBalance = TRUE, RsquaredCut=0.8, costRatio = 1, toCompact = FALSE, bnNum = 0,
   bnArgs = NULL, useMod0 = FALSE, mit = "All", verbose = 0, doHeat = TRUE, 
   seed = NULL)
 }
@@ -43,6 +43,11 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
   Boolean. Whether the data should be oversampled before identifying the modules
   so that each condition contribute roughly the same number of samples
   to clustering.}
+
+  \item{RsquaredCut}{
+  A threshold in the range [0,1] used to estimate the power. A higher value
+  can increase power. For technical use only. See \code{\link[WGCNA]{pickSoftThreshold}} 
+  for more details.}
 
   \item{costRatio}{
   A numeric value, the relative cost of misclassifying a sample from the first

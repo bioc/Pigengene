@@ -1,6 +1,6 @@
 one.step.pigengene <- function(
     Data, saveDir="Pigengene", 
-    Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, 
+    Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
     costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, 
     mit="All", ## unique(Labels)[1], 
     verbose=0, doHeat=TRUE, seed=NULL)
@@ -39,11 +39,11 @@ one.step.pigengene <- function(
     ## WGCNA:
     if(doBalance)
         wData <- balance(Data=wData, Labels=Labels, verbose=verbose-1)$balanced
-    calculateBetaRes <- calculate.beta(saveFile=NULL, RsquaredCut=0.8,
+    calculateBetaRes <- calculate.beta(saveFile=NULL, RsquaredCut=RsquaredCut,
                                        Data=wData, verbose=verbose-1)
     results[["betaRes"]] <- calculateBetaRes
     if(is.na(calculateBetaRes[["power"]]))
-        stop("power is NA!")
+        stop("Consider a lower value for RsquaredCut, power is NA!")
     wgRes <- wgcna.one.step(Data=wData, seed=seed, 
                             power=calculateBetaRes[["power"]], 
                             saveDir=saveDir, verbose=verbose-1)

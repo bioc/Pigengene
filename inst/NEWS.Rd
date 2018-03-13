@@ -1,6 +1,19 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.5.9 (2018-03-12)}{
+  \subsection{General}
+  \itemize{
+    \item \code{cor} is imported from WGCNA, but not from stats, because WGCNA does
+  not call the \cod{cor} function properly.
+  }
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item \code{RsquaredCut} is added to the arguments of the \code{one.step.pigengene} function.
+    }
+  }
+}
+
 \section{Changes in version 1.5.6 (2018-01-19)}{
   \subsection{Changes in existing functions}{
     \itemize{

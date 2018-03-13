@@ -21,7 +21,7 @@ calculate.beta(saveFile = NULL, RsquaredCut = 0.8, Data,  doThreads=FALSE,
 
   \item{RsquaredCut}{
   A threshold in the range [0,1] used to estimate the power. A higher value
-  can increase power. See \code{\link[WGCNA]{pickSoftThreshold}} 
+  can increase power. For technical use only. See \code{\link[WGCNA]{pickSoftThreshold}} 
   for more details.}
 
   \item{Data}{

@@ -12,7 +12,7 @@ wgcna.one.step <- function(
         WGCNA::allowWGCNAThreads()
     options(stringsAsFactors=FALSE)
     message.if(me=paste("power=", power), verbose=verbose)
-    net <- blockwiseModules(Data, power=power, TOMType="unsigned", 
+    net <- blockwiseModules(datExpr=Data, power=power, TOMType="unsigned", 
                             minModuleSize=20, reassignThreshold=1e-06, 
                             mergeCutHeight=0.15, numericLabels=TRUE, 
                             pamRespectsDendro=FALSE, saveTOMs=saveTOMs, 

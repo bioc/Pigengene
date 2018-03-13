@@ -108,6 +108,7 @@ make.decision.tree <- function(
         c5Tr <- C5.0(as.factor(Labels)~., data=inpD, control=c5cnt, trials=1, costs=mycosts)
         ##fn <- combinedPath(dir=saveDir, fn=paste('C5tree', h1, '.RData', sep=''))
         ##save(inpD, c5Tr, file=fn)
+        browser()
         fitD <- cbind(fitD, (unlist(get.fitted.leaf(c5Tr, inpD))))
         colnames(fitD)[ncol(fitD)] <- h1  
         c5Tr$info <- pngplot(c5Tr, h1, saveDir)

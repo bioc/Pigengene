@@ -5,7 +5,7 @@
   \subsection{General}
   \itemize{
     \item \code{cor} is imported from WGCNA, but not from stats, because WGCNA does
-  not call the \cod{cor} function properly.
+  not call the \code{cor} function properly.
   }
   \subsection{Changes in existing functions}{
     \itemize{

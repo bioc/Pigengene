@@ -3,6 +3,7 @@ importFrom(bnlearn, nodes, hc, averaged.network, bn.boot, custom.strength,
            arcs, "arcs<-", empty.graph, score, pdag2dag, discretize,
            tiers2blacklist, bn.fit,  boot.strength, random.graph,
            graphviz.plot, children)
+
 ## BiocCheck did not pass without including 'graph' in the dependencies due to
 ## a problem in bnlearn package.
 importFrom(graph, plot)
@@ -12,20 +13,24 @@ importFrom(matrixStats, colSds, rowSds)
 importFrom(C50, C5.0, C5.0Control)
 importFrom(MASS, rlm)
 importFrom(partykit, as.party)
-importFrom(WGCNA, blockwiseModules, moduleEigengenes, allowWGCNAThreads, pickSoftThreshold, labels2colors, sizeGrWindow, plotDendroAndColors)
 importFrom(Rgraphviz, getDefaultAttrs)
+
 ## Imported by WGCNA but not installed with it:
 import(GO.db)
 importFrom(impute, impute.knn)
 importFrom(preprocessCore, normalize.quantiles)
+
 ## Recommended by Bioconductor:
 importFrom(grDevices, dev.new, dev.off, png, rgb)
 importFrom(graphics, abline, arrows, barplot, hist, legend,
            par, plot.new, points)
-importFrom(stats, cor, manova, p.adjust, predict, quantile,
-           rnorm, runif, sd, summary.aov, t.test, var)
 importFrom(utils, assignInNamespace, capture.output, read.csv,
            tail, write.csv)
+importFrom(stats, manova, p.adjust, predict, quantile,
+           rnorm, runif, sd, summary.aov, t.test, var) ## cor was not imported because:
+## cor must be imported from WGCA otherwise stats::cor will be used by WGCNA functions leading to errors.
+importFrom(WGCNA, blockwiseModules, moduleEigengenes, allowWGCNAThreads, pickSoftThreshold, labels2colors, sizeGrWindow, plotDendroAndColors, cor)
+
 ## Exports:
 ##exportPattern("^[[:alpha:]]+")
 exportClasses(pigengene)
@@ -33,5 +38,5 @@ export(one.step.pigengene, check.pigengene.input, balance, calculate.beta,
        wgcna.one.step, compute.pigengene, plot.pigengene, pheatmap.type,
        project.eigen, learn.bn, draw.bn, make.decision.tree, get.used.features,
        get.fitted.leaf, module.heatmap, compact.tree, get.genes, preds.at,
-       pvalues.manova, gene.mapping, dcor.matrix)
+       pvalues.manova, gene.mapping, dcor.matrix, check.nas)
 S3method(plot, pigengene)

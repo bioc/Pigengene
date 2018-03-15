@@ -2,10 +2,11 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 \section{Changes in version 1.5.9 (2018-03-12)}{
-  \subsection{General}
-  \itemize{
-    \item \code{cor} is imported from WGCNA, but not from stats, because WGCNA does
-  not call the \code{cor} function properly.
+  \subsection{General}{
+    \itemize{
+      \item \code{cor} is imported from WGCNA, but not from stats, because WGCNA does
+      not call the \code{cor} function properly.
+    }
   }
   \subsection{Changes in existing functions}{
     \itemize{

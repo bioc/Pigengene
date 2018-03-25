@@ -1,8 +1,7 @@
 compute.pigengene <- function(
     Data, Labels, modules, saveFile="pigengene.RData", 
     selectedModules="All", amplification=5, 
-    doPlot=TRUE, verbose=0)
-{
+    doPlot=TRUE, verbose=0){
     ## 
     ## modules: A vector of integers determining module assignments.
     ##^Named by column names of Data.
@@ -77,7 +76,13 @@ compute.pigengene <- function(
     class(pigengene) <- "pigengene"
     save.if(pigengene, file=saveFile, verbose=verbose-1)
     membershipCsv <- cbind(membership, modules[rownames(membership)])
-    colnames(membershipCsv)[ncol(membershipCsv)] <- "Module" 
+    colnames(membershipCsv)[ncol(membershipCsv)] <- "Module"
+    Weight <- c() ## Will add this as a column to the CSV file.
+    for(m1 in selectedModules){
+        g1 <- names(which(modules==m1))
+        Weight[g1] <- membershipCsv[g1,paste0("ME",m1)]
+    }
+    membershipCsv <- cbind(membershipCsv, "Weight"=Weight[rownames(membershipCsv)])
     write.csv(file=membershipCsvFile, membershipCsv)
     if(doPlot){
         sf <- file.path(dirname(saveFile),"plots")

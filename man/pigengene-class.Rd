@@ -21,6 +21,9 @@ and other related information.}
   \itemize{
     \item{\code{call}}{
       The call that created the results.}
+    \item{\code{Reptimes}}{
+      A named vector reporting the number of repeats for each condition
+      in the oversampling process, which is done by the \code{\link{balance}} function.}
     \item{\code{eigenResults}}{
       The full output of \code{\link[WGCNA]{moduleEigengenes}} function.}
     \item{\code{Data}}{

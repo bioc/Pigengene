@@ -8,7 +8,7 @@ draw.cor <- function(
     dir.create(path=savePath, recursive=TRUE, showWarnings=FALSE)
     saveFile <- file.path(savePath, "plottedCor.RData")
     plotFile <- file.path(savePath, "cor.png")
-    pCor <- cor(Data)
+    pCor <- stats::cor(Data)
     inds <- which(var(Data)[, 1]==0)
     pCor[inds, ] <- pCor[, inds] <- 0
     corHeat <- pheatmap(abs(pCor))

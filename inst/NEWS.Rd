@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.5.22 (2018-04-28)}{
+  \subsection{Bug Fixes}{
+   \itemize{
+      \item \code{stats::cor} is used in \code{compute.pigengene} and
+  \code{draw.cor} functions. See the NAMESPACE for the important reason.
+    }
+  }
+}
+
 \section{Changes in version 1.5.9 (2018-03-12)}{
   \subsection{General}{
     \itemize{

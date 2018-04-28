@@ -35,7 +35,7 @@
   A list of:
   \item{balanced}{The matrix of oversampled data}
   \item{Reptimes}{A vector of integers named by conditions reporting the number of
-    repeats for each one.}
+    repeats for each condition.}
  \item{origSampleInds}{The indices of rows in \code{balanced} that correspond to
     the original samples before oversampling}
 }

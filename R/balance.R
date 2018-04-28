@@ -24,7 +24,7 @@ balance <- function(
     brkpts <- 1
     origSampleInds <- NULL ## The indices of rows 
     ##^corresponding to the original samples before balancing.
-    Reptimes <- NULL
+    Reptimes <- c()
     m2 <- "Oversampling to: "
     for(h1 in condNames){
         ##onm <- paste("cond", h1, "RepTimes", sep='')
@@ -33,13 +33,12 @@ balance <- function(
         if(length(unique(table(Labels)))==1) ## All sampls have the same size,
             rptim <- 1 ## Do not oversample.
         origSampleInds <- c (origSampleInds, brkpts:((brkpts+oncond)-1))
-        Reptimes <- c(Reptimes, rptim)
+        Reptimes[h1] <- rptim
         m2 <- paste(m2, rptim*oncond, 'of type', h1, ", ")
         repeated <- repeat.data(Data=get(paste("Data", h1, sep="")), times=rptim)$repeated
         myDat <- rbind(myDat, repeated)
         brkpts <- (1+nrow(myDat))
     }
-    names(Reptimes) <- condNames
     message.if(me=m2, verbose=verbose)
     result[["origSampleInds"]] <- origSampleInds
     result[['Reptimes']] <- Reptimes

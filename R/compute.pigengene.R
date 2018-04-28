@@ -27,6 +27,7 @@ compute.pigengene <- function(
     balanced <- balance(Data=origData, Labels=Labels, 
                         amplification=amplification, verbose=verbose-1)
     myDat <- balanced$balanced
+    result[['Reptimes']] <- balanced$Reptimes
     ## Eigengenes:
     m1 <- paste("Computing eigengenes using", ncol(myDat), "genes &", nrow(myDat), 
                 "samples...")
@@ -39,7 +40,7 @@ compute.pigengene <- function(
     eigengenes <- eigenResults$eigengenes
     message.if("Computing memberships...", verbose=verbose-1)
     n1 <- nrow(eigengenes)
-    membership <- cor(myDat, as.matrix(eigengenes[rownames(myDat), , drop=FALSE]))
+    membership <- stats::cor(myDat, as.matrix(eigengenes[rownames(myDat), , drop=FALSE]))
     eigengenes <- eigengenes[balanced$origSampleInds, , drop=FALSE]
     ann1 <- as.character(Labels[rownames(eigengenes)])
     ##^ pheatmap cannot work with e.g., TRUE

@@ -11,7 +11,7 @@ get.fitted.leaf <- function(c5Tree, inpDTemp, epsi=10^(-7)){
     if(! "Labels" %in% colnames(inpDTemp))
         inpDTemp <- cbind(inpDTemp,Labels="Labels")
     if(any(! colnames(inpDbk) %in% colnames(inpDTemp))){
-        stop(paste("Colnames of inpDTemp do not match witht the",
+        stop(paste("Colnames of inpDTemp do not match with the",
                    inpIGlobalName,"!"))
     }
     if(epsi>0){
@@ -19,7 +19,8 @@ get.fitted.leaf <- function(c5Tree, inpDTemp, epsi=10^(-7)){
         inpDTemp[, notypeCols] <- inpDTemp[, notypeCols]+epsi
     }
     assign('inpD', inpDTemp , envir=parent.env(parent.frame()), inherits=TRUE)
-    qq <- eval(parse(text=(as.character(C50:::as.party.C5.0(c5Tree))[3])))[[1]]
+    qq <- eval(parse(text=(as.character(C50::as.party.C5.0(c5Tree))[3])))[[1]]
+    ##qq <- eval(parse(text=(as.character(C50:::as.party.C5.0(c5Tree))[3])))[[1]]
     ##qq <- eval(parse(text=(as.character(partykit::as.party(c5Tree))[3])))[[1]]
     ##^ Stoped working in partykit version 1.2-0.
     assign('inpD', inpDbk , envir=parent.env(parent.frame()), inherits=TRUE)

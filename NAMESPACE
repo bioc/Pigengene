@@ -10,7 +10,7 @@ importFrom(graph, plot)
 importFrom(parallel, makeCluster, stopCluster)  ## BiocParallel is better
 importFrom(pheatmap, pheatmap)
 importFrom(matrixStats, colSds, rowSds)
-importFrom(C50, C5.0, C5.0Control)
+importFrom(C50, C5.0, C5.0Control, as.party.C5.0)
 importFrom(MASS, rlm)
 importFrom(partykit, as.party)
 importFrom(Rgraphviz, getDefaultAttrs)
@@ -19,6 +19,7 @@ importFrom(Rgraphviz, getDefaultAttrs)
 import(GO.db)
 importFrom(impute, impute.knn)
 importFrom(preprocessCore, normalize.quantiles)
+importFrom(stats, as.formula, oneway.test, setNames)
 
 ## Recommended by Bioconductor:
 importFrom(grDevices, dev.new, dev.off, png, rgb)

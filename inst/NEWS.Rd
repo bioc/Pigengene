@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.7.2 (2018-05-22)}{
+  \subsection{General}{
+    \itemize{
+      \item The version of the package \code{C50} is now required to be
+      at least 0.1.2, which exports the \code{as.party.C5.0()} function.
+    }
+  }
+}
+
+
 \section{Changes in version 1.5.22 (2018-04-28)}{
   \subsection{Bug Fixes}{
    \itemize{

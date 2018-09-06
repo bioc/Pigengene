@@ -55,9 +55,10 @@ remains cumbersome. \pipa address two challenges:
 \pipa is an \R{} package that can be downloaded and 
 installed from \Bioconductor{} by the followig commands in R:
 \newline\newline
-\texttt{source("http://bioconductor.org/biocLite.R")}
+\texttt{if (!requireNamespace("BiocManager", quietly=TRUE))}
+    install.packages("BiocManager")}
 \newline
-\texttt{biocLite("Pigengene")}
+\texttt{BiocManager::install("Pigengene")}
 
 Alternatively, if the source code is already available, 
 the package can be installed by the following command in Linux:

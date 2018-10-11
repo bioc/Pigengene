@@ -55,7 +55,7 @@ remains cumbersome. \pipa address two challenges:
 \pipa is an \R{} package that can be downloaded and 
 installed from \Bioconductor{} by the followig commands in R:
 \newline\newline
-\texttt{if (!requireNamespace("BiocManager", quietly=TRUE))}
+\texttt{if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")}
 \newline
 \texttt{BiocManager::install("Pigengene")}

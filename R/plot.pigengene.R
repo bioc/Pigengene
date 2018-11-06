@@ -27,7 +27,11 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
         pvaluePlotFile <- NULL
         
     }
-    names(DiseaseColors) <- unique(pigengene$annotation[, 1]) ##c(cond1, cond2)
+    conds <- unique(pigengene$annotation[, 1]) ##c(cond1, cond2)
+    if(length(conds)!= length(DiseaseColors)){
+        stop("The number of DiseaseColors must agree with the pigengene$annotation!")
+    }
+    names(DiseaseColors) <- conds 
     log.pvalue <- pigengene$log.pvalue
     orderedModules <- pigengene$orderedModules
     membership <- pigengene$membership

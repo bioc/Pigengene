@@ -74,7 +74,8 @@ A list of:
 
 \seealso{
 \code{\link{Pigengene-package}},
-\code{\link{compute.pigengene}}}
+\code{\link{compute.pigengene}},
+\code{\link{pheatmap.type}}}
 
 \examples{
      ## Data:

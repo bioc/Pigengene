@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.9.4 (2018-11-16)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item \code{gene.mapping} can now output multiple conventions.
+    }
+  }
+}
+
 \section{Changes in version 1.7.2 (2018-05-22)}{
   \subsection{General}{
     \itemize{
@@ -9,7 +17,6 @@
     }
   }
 }
-
 
 \section{Changes in version 1.5.22 (2018-04-28)}{
   \subsection{Bug Fixes}{

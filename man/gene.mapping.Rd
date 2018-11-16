@@ -20,7 +20,8 @@ gene.mapping(ids, inputType = "REFSEQ", outputType = "SYMBOL",
   The type of input IDs.}
 
   \item{outputType}{
-  The type of output IDs.}
+  The type of output IDs. If it is a character vector, mapping will be
+  done for each element.}
 
   \item{leaveNA}{
   If \code{TRUE},the IDs that were not matched are left with \code{NA}s in
@@ -31,7 +32,7 @@ gene.mapping(ids, inputType = "REFSEQ", outputType = "SYMBOL",
   \code{org.Mm.eg.db} for mouse. The default "Human" character uses the former.}
 
   \item{outputDb}{
-  The output data base.}
+  The output data base. If it is a list, mapping will be done for each element.}
 
   \item{verbose}{
     The integer level of verbosity. 0 means silent and higher values    
@@ -65,6 +66,13 @@ Amir Foroushani, Habil Zare, and Rupesh Agrahari}
      g1 <- gene.mapping(ids="NM_001159995")
      print(g1)
 
+     ## Mapping to multiple convention
+     library(org.Mm.eg.db)
+     g2 <- gene.mapping(ids=c("NM_170730", "NM_001013580"),
+        inputType="REFSEQ", inputDb=org.Mm.eg.db,
+        outputType=c("SYMBOL","ENTREZID"),
+        outputDb=list(org.Hs.eg.db,org.Mm.eg.db), verbose=1)
+     print(g2)
 }
 
 \keyword{ misc }

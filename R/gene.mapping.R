@@ -1,22 +1,48 @@
-gene.mapping <- function (
-    ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=TRUE, 
-    inputDb="Human", outputDb=inputDb, verbose=0)
-{
+gene.mapping <- function(ids,
+                         inputType="REFSEQ", outputType="SYMBOL", leaveNA=TRUE, 
+                         inputDb="Human", outputDb=inputDb, verbose=0){
     ## inputDb: Input database.
     ##^It can be org.Hs.eg.db for human and org.Mm.eg.db for mouse.
-    ##
+
+    ## Sinlge or multiple output types?
+    if(length(outputType) >1 | length(outputDb) >1){
+        res <- c()
+        ## Creating a column for each desired output type or DB:
+        if(class(outputDb)=="list"){
+            outputDbList <- outputDb
+        } else { ## It is a single Db,
+            outputDbList <- list(outputDb)
+        }
+        for(od in outputDbList){
+            for(ot in outputType){
+                mapTo <- paste(od$packageName, ot, sep="-")
+                if(verbose >0){
+                    print("Mapping to:")
+                    print(mapTo)
+                }
+                mapped <- gene.mapping(ids=ids, inputType=inputType, outputType=ot, leaveNA=TRUE, 
+                                       inputDb=inputDb, outputDb=od, verbose=verbose-1)
+                mapped <- mapped[,"output1", drop=FALSE]
+                res <- cbind(res, mapped)
+                colnames(res)[ncol(res)] <- mapTo
+            }
+        }
+        return(res)
+    }
+    
+    ## Cleaning:
     addAt <- FALSE
-    if (outputType=="ENTREZIDat") {
+    if(outputType=="ENTREZIDat") {
         addAt <- TRUE
         outputType <- "ENTREZID"
     }
-    if (inputType=="Auto") {
-        if (length(grep(ids[1], pattern="NM_|NR_"))) 
+    if(inputType=="Auto") {
+        if(length(grep(ids[1], pattern="NM_|NR_"))) 
             inputType <- "REFSEQ"
-        if (inputType=="Auto") 
+        if(inputType=="Auto") 
             stop("inputType could not be determined automatically!")
     }
-    if (inputType=="ENTREZIDat") {
+    if(inputType=="ENTREZIDat") {
         ids <- gsub(ids, pattern="_at", replacement="")
         inputType <- "ENTREZID"
     }
@@ -70,14 +96,14 @@ gene.mapping <- function (
     output2 <- as.character(q1B[match(key, q1B[, inputType]), outputType])
     f1 <- cbind(key0, output1=output2, output2=output2)
     colnames(f1)[1] <- "input"
-    if (!leaveNA) {
+    if(!leaveNA) {
         inds <- which(is.na(f1[, "output2"]))
         nms <- as.character(ids[inds])
-        if (length(inds) > 0) {
+        if(length(inds) > 0) {
             f1[inds, "output2"] <- nms
         }
     }
-    if (addAt) 
+    if(addAt) 
         f1[, "output2"] <- paste(f1[, "output2"], "_at", sep="")
     rownames(f1) <- ids
     return(f1)

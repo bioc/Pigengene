@@ -65,7 +65,8 @@ one.step.pigengene <- function(
     ## BN:
     if(bnNum !=0){
         ## Arguments:
-        bnArgs$bnPath <- combinedPath(saveDir, 'bn')
+        bnPath <- combinedPath(saveDir, 'bn')
+        bnArgs$bnPath <- if(!is.null(bnArgs$bnPath)) bnArgs$bnPath else bnPath
         bnArgs$doShuffle <- if(!is.null(bnArgs$doShuffle)) bnArgs$doShuffle else TRUE
         bnArgs$tasks <- if(!is.null(bnArgs$tasks)) bnArgs$tasks else "All"
         bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed))

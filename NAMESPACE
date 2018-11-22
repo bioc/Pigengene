@@ -2,7 +2,7 @@
 importFrom(bnlearn, nodes, hc, averaged.network, bn.boot, custom.strength,
            arcs, "arcs<-", empty.graph, score, pdag2dag, discretize,
            tiers2blacklist, bn.fit,  boot.strength, random.graph,
-           graphviz.plot, children)
+           graphviz.plot, children, parents)
 
 ## BiocCheck did not pass without including 'graph' in the dependencies due to
 ## a problem in bnlearn package.

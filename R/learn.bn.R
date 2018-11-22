@@ -52,7 +52,10 @@ learn.bn <- function(
     res[["moduleFile"]] <- moduleFile
     res[["scoreFile"]] <- scoreFile
     res[["consensusFile"]] <- consensusFile 
-    res[["seed"]] <- seed 
+    res[["seed"]] <- seed
+    res[["use.Effect"]] <- use.Effect
+    res[["use.Disease"]] <- use.Disease
+    res[["use.Hartemink"]] <- use.Hartemink
     ##
     stop1 <- "Provide an appropriate pigengene, or Data and Labels as input."
     if("learn" %in% tasks){

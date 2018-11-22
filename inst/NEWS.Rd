@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.9.8 (2018-11-22)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item All of the \codee{learn.bn} function can now be set from
+      \code{one.step.pigengene} through \code{bnArgs}.
+    }
+  }
+}
+
 \section{Changes in version 1.9.4 (2018-11-16)}{
   \subsection{Changes in existing functions}{
     \itemize{

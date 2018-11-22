@@ -180,6 +180,8 @@ A list of:
   \item{graphs}{The output of \code{plot.graphS} function, containing the BDe score of 
               the consensus network.}
   \item{timeTaken}{An object of \code{\link{difftime}-class} recording the learning wall-time.}
+  \item{use.Disease}, \item{use.Effect}, \item{use.Hartemink} {Some of
+    the input arguments.}
 }
 
 \references{

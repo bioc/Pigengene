@@ -64,16 +64,23 @@ one.step.pigengene <- function(
     selectedFeatures <- NULL
     ## BN:
     if(bnNum !=0){
-        bnPath <- combinedPath(saveDir, 'bn')
-        doShuffle <- if(!is.null(bnArgs$doShuffle)) bnArgs$doShuffle else TRUE
-        tasks <- if(!is.null(bnArgs$tasks)) bnArgs$tasks else "All"
-        learnt <- learn.bn(pigengene=pigengene, bnPath=bnPath, tasks=tasks, bnNum=bnNum, 
-                           doShuffle=doShuffle, verbose=verbose, seed=seed)
+        ## Arguments:
+        bnArgs$bnPath <- combinedPath(saveDir, 'bn')
+        bnArgs$doShuffle <- if(!is.null(bnArgs$doShuffle)) bnArgs$doShuffle else TRUE
+        bnArgs$tasks <- if(!is.null(bnArgs$tasks)) bnArgs$tasks else "All"
+        bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed))
+        ## Call
+        learnt <- do.call(learn.bn, bnArgs)
         results[["leanrtBn"]] <- learnt  
         BN <- learnt$consensus1$BN  
         results[["BN"]] <- BN
         ##^ The fist threshould is used for selecting.
-        selectedFeatures <- setdiff(children('Disease', x=BN), "Effect")
+        selectedFeatures <- c()
+        if(learnt$use.Disease)
+            selectedFeatures <- c(selectedFeatures, children("Disease", x=BN))
+        if(learnt$use.Effect)
+            selectedFeatures <- c(selectedFeatures, parents("Effect", x=BN))
+        selectedFeatures <- setdiff(selectedFeatures, c("Disease", "Effect"))
         if(length(selectedFeatures)==0){
             warning("The condition variable has no child. BN results will be ignored.")
             selectedFeatures <- NULL

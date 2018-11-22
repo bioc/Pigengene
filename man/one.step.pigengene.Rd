@@ -22,7 +22,7 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
   \item{Data}{
   A matrix or data frame containing the training expression data, with genes 
   corresponding to columns and rows corresponding to samples. Rows and columns 
-  must be named.}
+  must be named. For example, from RNA-Seq data, log(RPKM+1) can be used.}
   
   \item{Labels}{
   A (preferably named) vector containing the Labels (condition types) for the training Data.

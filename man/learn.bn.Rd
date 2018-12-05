@@ -180,8 +180,7 @@ A list of:
   \item{graphs}{The output of \code{plot.graphS} function, containing the BDe score of 
               the consensus network.}
   \item{timeTaken}{An object of \code{\link{difftime}-class} recording the learning wall-time.}
-  \item{use.Disease}, \item{use.Effect}, \item{use.Hartemink} {Some of
-    the input arguments.}
+  \item{use.Disease, use.Effect, use.Hartemink} {Some of the input arguments.}
 }
 
 \references{
@@ -215,8 +214,20 @@ Labels <- c(rep("AML",nrow(amlE)),rep("MDS",nrow(mdsE)))
 names(Labels) <- rownames(eigengenes)
 learnt <- learn.bn(Data=eigengenes, Labels=Labels, 
   bnPath="bnExample", bnNum=10, seed=1)
+bn <- learnt$consensus1$BN
+
 ## Visualize:
-d1 <- draw.bn(BN=learnt$consensus1$BN,nodeFontSize=14)
+d1 <- draw.bn(BN=bn,nodeFontSize=14)
+
+## What are the children of the Disease node?
+childrenD <- bnlearn::children(x=bn, node="Disease")
+print(childrenD)
+
+## Fit the parameters of the Bayesian network:
+fit <- bnlearn::bn.fit(x=bn, data=learnt$consensus1$Data, method="bayes",iss=10)
+
+## The conditional probability table for a child of the Disease node:
+fit[[childrenD[1]]]
 }
 
 \keyword{ optimize }

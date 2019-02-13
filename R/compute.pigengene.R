@@ -1,7 +1,7 @@
 compute.pigengene <- function(
     Data, Labels, modules, saveFile="pigengene.RData",
     selectedModules="All", amplification=5,
-    doPlot=TRUE, verbose=0, dOrderByW=FALSE){
+    doPlot=TRUE, verbose=0, dOrderByW=TRUE){
     ##
     ## modules: A vector of integers determining module assignments.
     ##^Named by column names of Data.

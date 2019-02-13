@@ -15,7 +15,7 @@ decision trees, and compact them.}
 one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL, 
   testLabels = NULL, doBalance = TRUE, RsquaredCut=0.8, costRatio = 1, toCompact = FALSE, bnNum = 0,
   bnArgs = NULL, useMod0 = FALSE, mit = "All", verbose = 0, doHeat = TRUE, 
-  seed = NULL)
+  seed = NULL, dOrderByW = TRUE)
 }
 
 \arguments{
@@ -84,7 +84,11 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
   contribute to the the tree will be plotted.}
 
   \item{seed}{
-  Random seed to ensure reproducibility.}
+    Random seed to ensure reproducibility.}
+
+  \item{dOrderByW}{
+  If \code{TRUE}, the genes will be ordered in the csv file based on their
+  absolute weight in the corresponding module.}
 
 }
 \details{

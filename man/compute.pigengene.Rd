@@ -11,7 +11,7 @@ computes an eigengene for each module using PCA.}
 \usage{
 compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData", 
     selectedModules = "All", amplification = 5, doPlot = TRUE,
-    verbose = 0, dOrderByW = FALSE)
+    verbose = 0, dOrderByW = TRUE)
 }
 
 

@@ -1,9 +1,9 @@
 one.step.pigengene <- function(
-    Data, saveDir="Pigengene", 
+    Data, saveDir="Pigengene",
     Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
-    costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, 
-    mit="All", ## unique(Labels)[1], 
-    verbose=0, doHeat=TRUE, seed=NULL)
+    costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
+    mit="All", ## unique(Labels)[1],
+    verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE)
 {
     ## costRatio: Implemented only for 2 classes.
     ##^Determines how severe it is to misclassify a sample accross types.
@@ -11,7 +11,7 @@ one.step.pigengene <- function(
     ##considered twice worse than misclassification of a sample of the 2nd type.
     results <- list()
     results[["call"]] <- match.call()
-    m1 <- paste("Pigengene started analizing", nrow(Data), 
+    m1 <- paste("Pigengene started analizing", nrow(Data),
                 "samples using", ncol(Data), "genes...")
     message.if(me=m1, verbose=verbose)
     if(verbose>1){
@@ -32,8 +32,8 @@ one.step.pigengene <- function(
     dir.create(path=saveDir, recursive=TRUE, showWarnings=FALSE)
 
     ## Data for WGCNA:
-    wData <- switch(mit, 
-                    "All"=Data, 
+    wData <- switch(mit,
+                    "All"=Data,
                     Data[which(Labels %in% mit), ])
     ##stop('mit must be equal to "cond1", "cond2", or "Both"!'))
     ## WGCNA:
@@ -44,16 +44,16 @@ one.step.pigengene <- function(
     results[["betaRes"]] <- calculateBetaRes
     if(is.na(calculateBetaRes[["power"]]))
         stop("Consider a lower value for RsquaredCut, power is NA!")
-    wgRes <- wgcna.one.step(Data=wData, seed=seed, 
-                            power=calculateBetaRes[["power"]], 
+    wgRes <- wgcna.one.step(Data=wData, seed=seed,
+                            power=calculateBetaRes[["power"]],
                             saveDir=saveDir, verbose=verbose-1)
     rm(wData)
     results[["moduleRes"]] <- wgRes
     ## Eigengenes:
-    pigengene <- compute.pigengene(Data=Data, Labels=Labels, 
-                                   modules=wgRes$net$colors, 
-                                   saveFile=combinedPath(saveDir, 'pigengene.RData'), 
-                                   doPlot='TRUE', verbose=verbose)
+    pigengene <- compute.pigengene(Data=Data, Labels=Labels,
+                                   modules=wgRes$net$colors,
+                                   saveFile=combinedPath(saveDir, 'pigengene.RData'),
+                                   doPlot='TRUE', verbose=verbose, dOrderByW=dOrderByW)
     results[["pigengene"]] <- pigengene
     ## Multiple conditions?
     if(length(unique(Labels))<2){
@@ -72,8 +72,8 @@ one.step.pigengene <- function(
         bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed))
         ## Call
         learnt <- do.call(learn.bn, bnArgs)
-        results[["leanrtBn"]] <- learnt  
-        BN <- learnt$consensus1$BN  
+        results[["leanrtBn"]] <- learnt
+        BN <- learnt$consensus1$BN
         results[["BN"]] <- BN
         ##^ The fist threshould is used for selecting.
         selectedFeatures <- c()
@@ -91,11 +91,11 @@ one.step.pigengene <- function(
     ## Trees:
     c5Path <- combinedPath(saveDir, 'C5Trees')
     dir.create(path=c5Path, recursive=TRUE, showWarnings=FALSE)
-    c5treeRes <- make.decision.tree(pigengene=pigengene, Data=Data, 
-                                    testD=testD, testL=testLabels, 
-                                    selectedFeatures=selectedFeatures, saveDir=c5Path, 
-                                    minPerLeaf=NULL, useMod0=useMod0, doHeat=doHeat, 
-                                    costRatio=costRatio, verbose=verbose, 
+    c5treeRes <- make.decision.tree(pigengene=pigengene, Data=Data,
+                                    testD=testD, testL=testLabels,
+                                    selectedFeatures=selectedFeatures, saveDir=c5Path,
+                                    minPerLeaf=NULL, useMod0=useMod0, doHeat=doHeat,
+                                    costRatio=costRatio, verbose=verbose,
                                     toCompact=toCompact)
     ##
     results[["selectedFeatures"]] <- selectedFeatures

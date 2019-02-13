@@ -1,8 +1,8 @@
 compute.pigengene <- function(
-    Data, Labels, modules, saveFile="pigengene.RData", 
-    selectedModules="All", amplification=5, 
-    doPlot=TRUE, verbose=0){
-    ## 
+    Data, Labels, modules, saveFile="pigengene.RData",
+    selectedModules="All", amplification=5,
+    doPlot=TRUE, verbose=0, dOrderByW=FALSE){
+    ##
     ## modules: A vector of integers determining module assignments.
     ##^Named by column names of Data.
     message.if(me="Pigengenes...", verbose=verbose)
@@ -24,12 +24,12 @@ compute.pigengene <- function(
     ## Data:
     genes <- names(modules)[modules[colnames(Data)] %in% selectedModules]
     origData <- Data[, genes, drop=FALSE]
-    balanced <- balance(Data=origData, Labels=Labels, 
+    balanced <- balance(Data=origData, Labels=Labels,
                         amplification=amplification, verbose=verbose-1)
     myDat <- balanced$balanced
     result[['Reptimes']] <- balanced$Reptimes
     ## Eigengenes:
-    m1 <- paste("Computing eigengenes using", ncol(myDat), "genes &", nrow(myDat), 
+    m1 <- paste("Computing eigengenes using", ncol(myDat), "genes &", nrow(myDat),
                 "samples...")
     message.if(me=m1, verbose=verbose-1)
     ## Main computation:
@@ -44,7 +44,7 @@ compute.pigengene <- function(
     eigengenes <- eigengenes[balanced$origSampleInds, , drop=FALSE]
     ann1 <- as.character(Labels[rownames(eigengenes)])
     ##^ pheatmap cannot work with e.g., TRUE
-    ann1 <- as.data.frame(ann1)      
+    ann1 <- as.data.frame(ann1)
     row.names(ann1) <- rownames(eigengenes)
     colnames(ann1) <- "Condition"
     matched <- match(paste("ME", selectedModules, sep=''), colnames(eigengenes))
@@ -53,14 +53,14 @@ compute.pigengene <- function(
     if(length(unique(Labels))>1){
         pvalues.function <- welch.pvalue ## Can be pvalues.manova or welch.pvalue
         message.if("Eigengene Pvalues ...", verbose=verbose-1)
-        pvalues <- pvalues.function(Data=as.matrix(eigengenes), Labels[rownames(eigengenes)])   
+        pvalues <- pvalues.function(Data=as.matrix(eigengenes), Labels[rownames(eigengenes)])
         log.pvalue <- as.data.frame(log10(as.numeric(pvalues$pvals[, "Bonferroni"])))
         row.names(log.pvalue) <- colnames(eigengenes)
         colnames(log.pvalue) <- "pvalue(log)"
         Size <- table(modules)
         names(Size) <- paste("ME", names(Size), sep="")
         pvalCsv <- cbind(Size[rownames(pvalues$pvals)], pvalues$pvals)
-        colnames(pvalCsv)[1] <- "Size" 
+        colnames(pvalCsv)[1] <- "Size"
         write.csv(pvalCsv, file=pvalueCsvFile)
         result[["pvalues"]] <- pvalues
         result[["log.pvalue"]] <- log.pvalue ## base 10
@@ -73,9 +73,6 @@ compute.pigengene <- function(
     result[["annotation"]] <- ann1
     result[["weightsCsvFile"]] <- membershipCsvFile
     result[["saveFile"]] <- saveFile
-    pigengene <- result
-    class(pigengene) <- "pigengene"
-    save.if(pigengene, file=saveFile, verbose=verbose-1)
     membershipCsv <- cbind(membership, modules[rownames(membership)])
     colnames(membershipCsv)[ncol(membershipCsv)] <- "Module"
     Weight <- c() ## Will add this as a column to the CSV file.
@@ -84,15 +81,32 @@ compute.pigengene <- function(
         Weight[g1] <- membershipCsv[g1,paste0("ME",m1)]
     }
     membershipCsv <- cbind(membershipCsv, "Weight"=Weight[rownames(membershipCsv)])
+    if(dOrderByW){
+        ordered <- c()
+        for(m1 in sort(unique(membershipCsv[,"Module"]))){
+            membership1 <- membershipCsv[membershipCsv[,"Module"]==m1, , drop=FALSE]
+            absolute1 <- abs(membership1[ ,paste0("ME",m1)])
+            ordered <- rbind(ordered, membership1[order(absolute1, decreasing=TRUE),])
+        }
+        membershipCsv <- ordered
+    }
     write.csv(file=membershipCsvFile, membershipCsv)
+    result[["weights"]] <- membershipCsv
+
+    ## The Pigengene output:
+    pigengene <- result
+    class(pigengene) <- "pigengene"
+    save.if(pigengene, file=saveFile, verbose=verbose-1)
+
+    ## Plot:
     if(doPlot){
         sf <- file.path(dirname(saveFile),"plots")
         ##sf <- gsub(saveFile, pattern="\\.RData$", replacement="")
         dc <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")
         dc <- dc[1:length(unique(Labels))]
-        plot.pigengene(x=pigengene, saveDir=sf, 
+        plot.pigengene(x=pigengene, saveDir=sf,
                        selectedModules=selectedModules, verbose=verbose,
                        DiseaseColors=dc)
-    } 
+    }
     return(pigengene)
 }

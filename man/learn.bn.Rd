@@ -180,7 +180,7 @@ A list of:
   \item{graphs}{The output of \code{plot.graphS} function, containing the BDe score of 
               the consensus network.}
   \item{timeTaken}{An object of \code{\link{difftime}-class} recording the learning wall-time.}
-  \item{use.Disease, use.Effect, use.Hartemink} {Some of the input arguments.}
+  \item{use.Disease, use.Effect, use.Hartemink}{Some of the input arguments.}
 }
 
 \references{
@@ -200,7 +200,7 @@ Running the jobs on a cluster needs \code{bnCalculationJob} script, which is NOT
 
 \seealso{
   \code{\link[bnlearn]{bnlearn-package}}, \code{\link{Pigengene-package}}, 
-  \code{\link{compute.pigengene}}, \code{\link[WGCNA]{WGCNA-package}}
+  \code{\link{compute.pigengene}}
 }
 
 

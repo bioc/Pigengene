@@ -46,6 +46,10 @@ and other related information.}
       The file where the \code{pigengene} object is saved.}
     \item{\code{weightsCsvFile}}{
       The file containing the weights in csv format.}
+     \item{\code{weights}}{
+      The weight matrix, which is also saved in csv format. It has
+      more columns than \code{membership} but rows may be in a different
+      order if \code{dOrderByW=TRUE}.}
   }
 
 For 2 or more groups (conditions), additional (optional) components include:

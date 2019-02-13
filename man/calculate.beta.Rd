@@ -5,7 +5,7 @@
 Estimates an appropriate power value}
 
 \description{
-\code{\link[WGCNA]{WGCNA-package}} assumes that in the coexpression network 
+The \code{\link[WGCNA:pickSoftThreshold]{WGCNA}} package assumes that in the coexpression network 
 the genes are connected with a power-law distribution. Therefore, it need a 
 soft-thresholding power for network construction, which is estimated 
 by this auxiliary function.}
@@ -55,7 +55,6 @@ analysis. BMC Bioinformatics 2008, 9:559}
 \seealso{
 \code{\link[WGCNA]{pickSoftThreshold}},
 \code{\link[WGCNA]{blockwiseModules}},
-\code{\link[WGCNA]{WGCNA-package}},
 \code{\link{one.step.pigengene}},
 \code{\link{wgcna.one.step}}}
 

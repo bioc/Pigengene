@@ -52,7 +52,7 @@ Maintainer: Habil Zare <zare@txstate.edu>
 \seealso{
 \code{\link[Pigengene]{Pigengene-package}},
 \code{\link{one.step.pigengene}}, \code{\link{compute.pigengene}}, 
-\code{\link[WGCNA]{WGCNA-package}}}
+\code{WGCNA::\link[WGCNA]{blockwiseModules}}}
 
 
 \examples{

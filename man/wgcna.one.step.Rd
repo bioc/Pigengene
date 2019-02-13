@@ -79,9 +79,9 @@ Langfelder P and Horvath S, WGCNA: an R package for weighted
 correlation network analysis. BMC Bioinformatics 2008, 9:559}
 
 \seealso{
-\code{\link[WGCNA]{blockwiseModules}},
-\code{\link[WGCNA]{WGCNA-package}},
-\code{\link{calculate.beta}}
+  \code{\link[WGCNA]{blockwiseModules}},
+  \code{\link[WGCNA]{pickSoftThreshold}},
+  \code{\link{calculate.beta}}
 }
 
 \examples{

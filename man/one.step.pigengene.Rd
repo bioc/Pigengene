@@ -151,7 +151,7 @@ step-by-step in a customized way.}
 \code{\link{wgcna.one.step}},
 \code{\link{compute.pigengene}},
 \code{\link{learn.bn}}, \code{\link{make.decision.tree}},
-\code{\link[WGCNA]{WGCNA-package}}}
+\code{\link[WGCNA]{blockwiseModules}}}
 
 \examples{
 data(aml)

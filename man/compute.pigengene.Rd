@@ -10,7 +10,8 @@ computes an eigengene for each module using PCA.}
 
 \usage{
 compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData", 
-    selectedModules = "All", amplification = 5, doPlot = TRUE, verbose = 0)
+    selectedModules = "All", amplification = 5, doPlot = TRUE,
+    verbose = 0, dOrderByW = FALSE)
 }
 
 
@@ -47,6 +48,10 @@ compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData",
   The integer level of verbosity. 0 means silent and higher values    
   produce more details of computation.}
 
+\item{dOrderByW}{
+  If \code{TRUE}, the genes will be ordered in the csv file based on their
+  absolute weight in the corresponding module.}
+
 }
 
 \details{
@@ -70,8 +75,7 @@ An object of \code{\link{pigengene-class}}.}
 \seealso{
 \code{\link{Pigengene-package}},
 \code{\link{one.step.pigengene}}, \code{\link{wgcna.one.step}},
-\code{\link{make.decision.tree}}, \code{\link[WGCNA]{moduleEigengenes}},
-\code{\link[WGCNA]{WGCNA-package}}}
+\code{\link{make.decision.tree}}, \code{\link[WGCNA]{moduleEigengenes}}}
 
 \examples{
 ## Data:

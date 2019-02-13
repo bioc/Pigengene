@@ -1,10 +1,18 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.9.14 (2019-02-12)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{dOrderByW} argument is now added for the \code{compute.pigengene} function.
+    }
+  }
+}
+
 \section{Changes in version 1.9.8 (2018-11-22)}{
   \subsection{Changes in existing functions}{
     \itemize{
-      \item All of the \codee{learn.bn} function can now be set from
+      \item All of the \code{learn.bn} function can now be set from
       \code{one.step.pigengene} through \code{bnArgs}.
     }
   }

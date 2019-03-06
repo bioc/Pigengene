@@ -55,7 +55,7 @@ are passd to \code{\link[WGCNA]{blockwiseModules}}.
 
 \value{
 A list with following components
-item{call}{
+\item{call}{
     The command that created the results}
 \item{genes}{
     The names of \code{Data} columns}

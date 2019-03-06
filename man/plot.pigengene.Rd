@@ -14,7 +14,7 @@ weights (memberships), and so on. Saves the plots in png format.}
   fontsize = 35, doShowColnames = TRUE, fontsizeCol = 25, 
   doClusterCols = ncol(pigengene$eigengenes) > 1, 
   verbose = 2, doShowRownames = "Auto", 
-  pngfactor = max(2, ncol(pigengene$eigengenes)/16), ...)
+  pngfactor = max(2, ncol(pigengene$eigengenes)/16), do0Mem = FALSE, ...)
 }
 
 \arguments{
@@ -50,6 +50,9 @@ weights (memberships), and so on. Saves the plots in png format.}
   \item{pngfactor}{
     A numeric adjusting the size of the png files}
 
+  \item{do0Mem}{
+  If \code{TRUE}, module 0 genes are included in the membership heatmap.}
+  
   \item{\dots}{
     Passd to \code{pheatmap.type} function}
 

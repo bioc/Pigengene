@@ -1,5 +1,7 @@
 \name{Pigengene-package}
+
 \alias{Pigengene-package}
+\alias{Pigengene}
 \docType{package}
 \title{Infers robust biological signatures from gene expression data}
 

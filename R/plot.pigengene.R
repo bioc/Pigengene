@@ -1,12 +1,13 @@
-plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"), 
-                           fontsize=35, doShowColnames=TRUE, fontsizeCol=25, 
+plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
+                           fontsize=35, doShowColnames=TRUE, fontsizeCol=25,
                            doClusterCols=ncol(pigengene$eigengenes)>1, verbose=2,
                            doShowRownames="Auto",
                            pngfactor=max(2, ncol(pigengene$eigengenes)/16),
+                           do0Mem=FALSE,
                            ...){
     result <- list()
     pigengene <- x
-    ##QC: 
+    ##QC:
     if(class(pigengene)!="pigengene")
         stop("pigengene must be of class 'pigengene' !")
     ## FILES:
@@ -25,13 +26,13 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
         plotMemFile <- NULL
         notRowsPlotFile <- NULL
         pvaluePlotFile <- NULL
-        
+
     }
     conds <- unique(pigengene$annotation[, 1]) ##c(cond1, cond2)
     if(length(conds)!= length(DiseaseColors)){
         stop("The number of DiseaseColors must agree with the pigengene$annotation!")
     }
-    names(DiseaseColors) <- conds 
+    names(DiseaseColors) <- conds
     log.pvalue <- pigengene$log.pvalue
     orderedModules <- pigengene$orderedModules
     membership <- pigengene$membership
@@ -63,38 +64,41 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
                  ylab="log p-value, Bonferroni",xlab="Eigengenes")
             dof()
             message.if(paste("log.pvalue was plotted in:", pvaluePlotFile),
-                       verbose=verbose-2) 
+                       verbose=verbose-2)
         }
     }
     ##
     png2(aFile=plotFile)
-    heat <- pheatmap(pigengene$eigengenes, cluster_rows=TRUE, 
-                     cluster_cols=doClusterCols, fontsize=fontsize, 
-                     annotation_row=pigengene$annotation, 
-                     annotation_col=pvaluePlot, show_rownames=doShowRownames, 
+    heat <- pheatmap(pigengene$eigengenes, cluster_rows=TRUE,
+                     cluster_cols=doClusterCols, fontsize=fontsize,
+                     annotation_row=pigengene$annotation,
+                     annotation_col=pvaluePlot, show_rownames=doShowRownames,
                      annotation_colors=typeColor)
     dof()
     m4 <- paste("eigengenes were plotted in:", plotFile)
     message.if(m4, verbose=verbose-2)
     ##
-    genes <- intersect(names(orderedModules[orderedModules!=0]), rownames(membership))
+    genes <- rownames(membership)
+    if(do0Mem){
+        genes <- intersect(names(orderedModules[orderedModules!=0]), genes)
+    }
     png2(aFile=plotMemFile)
-    pheatmap(abs(membership[genes, ]), annotation_colors=typeColor, 
-             cluster_rows=FALSE, cluster_cols=FALSE, fontsize=fontsize, 
+    pheatmap(abs(membership[genes, ]), annotation_colors=typeColor,
+             cluster_rows=FALSE, cluster_cols=FALSE, fontsize=fontsize,
              show_rownames=FALSE)
     dof()
     message.if(paste("membership was plotted in:", plotMemFile), verbose=verbose-2)
     ##
     png2(aFile=notRowsPlotFile)
-    heatNotRows <- pheatmap.type(Data=pigengene$eigengenes, cluster_cols=doClusterCols, 
-                                 fontsize=fontsize, annRow=pigengene$annotation, 
-                                 annotation_col=pvaluePlot, 
-                                 show_rownames=doShowRownames, 
-                                 annotation_colors=typeColor, 
-                                 show_colnames=doShowColnames, 
+    heatNotRows <- pheatmap.type(Data=pigengene$eigengenes, cluster_cols=doClusterCols,
+                                 fontsize=fontsize, annRow=pigengene$annotation,
+                                 annotation_col=pvaluePlot,
+                                 show_rownames=doShowRownames,
+                                 annotation_colors=typeColor,
+                                 show_colnames=doShowColnames,
                                  fontsize_col=fontsizeCol, ...)
     dof()
-    message.if(paste("eigengenes (rows partially clustered) were plotted in:", 
+    message.if(paste("eigengenes (rows partially clustered) were plotted in:",
                      notRowsPlotFile), verbose=verbose-2)
     ##
     result[["heat"]] <- heat

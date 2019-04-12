@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.9.20 (2019-04-12)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item In the \code{compute.pigengene} function, the columns of
+      \code{Data} and names of \code{modules} can now differ.
+    }
+  }
+}
+
 \section{Changes in version 1.9.14 (2019-02-12)}{
   \subsection{Changes in existing functions}{
     \itemize{

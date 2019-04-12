@@ -22,11 +22,12 @@ compute.pigengene <- function(
     Labels <- c1$Labels
     Data <- Data[names(Labels), ]
     ## Data:
-    genes <- names(modules)[modules[colnames(Data)] %in% selectedModules]
-    origData <- Data[, genes, drop=FALSE]
-    balanced <- balance(Data=origData, Labels=Labels,
+    genes <- colnames(Data)[modules[colnames(Data)] %in% selectedModules]
+    ##genes <- names(modules)[modules[colnames(Data)] %in% selectedModules]
+    balanced <- balance(Data=Data, Labels=Labels,
                         amplification=amplification, verbose=verbose-1)
-    myDat <- balanced$balanced
+    balancedData <- balanced$balanced
+    myDat <- balancedData[ , genes, drop=FALSE]
     result[['Reptimes']] <- balanced$Reptimes
     ## Eigengenes:
     m1 <- paste("Computing eigengenes using", ncol(myDat), "genes &", nrow(myDat),
@@ -40,7 +41,8 @@ compute.pigengene <- function(
     eigengenes <- eigenResults$eigengenes
     message.if("Computing memberships...", verbose=verbose-1)
     n1 <- nrow(eigengenes)
-    membership <- stats::cor(myDat, as.matrix(eigengenes[rownames(myDat), , drop=FALSE]))
+    membership <- stats::cor(balancedData,
+                             as.matrix(eigengenes[rownames(balancedData), , drop=FALSE]))
     eigengenes <- eigengenes[balanced$origSampleInds, , drop=FALSE]
     ann1 <- as.character(Labels[rownames(eigengenes)])
     ##^ pheatmap cannot work with e.g., TRUE
@@ -78,6 +80,8 @@ compute.pigengene <- function(
     Weight <- c() ## Will add this as a column to the CSV file.
     for(m1 in selectedModules){
         g1 <- names(which(modules==m1))
+        g1 <- intersect(g1, rownames(membershipCsv))
+        ##^ Maybe columns of Data are fewer than the length of modules.
         Weight[g1] <- membershipCsv[g1,paste0("ME",m1)]
     }
     membershipCsv <- cbind(membershipCsv, "Weight"=Weight[rownames(membershipCsv)])

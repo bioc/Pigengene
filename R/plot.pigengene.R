@@ -79,8 +79,9 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
     message.if(m4, verbose=verbose-2)
     ##
     genes <- rownames(membership)
-    if(do0Mem){
-        genes <- intersect(names(orderedModules[orderedModules!=0]), genes)
+    genes <- genes[order(pigengene$orderedModules[genes])]
+    if(!do0Mem){
+        genes <- intersect(genes, names(orderedModules[orderedModules!=0]))
     }
     png2(aFile=plotMemFile)
     pheatmap(abs(membership[genes, ]), annotation_colors=typeColor,

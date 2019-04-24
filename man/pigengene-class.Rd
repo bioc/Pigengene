@@ -45,12 +45,17 @@ and other related information.}
     \item{\code{saveFile}}{
       The file where the \code{pigengene} object is saved.}
     \item{\code{weightsCsvFile}}{
-      The file containing the weights in csv format.}
+      The file containing the weights in csv format. See \code{dOrderByW=TRUE}.}
      \item{\code{weights}}{
       The weight matrix, which is also saved in csv format. It has
       more columns than \code{membership} but rows may be in a different
       order if \code{dOrderByW=TRUE}.}
-  }
+     \item{\code{heavyToLow}}{
+       If \code{dOrderByW=TRUE}, this will be the ordering of genes
+       according to the modules the belong to, where the genes in each
+       module are ordered based on the absolute value of the weights in
+       that module. Also, the genes in the csv file are in this order.}
+   }
 
 For 2 or more groups (conditions), additional (optional) components include:
   \itemize{

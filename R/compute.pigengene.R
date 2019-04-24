@@ -93,6 +93,7 @@ compute.pigengene <- function(
             ordered <- rbind(ordered, membership1[order(absolute1, decreasing=TRUE),])
         }
         membershipCsv <- ordered
+        result[["heavyToLow"]] <- rownames(membershipCsv)
     }
     write.csv(file=membershipCsvFile, membershipCsv)
     result[["weights"]] <- membershipCsv

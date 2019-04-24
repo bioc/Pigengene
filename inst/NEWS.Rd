@@ -10,6 +10,16 @@
   }
 }
 
+\section{Changes in version 1.9.24 (2019-04-24)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item
+      An object of \code{\link{pigengene-class}} can now have a
+      \code{heavyToLow} attribute.
+    }
+  }
+}
+
 \section{Changes in version 1.9.14 (2019-02-12)}{
   \subsection{Changes in existing functions}{
     \itemize{

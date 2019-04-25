@@ -82,7 +82,7 @@ compute.pigengene <- function(
         g1 <- names(which(modules==m1))
         g1 <- intersect(g1, rownames(membershipCsv))
         ##^ Maybe columns of Data are fewer than the length of modules.
-        Weight[g1] <- membershipCsv[g1,paste0("ME",m1)]
+        Weight[g1] <- membershipCsv[g1,paste0("ME",m1), drop=FALSE]
     }
     membershipCsv <- cbind(membershipCsv, "Weight"=Weight[rownames(membershipCsv)])
     if(dOrderByW){
@@ -90,7 +90,7 @@ compute.pigengene <- function(
         for(m1 in sort(unique(membershipCsv[,"Module"]))){
             membership1 <- membershipCsv[membershipCsv[,"Module"]==m1, , drop=FALSE]
             absolute1 <- abs(membership1[ ,paste0("ME",m1)])
-            ordered <- rbind(ordered, membership1[order(absolute1, decreasing=TRUE),])
+            ordered <- rbind(ordered, membership1[order(absolute1, decreasing=TRUE), ,drop=FALSE])
         }
         membershipCsv <- ordered
         result[["heavyToLow"]] <- rownames(membershipCsv)

@@ -1,11 +1,11 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
-\section{Changes in version 1.9.20 (2019-04-12)}{
-  \subsection{Changes in existing functions}{
+\section{Changes in version 1.9.26 (2019-04-24)}{
+  \subsection{Bug Fixes}{
     \itemize{
-      \item In the \code{compute.pigengene} function, the columns of
-      \code{Data} and names of \code{modules} can now differ.
+      \item In the \code{compute.pigengene} function, if a module has
+      only one gene, its name is now not omitted in the csv file.
     }
   }
 }
@@ -13,9 +13,17 @@
 \section{Changes in version 1.9.24 (2019-04-24)}{
   \subsection{Changes in existing functions}{
     \itemize{
-      \item
-      An object of \code{\link{pigengene-class}} can now have a
+      \item An object of \code{\link{pigengene-class}} can now have a
       \code{heavyToLow} attribute.
+    }
+  }
+}
+
+\section{Changes in version 1.9.20 (2019-04-12)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item In the \code{compute.pigengene} function, the columns of
+      \code{Data} and names of \code{modules} can now differ.
     }
   }
 }

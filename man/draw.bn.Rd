@@ -15,7 +15,7 @@ draw.bn(BN, plotFile = NULL, inputType = "ENTREZIDat", edgeColor = "blue",
 
 \arguments{
   \item{BN}{
-    An object of \code{\link[bnlearn]{bn-class}}}
+    An object of \code{\link[bnlearn:bn.class]{bn-class}}}
 
   \item{plotFile}{
     If not \code{NULL}, the plot will be saved here.}
@@ -64,7 +64,7 @@ A list with following components:
   \item{BN}{
     An echo of input \code{BN} argument}
   \item{renamedBN}{
-    An object of \code{\link[bnlearn]{bn-class}} when 
+    An object of \code{\link[bnlearn:bn.class]{bn-class}} when 
     \code{moduleNamesFile} is provided}
   \item{gr}{
     The full output of \code{\link[bnlearn]{graphviz.plot}} function}

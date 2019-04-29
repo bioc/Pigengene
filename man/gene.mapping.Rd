@@ -58,8 +58,8 @@ Amir Foroushani, Habil Zare, and Rupesh Agrahari}
 
 \seealso{
 \code{\link[AnnotationDbi]{AnnotationDb-class}}, 
-\code{\link[org.Hs.eg.db]{org.Hs.eg.db}}
-\code{\link[org.Mm.eg.db]{org.Mm.eg.db}}}
+\code{\link[org.Hs.eg.db:org.Hs.egBASE]{org.Hs.eg.db}}
+\code{\link[org.Mm.eg.db:org.Mm.egBASE]{org.Mm.eg.db}}}
 
 \examples{
      library(org.Hs.eg.db)

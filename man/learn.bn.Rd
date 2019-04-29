@@ -96,12 +96,12 @@ learn.bn(pigengene=NULL, Data=NULL, Labels=NULL, bnPath = "bn", bnNum = 100,
 
   \item{use.Hartemink}{
   If \code{TRUE}, Hartemink algorithm will be used to discretize data. Otherwise, interval
-  discretization will be applied. See \code{bnlearn:\link[bnlearn]{discretize}.}}
+  discretization will be applied. See \code{bnlearn:\link[bnlearn:preprocessing]{discretize}.}}
 
   \item{bnStartFile}{
   Optionally, learning can start from a Bayesian network instead of a random network.
   \code{bnStartFile} should contain a list called \code{selected} and \code{selected$BN} 
-  should be an object of \code{\link[bnlearn]{bn-class}}.
+  should be an object of \code{\link[bnlearn:bn.class]{bn-class}}.
   Non-technical users can set to \code{"None"} to disable.} 
 
   \item{use.Disease}{
@@ -174,7 +174,7 @@ A list of:
   \item{consensusThreshRes}{The full output of \code{consensus.thresh()} function.}
   \item{consensus1}{The consensus Bayesian network corresponding to the first threshold.
               It is the output of \code{consensus} function and \code{consensus1$BN}
-            is an object of \code{\link[bnlearn]{bn-class}}.}
+            is an object of \code{\link[bnlearn:bn.class]{bn-class}}.}
   \item{scorePlot}{The output of \code{plot.scores} functions, containing the scores of 
                 individual networks.}
   \item{graphs}{The output of \code{plot.graphS} function, containing the BDe score of 

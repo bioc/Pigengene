@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.9.32 (2019-05-02)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item \code{repeat.data(times=1,...)} now produces valid output.
+    }
+  }
+}
+
 \section{Changes in version 1.9.26 (2019-04-24)}{
   \subsection{Bug Fixes}{
     \itemize{

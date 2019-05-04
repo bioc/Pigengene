@@ -4,6 +4,14 @@
 \section{Changes in version 1.11.4 (2019-05-02)}{
   \subsection{Bug Fixes}{
     \itemize{
+      \item Data and Labels can now be lists, which will be combined using combine.network() before analysis.
+    }
+  }
+}
+
+\section{Changes in version 1.11.4 (2019-05-02)}{
+  \subsection{Bug Fixes}{
+    \itemize{
       \item \code{repeat.data(times=1,...)} now produces valid output.
     }
   }

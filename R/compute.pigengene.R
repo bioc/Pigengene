@@ -52,7 +52,7 @@ compute.pigengene <- function(
     matched <- match(paste("ME", selectedModules, sep=''), colnames(eigengenes))
     eigengenesOrdered <- eigengenes[, matched, drop=FALSE]
     ## Pvalues:
-    if(length(unique(Labels))>1){
+    if(length(unique(unlist(Labels)))>1){
         pvalues.function <- welch.pvalue ## Can be pvalues.manova or welch.pvalue
         message.if("Eigengene Pvalues ...", verbose=verbose-1)
         pvalues <- pvalues.function(Data=as.matrix(eigengenes), Labels[rownames(eigengenes)])

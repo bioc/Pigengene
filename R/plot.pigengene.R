@@ -5,7 +5,7 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
                            pngfactor=max(2, ncol(pigengene$eigengenes)/16),
                            do0Mem=FALSE,
                            ...){
-    result <- list()
+   result <- list()
     pigengene <- x
     ##QC:
     if(class(pigengene)!="pigengene")
@@ -69,7 +69,7 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
     }
     ##
     png2(aFile=plotFile)
-    heat <- pheatmap(pigengene$eigengenes, cluster_rows=TRUE,
+    heat <- pheatmap(pigengene$eigengenes, cluster_rows=FALSE,
                      cluster_cols=doClusterCols, fontsize=fontsize,
                      annotation_row=pigengene$annotation,
                      annotation_col=pvaluePlot, show_rownames=doShowRownames,

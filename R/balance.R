@@ -22,7 +22,7 @@ balance <- function(
     }
     myDat <- NULL
     brkpts <- 1
-    origSampleInds <- NULL ## The indices of rows 
+    origSampleInds <- NULL ## The indices of rows
     ##^corresponding to the original samples before balancing.
     Reptimes <- c()
     m2 <- "Oversampling to: "

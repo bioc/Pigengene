@@ -20,12 +20,12 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
 
 \arguments{
   \item{Data}{
-  A matrix or data frame containing the training expression data, with genes 
+  A matrix or data frame (or list of matrices or data frames) containing the training expression data, with genes 
   corresponding to columns and rows corresponding to samples. Rows and columns 
   must be named. For example, from RNA-Seq data, log(RPKM+1) can be used.}
   
   \item{Labels}{
-  A (preferably named) vector containing the Labels (condition types) for the training Data.
+  A (preferably named) vector containing the Labels (condition types) for the training Data. Or, if Data is a list, a list of label vectors corresponding to the data sets in Data
   Names must agree with rows of \code{Data}.}
 
   \item{saveDir}{
@@ -96,7 +96,10 @@ This is the main function of the package Pigengene and performs several
 steps: First, modules are identified in the training expression data,
 according to mit argument i.e.  based on coexpression behaviour
 in the corresponding conditions. Set it to "All" to use all training data for 
-this step regardless of the condition. Then, the eigengenes for each module 
+this step regardless of the condition. Then, if a list of data frames is
+provided in Data, similarity networks on the data sets are computed and
+combined into one similarity network for the union of nodes across data
+sets. Then, the eigengenes for each module 
 and each sample are calculated, where the expression of an eigengene of a
 module in a sample is the weighted average of the expression of the genes in 
 that module in the sample. Technically, an eigengene is the first principal 
@@ -124,7 +127,7 @@ A list with the following components:
 \item{betaRes}{A list. The automatically selected beta (power) parameter
   which was used for the WGCNA clustering. It is the result of the call to
   \code{calculate.beta} using the expression data of \code{mit} conditions(s).}
-\item{pigengenee}{The pigengene object computed for the clusters, result
+\item{pigengene}{The pigengene object computed for the clusters, result
   of \code{compute.pigengene}.}
 \item{leanrtBn}{A list. The results of \code{\link{learn.bn}} call for 
   learning a Bayesian network using the eigengenes.}

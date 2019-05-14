@@ -82,8 +82,13 @@ one.step.pigengene <- function(
     ## Now use combine.networks()
     if(dataNum!=1){    
         ##Combine listed data frames into one dataframe, Labels into one vector
-        DataEig <- bind_rows(checkedData)
+        DataEig <- dplyr::bind_rows(checkedData)
         LabelsEig <- unlist(checkedLabels)
+	## check for duplicates
+	extractedIDs <- rownames(DataEig)
+	if(any(duplicated(extractedIDs)))
+	    stop("Cannot have same row ID in multiple data sets.")
+
 	rownames(DataEig) <- names(LabelsEig)
 	wgRes <- combine.networks(nets=nets, contributions=cont, outPath=saveDir,     
                                   RsquaredCut=RsquaredCut, minModuleSize=20,   
@@ -94,11 +99,9 @@ one.step.pigengene <- function(
 	LabelsEig <- LabelsI
     }
 
-    extractedIDs <- lapply(DataEig, rownames)
-    if(length(Reduce(intersect, extractedIDs))!=0)
-        stop("Cannot have same row ID in multiple data sets.")
+
     results[["moduleRes"]] <- wgRes
-## Eigengenes:
+    ## Eigengenes:
     pigengene <- compute.pigengene(Data=DataEig, Labels=LabelsEig,
                                    modules=wgRes$modules,
                                    saveFile=combinedPath(saveDir, 'pigengene.RData'),

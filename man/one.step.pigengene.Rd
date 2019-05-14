@@ -25,7 +25,7 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
   must be named. For example, from RNA-Seq data, log(RPKM+1) can be used.}
   
   \item{Labels}{
-  A (preferably named) vector containing the Labels (condition types) for the training Data. Or, if Data is a list, a list of label vectors corresponding to the data sets in Data
+  A (preferably named) vector containing the Labels (condition types) for the training Data. Or, if Data is a list, a list of label vectors corresponding to the data sets in Data.
   Names must agree with rows of \code{Data}.}
 
   \item{saveDir}{

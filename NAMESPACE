@@ -15,6 +15,9 @@ importFrom(MASS, rlm)
 importFrom(partykit, as.party)
 importFrom(Rgraphviz, getDefaultAttrs)
 importFrom(dplyr, bind_rows)
+importFrom(graphics, axis)
+importFrom(stats, as.dist)
+
 
 ## Imported by WGCNA but not installed with it:
 import(GO.db)

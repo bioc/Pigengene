@@ -1,10 +1,11 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
-\section{Changes in version 1.11.4 (2019-05-02)}{
-  \subsection{Bug Fixes}{
+\section{Changes in version 1.11.20 (2019-05-02)}{
+  \subsection{New functions}{
     \itemize{
-      \item Data and Labels can now be lists, which will be combined using combine.network() before analysis.
+      \item \code{Data} and \code{Labels} can now be lists, which will be combined using 
+      \code{combine.network()} before analysis.
     }
   }
 }

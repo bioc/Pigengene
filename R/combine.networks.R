@@ -10,7 +10,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
     result[["call"]] <- match.call()
     result[["midfix"]] <- midfix
     nodes <- c()
-    ## compute the union of all nodes:
+    ## Compute the union of all nodes:
     for(ind in 1:length(nets)){
         nodes <- union(nodes, rownames(nets[[ind]]))
     }

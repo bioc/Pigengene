@@ -7,7 +7,7 @@ learn.bn <- function(
     onCluster=!(which.cluster()$cluster=="local"), 
     inds=1:ceiling(bnNum/perJob), perJob=2, 
     maxSeconds=5*60, timeJob="00:10:00", bnCalculationJob=NULL, 
-    seed=NULL, verbose=0)
+    seed=NULL, verbose=0, naTolerance=0.05)
 {
     ## Sets the parameters and learns BN for a module. --Habil.
     ## trainingCases: are the patients that are used for training the model.
@@ -69,7 +69,7 @@ learn.bn <- function(
                 if(is.null(Data)|is.null(Labels))
                     stop(stop1)
             }
-            c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE)
+            c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
             Data <- c1$Data
             Labels <- c1$Labels
             ## Module 0:
@@ -95,7 +95,7 @@ learn.bn <- function(
             bnCalculationJob=bnCalculationJob, timeJob=timeJob, 
             algo=algo, seed=seed, verbose=verbose-1, 
             partition=NULL, maxSeconds=maxSeconds, 
-            moduleFile=moduleFile, doShuffle=doShuffle)
+            moduleFile=moduleFile, doShuffle=doShuffle, naTolerance=naTolerance)
         if(onCluster){
             Sys.sleep(180)
         }

@@ -1,5 +1,5 @@
 check.nas <- function(
-    Data, naTolerance=0.5, na.rm=TRUE)
+    Data, naTolerance=0.05, na.rm=TRUE)
 {
     ## Checks for NAs in the Data and replaces them
     ##^with the average of the column if their frequency in the column

@@ -1,13 +1,13 @@
 \name{balance}
 \alias{balance}
-\title{Balances the number of sampels}
+\title{Balances the number of samples}
 
 \description{
      Oversamples data by repeating rows such that each condition has
      roughly the same number of samples.}
 
 \usage{
-     balance(Data, Labels, amplification = 5, verbose = 0)
+     balance(Data, Labels, amplification = 5, verbose = 0, naTolerance=0.05)
 }
 
 \arguments{
@@ -28,6 +28,14 @@
   \item{verbose}{
     The integer level of verbosity. 0 means silent and higher values    
     produce more details of computation.}
+    
+  \item{naTolerance}{
+    Upper threshold on the fraction of entries per gene that
+    can be missing. Genes with a larger fraction of missing
+    entries are ignored. For genes with smaller fraction of NA
+    entries, the missing values are imputed from their average
+    expression in the other samples.  
+    See \code{\link{check.pigengene.input}}.}
 
 }
 

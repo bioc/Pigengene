@@ -2,10 +2,10 @@ make.bn.input <- function(
     moduleNum, use.Hartemink=TRUE, 
     breakNum=3, ibreaks=20, use.Disease, use.Effect, 
     saveFile, selectedFeatures=colnames(Data), 
-    Data, Labels, pvalGenes=NULL, dummies=NULL, verbose=0, doPlotCor=FALSE)
+    Data, Labels, pvalGenes=NULL, dummies=NULL, verbose=0, doPlotCor=FALSE, naTolerance=0.05)
 {
     message.if(paste("Making BN input for module", moduleNum), verbose=verbose)
-    c1 <- check.pigengene.input(Data=Data, Labels=Labels,na.rm=TRUE)
+    c1 <- check.pigengene.input(Data=Data, Labels=Labels,na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
     Labels <- c1$Labels
     Disease <- Labels
@@ -13,7 +13,7 @@ make.bn.input <- function(
     rownamesData <- rownames(Data) ## discretize() may change them!
     if (moduleNum=="E" & doPlotCor){
         corPlotted <- draw.cor.cond(Data=Data, Labels=Labels, verbose=verbose-1,
-                                    savePath=dirname(saveFile))
+                                    savePath=dirname(saveFile), naTolerance=naTolerance)
     }
     if (!use.Hartemink) {
         Data <- discretize(data=as.data.frame(Data), 

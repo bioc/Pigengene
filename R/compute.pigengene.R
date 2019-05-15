@@ -1,7 +1,7 @@
 compute.pigengene <- function(
     Data, Labels, modules, saveFile="pigengene.RData",
     selectedModules="All", amplification=5,
-    doPlot=TRUE, verbose=0, dOrderByW=TRUE){
+    doPlot=TRUE, verbose=0, dOrderByW=TRUE, naTolerance=0.05){
     ##
     ## modules: A vector of integers determining module assignments.
     ##^Named by column names of Data.
@@ -17,7 +17,7 @@ compute.pigengene <- function(
     pvalueCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste(pBasename, ".csv", sep=""))
     membershipCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste("membership.csv", sep=""))
     ## QC:
-    c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE)
+    c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
     Labels <- c1$Labels
     Data <- Data[names(Labels), ]
@@ -25,7 +25,7 @@ compute.pigengene <- function(
     genes <- colnames(Data)[modules[colnames(Data)] %in% selectedModules]
     ##genes <- names(modules)[modules[colnames(Data)] %in% selectedModules]
     balanced <- balance(Data=Data, Labels=Labels,
-                        amplification=amplification, verbose=verbose-1)
+                        amplification=amplification, verbose=verbose-1, naTolerance=naTolerance)
     balancedData <- balanced$balanced
     myDat <- balancedData[ , genes, drop=FALSE]
     result[['Reptimes']] <- balanced$Reptimes

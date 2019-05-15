@@ -1,7 +1,7 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
-\section{Changes in version 1.11.20 (2019-05-02)}{
+\section{Changes in version 1.11.20 (2019-05-15)}{
   \subsection{New functions}{
     \itemize{
       \item \code{Data} and \code{Labels} can now be lists, which will be combined using 

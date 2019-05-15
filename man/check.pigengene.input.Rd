@@ -7,7 +7,7 @@
   names, etc.}
 
 \usage{
-  check.pigengene.input(Data, Labels, na.rm = FALSE)
+  check.pigengene.input(Data, Labels, na.rm = FALSE, naTolerance=0.05)
 }
 
 \arguments{
@@ -24,6 +24,14 @@
     If \code{TRUE}, \code{NA}s in the Data will be replaces with the
     average of the column, however, if the frequency of \code{NA}s in
     the column is too high, the whole column will be removed.}
+
+  \item{naTolerance}{
+   Upper threshold on the fraction of entries per gene that
+   can be missing. Genes with a larger fraction of missing
+   entries are ignored. For genes with smaller fraction of NA
+   entries, the missing values are imputed from their average
+   expression in the other samples.  
+   See \code{\link{check.pigengene.input}}.}
 }
 
 \value{
@@ -31,6 +39,8 @@
   \item{Data}{The checked \code{Data} matrix, \code{NA} possibly removed and rows are
     ordered as names of \code{Labels}.}
   \item{Labels}{The checked vector of \code{Labels}}
+
+
 }
 
 \author{Habil Zare}

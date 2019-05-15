@@ -11,7 +11,7 @@ computes an eigengene for each module using PCA.}
 \usage{
 compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData", 
     selectedModules = "All", amplification = 5, doPlot = TRUE,
-    verbose = 0, dOrderByW = TRUE)
+    verbose = 0, dOrderByW = TRUE, naTolerance=0.05)
 }
 
 
@@ -48,9 +48,17 @@ compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData",
   The integer level of verbosity. 0 means silent and higher values    
   produce more details of computation.}
 
-\item{dOrderByW}{
+ \item{dOrderByW}{
   If \code{TRUE}, the genes will be ordered in the csv file based on their
   absolute weight in the corresponding module.}
+
+  \item{naTolerance}{
+   Upper threshold on the fraction of entries per gene that
+   can be missing. Genes with a larger fraction of missing
+   entries are ignored. For genes with smaller fraction of NA
+   entries, the missing values are imputed from their average
+   expression in the other samples.  
+   See \code{\link{check.pigengene.input}}.}
 
 }
 

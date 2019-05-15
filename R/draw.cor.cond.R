@@ -1,7 +1,7 @@
-draw.cor.cond <- function(Data, Labels, savePath=".", verbose=0){
+draw.cor.cond <- function(Data, Labels, savePath=".", verbose=0, naTolerance=0.05){
     message.if("Correlations in conditions...", verbose=verbose)
     res <- list()
-    c1 <- check.pigengene.input(Data=Data, Labels=Labels,na.rm=TRUE)
+    c1 <- check.pigengene.input(Data=Data, Labels=Labels,na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
     Labels <- c1$Labels
 

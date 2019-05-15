@@ -5,7 +5,7 @@ make.decision.tree <- function(
     testD=NULL, testL=NULL, 
     selectedFeatures=NULL, saveDir='C5Trees', minPerLeaf=NULL, 
     useMod0=FALSE, costRatio=1, toCompact=NULL, noise=0, noiseRepNum=10, 
-    doHeat=TRUE, verbose=0)
+    doHeat=TRUE, verbose=0, naTolerance=0.05)
 {
     ##^Make a decision tree.
     ##pigengene: from compute.pigengene, the $eigengenes part are the potential
@@ -31,7 +31,7 @@ make.decision.tree <- function(
     ## QC:
     if(class(pigengene)!="pigengene")
         stop("pigengene must be an object of class pigengene!")
-    c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE)
+    c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
     Labels <- c1$Labels
     ##

@@ -18,7 +18,8 @@ learn.bn(pigengene=NULL, Data=NULL, Labels=NULL, bnPath = "bn", bnNum = 100,
   bnStartFile = "None", use.Disease = TRUE, use.Effect = FALSE, dummies = NULL,
   tasks = "All", onCluster = !(which.cluster()$cluster == "local"), 
   inds = 1:ceiling(bnNum/perJob), perJob = 2, maxSeconds = 5 * 60, 
-  timeJob = "00:10:00", bnCalculationJob = NULL, seed = NULL, verbose = 0)
+  timeJob = "00:10:00", bnCalculationJob = NULL, seed = NULL, verbose = 0,
+  naTolerance=0.05)
 
 }
 \arguments{
@@ -146,7 +147,15 @@ learn.bn(pigengene=NULL, Data=NULL, Labels=NULL, bnPath = "bn", bnNum = 100,
 
   \item{verbose}{
   Integer level of verbosity. 0 means silent and higher values    
-  produce more details of computation.} 
+  produce more details of computation.}
+
+  \item{naTolerance}{
+   Upper threshold on the fraction of entries per gene that
+   can be missing. Genes with a larger fraction of missing
+   entries are ignored. For genes with smaller fraction of NA
+   entries, the missing values are imputed from their average
+   expression in the other samples.  
+   See \code{\link{check.pigengene.input}}.}
 }
 
 \details{

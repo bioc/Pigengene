@@ -3,7 +3,7 @@ one.step.pigengene <- function(
     Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
     costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
     mit="All", ## unique(Labels)[1],
-    verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE)
+    verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05)
 {
     ## costRatio: Implemented only for 2 classes.
     ##^Determines how severe it is to misclassify a sample accross types.
@@ -12,23 +12,26 @@ one.step.pigengene <- function(
 
     results <- list()
     results[["call"]] <- match.call()
-    m1 <- paste("Pigengene started analizing", nrow(Data),
-                "samples using", ncol(Data), "genes...")
-    message.if(me=m1, verbose=verbose)
-    if(verbose>1){
-        print(table(Labels))
-    }
+
     dataNum <- 1
     if(class(Data) =="list"){
         dataNum <- length(Data)
+    } else {
+        m1 <- paste("Pigengene started analizing", nrow(Data),
+                "samples using", ncol(Data), "genes...")
+        message.if(me=m1, verbose=verbose)
+        if(verbose>1){
+            print(table(Labels))
+        }
     }
+
     ## saveDir:
     if(length(grep(saveDir, pattern=" ")>0))
         stop("saveDir cannot have space!")
     dir.create(path=saveDir, recursive=TRUE, showWarnings=FALSE)
 
     if(!is.null(testD)){
-        ct <- check.pigengene.input(Data=testD, Labels=testLabels, na.rm=TRUE)
+        ct <- check.pigengene.input(Data=testD, Labels=testLabels, na.rm=TRUE, naTolerance=naTolerance)
         testD <- ct$Data
         testLabels <- ct$Labels
     }
@@ -48,7 +51,7 @@ one.step.pigengene <- function(
 	    cont[[ind]] <- nrow(DataI)
         }
         ## QC: 
-	c1 <- check.pigengene.input(Data=DataI, Labels=LabelsI, na.rm=TRUE)
+	c1 <- check.pigengene.input(Data=DataI, Labels=LabelsI, na.rm=TRUE, naTolerance=naTolerance)
         DataI <- c1$Data
         LabelsI <- c1$Labels
 	checkedData[[ind]] <- DataI
@@ -60,7 +63,7 @@ one.step.pigengene <- function(
         ##stop('mit must be equal to "cond1", "cond2", or "Both"!'))
         ## WGCNA:
         if(doBalance)
-            wData <- balance(Data=wData, Labels=LabelsI, verbose=verbose-1)$balanced
+            wData <- balance(Data=wData, Labels=LabelsI, verbose=verbose-1, naTolerance=naTolerance)$balanced
         if(dataNum==1){
             calculateBetaRes <- calculate.beta(saveFile=NULL, RsquaredCut=RsquaredCut,
                                                Data=wData, verbose=verbose-1)
@@ -105,7 +108,7 @@ one.step.pigengene <- function(
     pigengene <- compute.pigengene(Data=DataEig, Labels=LabelsEig,
                                    modules=wgRes$modules,
                                    saveFile=combinedPath(saveDir, 'pigengene.RData'),
-                                   doPlot='TRUE', verbose=verbose, dOrderByW=dOrderByW)
+                                   doPlot='TRUE', verbose=verbose, dOrderByW=dOrderByW, naTolerance=naTolerance)
     results[["pigengene"]] <- pigengene
     ## Multiple conditions?
     if(length(unique(unlist(Labels)))<2){
@@ -121,7 +124,7 @@ one.step.pigengene <- function(
         bnArgs$bnPath <- if(!is.null(bnArgs$bnPath)) bnArgs$bnPath else bnPath
         bnArgs$doShuffle <- if(!is.null(bnArgs$doShuffle)) bnArgs$doShuffle else TRUE
         bnArgs$tasks <- if(!is.null(bnArgs$tasks)) bnArgs$tasks else "All"
-        bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed))
+        bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed, naTolerance=naTolerance))
         ## Call
         learnt <- do.call(learn.bn, bnArgs)
         results[["leanrtBn"]] <- learnt
@@ -148,7 +151,7 @@ one.step.pigengene <- function(
                                     selectedFeatures=selectedFeatures, saveDir=c5Path,
                                     minPerLeaf=NULL, useMod0=useMod0, doHeat=doHeat,
                                     costRatio=costRatio, verbose=verbose,
-                                    toCompact=toCompact)
+                                    toCompact=toCompact, naTolerance=naTolerance)
     ##
     results[["selectedFeatures"]] <- selectedFeatures
     results[["c5treeRes"]] <- c5treeRes

@@ -17,7 +17,7 @@ make.decision.tree(pigengene, Data,
   testD = NULL, testL = NULL, selectedFeatures = NULL,
   saveDir = "C5Trees", minPerLeaf = NULL, useMod0 = FALSE, 
   costRatio = 1, toCompact = NULL, noise = 0, noiseRepNum = 10, doHeat=TRUE,
-  verbose = 0)
+  verbose = 0, naTolerance=0.05)
 }
 
 \arguments{
@@ -88,6 +88,14 @@ make.decision.tree(pigengene, Data,
   \item{verbose}{
     The integer level of verbosity. 0 means silent and higher values    
     produce more details of computation.}
+
+  \item{naTolerance}{
+    Upper threshold on the fraction of entries per gene that
+    can be missing. Genes with a larger fraction of missing
+    entries are ignored. For genes with smaller fraction of NA
+    entries, the missing values are imputed from their average
+    expression in the other samples.  
+    See \code{\link{check.pigengene.input}}.}
 }
 
 \details{
@@ -127,6 +135,8 @@ A list with following elements:
   The cost matrix}
 \item{saveDir}{
   The directory where plots are saved in}
+
+
 
 }
 

@@ -1,6 +1,7 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+
 \section{Changes in version 1.11.20 (2019-05-15)}{
   \subsection{New functions}{
     \itemize{

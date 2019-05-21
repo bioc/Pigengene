@@ -91,7 +91,7 @@ combine.networks(nets, contributions, outPath, midfix="",
 \seealso{
 \code{WGCNA::\link[WGCNA]{blockwiseModules}},
 \code{WGCNA::\link[WGCNA]{TOMsimilarity}}, and
-\code{WGCNA::\link[WGCNA]{pickSoftThreshold.fromSimilarity}}
+\code{WGCNA::\link[WGCNA:pickSoftThreshold]{pickSoftThreshold.fromSimilarity}}
 }
 
 \examples{

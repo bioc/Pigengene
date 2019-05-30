@@ -75,7 +75,7 @@ one.step.pigengene <- function(
                                     power=betaI,
                                     saveDir=saveDir, verbose=verbose-1)
         } else {
-            nets[[ind]] <- stats::cor(wData)
+            nets[[ind]] <- abs(stats::cor(wData))
         }
         rm(wData)
     }

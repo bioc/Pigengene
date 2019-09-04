@@ -29,7 +29,8 @@ compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData",
     that reports the module (clustering) assignments.}
 
   \item{saveFile}{
-   The file to save the results. \code{NULL} will disable saving.}
+   The file to save the results. \code{NULL} will disable saving, and
+   thus requires \code{doPlot} to be \code{FALSE}.}
 
   \item{selectedModules}{
   A numeric vector determining which modules to use, or set to 

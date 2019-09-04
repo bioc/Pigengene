@@ -2,8 +2,18 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 
+\section{Changes in version 1.11.24 (2019-09-03)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item In the \code{combine.network()} function,
+      \code{selectedModules} does not need to be \code{"All"}. Also, if
+      \code{saveFile=NULL}, nothing will be saved without any error.
+    }
+  }
+}
+
 \section{Changes in version 1.11.20 (2019-05-15)}{
-  \subsection{New functions}{
+  \subsection{Changes in existing functions}{
     \itemize{
       \item \code{Data} and \code{Labels} can now be lists, which will be combined using 
       \code{combine.network()} before analysis.

@@ -13,9 +13,12 @@ compute.pigengene <- function(
     }
     if(is.null(names(Labels))){names(Labels) <- rownames(Data)}
     ## Files:
-    pBasename <- gsub(basename(saveFile), pattern="\\.RData$", replacement="_pvalue")
-    pvalueCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste(pBasename, ".csv", sep=""))
-    membershipCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste("membership.csv", sep=""))
+    if(!is.null(saveFile)){
+        pBasename <- gsub(basename(saveFile), pattern="\\.RData$", replacement="_pvalue")
+        pvalueCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste(pBasename, ".csv", sep=""))
+        membershipCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste("membership.csv", sep=""))
+        result[["weightsCsvFile"]] <- membershipCsvFile
+    }
     ## QC:
     c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
@@ -63,7 +66,9 @@ compute.pigengene <- function(
         names(Size) <- paste("ME", names(Size), sep="")
         pvalCsv <- cbind(Size[rownames(pvalues$pvals)], pvalues$pvals)
         colnames(pvalCsv)[1] <- "Size"
-        write.csv(pvalCsv, file=pvalueCsvFile)
+        if(!is.null(saveFile)){
+            write.csv(pvalCsv, file=pvalueCsvFile)
+        }
         result[["pvalues"]] <- pvalues
         result[["log.pvalue"]] <- log.pvalue ## base 10
     }
@@ -73,7 +78,6 @@ compute.pigengene <- function(
     result[["membership"]] <- membership
     result[["orderedModules"]] <- modules[order(modules)]
     result[["annotation"]] <- ann1
-    result[["weightsCsvFile"]] <- membershipCsvFile
     result[["saveFile"]] <- saveFile
     membershipCsv <- cbind(membership, modules[rownames(membership)])
     colnames(membershipCsv)[ncol(membershipCsv)] <- "Module"
@@ -87,15 +91,21 @@ compute.pigengene <- function(
     membershipCsv <- cbind(membershipCsv, "Weight"=Weight[rownames(membershipCsv)])
     if(dOrderByW){
         ordered <- c()
-        for(m1 in sort(unique(membershipCsv[,"Module"]))){
+        toBeSortedModules <- intersect(selectedModules, membershipCsv[,"Module"])
+        for(m1 in sort(unique(toBeSortedModules))){
+            ## Consider the genes that are in module m1:
             membership1 <- membershipCsv[membershipCsv[,"Module"]==m1, , drop=FALSE]
+            ## Compute the absolute weight of the above genes in module m1:
             absolute1 <- abs(membership1[ ,paste0("ME",m1)])
+            ## Order based on absolute wight and add them at the bottom of the ordered matrix:
             ordered <- rbind(ordered, membership1[order(absolute1, decreasing=TRUE), ,drop=FALSE])
         }
         membershipCsv <- ordered
         result[["heavyToLow"]] <- rownames(membershipCsv)
     }
-    write.csv(file=membershipCsvFile, membershipCsv)
+    if(!is.null(saveFile)){
+        write.csv(file=membershipCsvFile, membershipCsv)
+    }
     result[["weights"]] <- membershipCsv
 
     ## The Pigengene output:
@@ -105,6 +115,9 @@ compute.pigengene <- function(
 
     ## Plot:
     if(doPlot){
+        if(is.null(saveFile)){
+            stop("Although doPlot is TRUE, I cannot save the plots because saveFile is NULL !")
+        }
         sf <- file.path(dirname(saveFile),"plots")
         ##sf <- gsub(saveFile, pattern="\\.RData$", replacement="")
         dc <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")

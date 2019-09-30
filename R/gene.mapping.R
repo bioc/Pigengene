@@ -73,6 +73,15 @@ gene.mapping <- function(ids,
     ## Change char to database package:
     inputDb <- get(inDbChar)
     outputDb <- get(outDbChar)
+
+    ## QC:
+    possibleKeys <- AnnotationDbi::keytypes(inputDb)
+    possibleCols <- AnnotationDbi::columns(outputDb)
+    if(!inputType %in% possibleKeys)
+        stop(paste(inputType, "not in possible keys:", paste(possibleKeys, collapse=", ")))
+    if(!outputType %in% possibleCols)
+        stop(paste(outputType, "not in possible cols:", paste(possibleKeys, collapse=", ")))
+    
     ## Mapping between species:
     if(inDbChar!= outDbChar){
         ens <- gene.mapping(ids=key, inputType=inputType, outputType="ENSEMBL", 

@@ -2,6 +2,20 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 
+\section{Changes in version 1.11.26 (2019-09-26)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Better QC in the \code{gene.mapping()} function, the
+      possible keys will be printed if the input is not appropriate.
+    }
+  }
+  \subsection{New functions}{
+    \itemize{
+      \item \code{save.if()} is now exported.
+    }
+  }
+}
+
 \section{Changes in version 1.11.24 (2019-09-03)}{
   \subsection{Bug Fixes}{
     \itemize{

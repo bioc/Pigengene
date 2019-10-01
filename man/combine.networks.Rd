@@ -14,7 +14,7 @@
 
 \usage{
 combine.networks(nets, contributions, outPath, midfix="",
-    powerVector=1:20, verbose=9, RsquaredCut=0.75, minModuleSize=5,
+    powerVector=1:20, verbose=1, RsquaredCut=0.75, minModuleSize=5,
     doRemoveTOM=TRUE, datExpr)
 }
 

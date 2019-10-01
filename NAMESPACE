@@ -45,5 +45,6 @@ export(one.step.pigengene, check.pigengene.input, balance, calculate.beta,
        wgcna.one.step, compute.pigengene, plot.pigengene, pheatmap.type,
        project.eigen, learn.bn, draw.bn, make.decision.tree, get.used.features,
        get.fitted.leaf, module.heatmap, compact.tree, get.genes, preds.at,
-       pvalues.manova, gene.mapping, dcor.matrix, check.nas, combine.networks, save.if)
+       pvalues.manova, gene.mapping, dcor.matrix, check.nas, combine.networks,
+       save.if, message.if)
 S3method(plot, pigengene)

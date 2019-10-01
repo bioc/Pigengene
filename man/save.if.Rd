@@ -19,7 +19,7 @@ save.if(x1, file, verbose = 1)
     The object to be saved.}
   
   \item{file}{
-    Where to save.}
+    Where to save. If \code{NULL}, nothing will be saved.}
   
   \item{verbose}{
   A numeric determining how much detail will be printed.}
@@ -29,6 +29,10 @@ save.if(x1, file, verbose = 1)
 
 \author{
   Amir Foroushani, and Habil Zare}
+
+\seealso{
+\code{\link{message.if}}
+}
 
 \examples{
 m1 <- matrix(0, nrow=1000, ncol=1000)

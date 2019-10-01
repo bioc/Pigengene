@@ -2,6 +2,14 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 
+\section{Changes in version 1.11.28 (2019-10-01)}{
+  \subsection{New functions}{
+    \itemize{
+      \item \code{message.if()} is now exported.
+    }
+  }
+}
+
 \section{Changes in version 1.11.26 (2019-09-26)}{
   \subsection{Changes in existing functions}{
     \itemize{

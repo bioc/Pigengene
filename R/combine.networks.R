@@ -1,6 +1,6 @@
 combine.networks <- function(nets, contributions, outPath, midfix="", powerVector=1:20,
                              verbose=1, RsquaredCut=0.75, minModuleSize=5, doRemoveTOM=TRUE,
-                             datExpr){
+                             datExpr, doReturNetworks=FALSE){
 
     ## QC:
     if(length(contributions) != length(nets)){
@@ -17,25 +17,23 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
 
     network <- matrix(0, nrow=length(nodes), ncol=length(nodes), dimnames=list(nodes, nodes))
     denominators <- matrix(0, nrow=length(nodes), ncol=length(nodes), dimnames=list(nodes, nodes))
-
     ## Combine the networks:
     for(ind in 1:length(nets)){
         netI <- nets[[ind]]
         network[rownames(netI), colnames(netI)] <- network[rownames(netI), colnames(netI)] +
             contributions[[ind]] * netI
         denominators[rownames(netI), colnames(netI)] <- denominators[rownames(netI), colnames(netI)] +
-          contributions[[ind]]
+            contributions[[ind]]
     }
-    result[["Network"]] <- network/denominators
-    result[["denominators"]] <- denominators
+    netwok <- network/denominators
 
     ##Diagonal elements should be all 1
-    diag(result$Network) <- 1
+    diag(network) <- 1
 
     ##block size for both power estimation and blockwiseModule
-    maxBlockSize <- nrow(result[["Network"]])
+    maxBlockSize <- nrow(network)
     ##power
-    pstPower <- WGCNA::pickSoftThreshold.fromSimilarity(similarity=result$Network,
+    pstPower <- WGCNA::pickSoftThreshold.fromSimilarity(similarity=network,
                                                         powerVector=powerVector,
                                                         blockSize=maxBlockSize,
                                                         verbose=verbose-1, RsquaredCut=RsquaredCut)
@@ -43,34 +41,39 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
     result[["fits"]] <- pstPower$fitIndices
 
     ##Tom module for blockwiseModule function
-    TOM <- as.dist(WGCNA::TOMsimilarity(adjMat=result$Network^pstPower$powerEstimate,
-                               TOMType="unsigned", TOMDenom="min", verbose=TRUE))
+    TOM <- as.dist(WGCNA::TOMsimilarity(adjMat=network^pstPower$powerEstimate,
+                                        TOMType="unsigned", TOMDenom="min", verbose=verbose-2))
 
     ##save TOM-module to load again for blockwiseModule
     tomFile <- file.path(outPath, paste0("TomModule", midfix, ".RData"))
     save(TOM, file=tomFile)
-    file.remove("./blockwiseTOM-block.1.RData")
-    command1 <- paste("ln -s ", tomFile, "./blockwiseTOM-block.1.RData")
+    tempFile <- "./blockwiseTOM-block.1.RData"
+    if(file.exists(tempFile)){
+        file.remove(tempFile)
+    }
+    command1 <- paste("ln -s ", tomFile, tempFile)
     if(verbose>2)
         print(command1)
     system(command1)
 
     ## The following function won't use "network" but it can't work without it so,
     ## we should pass it as an argument. --Hanie.
-
-## Changed name of object to "net" instead of "modules" to match what is done in wgcna.one.step() in Pigengene --Meg
-
-    net <- WGCNA::blockwiseModules(datExpr=datExpr, saveTOMs=FALSE, power=pstPower$powerEstimate,   checkMissingData = FALSE,
-                                  loadTOM=TRUE, maxBlockSize=maxBlockSize,
-                                  mergeCutHeight=0.15, reassignThreshold = 1e-06,
-                                  networkType="unsigned",
-                                  replaceMissingAdjacencies=FALSE, TOMType="unsigned", TOMDenom="min",
-                                  minModuleSize=minModuleSize, numericLabels=TRUE, verbose=TRUE)
+    ## Changed name of object to "net" instead of "modules" to match what is done
+    ##in wgcna.one.step() in Pigengene --Meg
+    net <- WGCNA::blockwiseModules(datExpr=datExpr, saveTOMs=FALSE, power=pstPower$powerEstimate,
+                                   checkMissingData = FALSE,
+                                   loadTOM=TRUE, maxBlockSize=maxBlockSize,
+                                   mergeCutHeight=0.15, reassignThreshold = 1e-06,
+                                   networkType="unsigned",
+                                   replaceMissingAdjacencies=FALSE, TOMType="unsigned", TOMDenom="min",
+                                   minModuleSize=minModuleSize, numericLabels=TRUE, verbose=verbose-2)
     modules <- net$colors
-    file.remove("./blockwiseTOM-block.1.RData")
+    if(file.exists(tempFile)){
+        file.remove(tempFile)
+    }
     if(verbose>1)
         print(table(modules))
-    names(modules) <- rownames(result$Network)
+    names(modules) <- rownames(network)
     result[["modules"]] <- modules
     result[["net"]] <- net
 
@@ -84,10 +87,13 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
     if(verbose>1)
         print(paste("There are", table(modules)[1], "outliers (ME0)"))
 
+    ## Clean up:
     if(doRemoveTOM)
-      remove(file=tomFile)
+        remove(file=tomFile)
+    if(doReturNetworks)
+        result[["Network"]] <- netwok
 
-    ##save results
+    ##Save results
     file1 <- file.path(outPath, paste0("combinedNetwork", midfix, ".RData"))
     result[["combinedNetworkFile"]] <- file1
     combinedNetwork <- result

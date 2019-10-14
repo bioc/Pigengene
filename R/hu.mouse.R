@@ -9,7 +9,7 @@ hu.mouse <- function(host="useast.ensembl.org", verbose=0, mouseHomologFilter="w
     if (require(biomaRt)){
         ensembl <- biomaRt::useMart(biomart="ENSEMBL_MART_ENSEMBL", 
                                     verbose=max(verbose-2, 0), 
-                                    dataset="hsapiens_gene_ensembl", host=host, ensemblRedirect = FALSE)
+                                    dataset="hsapiens_gene_ensembl", host=host)
         homologs <- biomaRt::getBM(attributes=attributes, values=TRUE,
                                    filters=mouseHomologFilter, uniqueRows=TRUE, 
                                    mart=ensembl, verbose=max(verbose-2, 0))

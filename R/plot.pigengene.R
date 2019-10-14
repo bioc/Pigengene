@@ -5,7 +5,7 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
                            pngfactor=max(2, ncol(pigengene$eigengenes)/16),
                            do0Mem=FALSE,
                            ...){
-   result <- list()
+    result <- list()
     pigengene <- x
     ##QC:
     if(class(pigengene)!="pigengene")
@@ -57,11 +57,13 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
     pvaluePlot <- NA
     ## Don't add them to the heatmap unless
     if(!is.null(log.pvalue)){
+        if(any(!is.finite(log.pvalue[, "pvalue(log)"])))
+            stop("Not finite element in log.pvalue!")
         if(sd(rep(log.pvalue[, "pvalue(log)"], times=2))>0.001){
             pvaluePlot <- log.pvalue
             png2(aFile=pvaluePlotFile, pngf=1)
             plot(sort(as.numeric(log.pvalue[, 1])),
-                 ylab="log p-value, Bonferroni",xlab="Eigengenes")
+                 ylab="log10 p-value, Bonferroni",xlab="Eigengenes")
             dof()
             message.if(paste("log.pvalue was plotted in:", pvaluePlotFile),
                        verbose=verbose-2)

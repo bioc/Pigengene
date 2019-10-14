@@ -1,10 +1,12 @@
-check.pigengene.input <- function(
-    Data, Labels, na.rm=FALSE, naTolerance=0.05)
-{
+check.pigengene.input <- function(Data, Labels, na.rm=FALSE, naTolerance=0.05){
     ## Performs QC on the input of one.step.pigengene() function.
     ## na.rm: If TRUE, you need to remember to update the input with the cleaned data
     ##^after running this function.
     result <- list()
+    if(nrow(Data)==0)
+        stop("Data has no rows!")
+    if(ncol(Data)==0)
+        stop("Data has no columns!")
     if(length(Labels)!=nrow(Data))
         stop("The number of rows of Data is not equal to the length of Labels!")
     if(is.null(names(Labels)))

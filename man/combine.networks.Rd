@@ -15,7 +15,7 @@
 \usage{
 combine.networks(nets, contributions, outPath, midfix="",
     powerVector=1:20, verbose=1, RsquaredCut=0.75, minModuleSize=5,
-    doRemoveTOM=TRUE, datExpr)
+    doRemoveTOM=TRUE, datExpr, doReturNetworks=FALSE)
 }
 
 \arguments{
@@ -56,8 +56,15 @@ combine.networks(nets, contributions, outPath, midfix="",
 
   \item{datExpr}{
     The expression matrix that
-    \code{WGCNA::\link[WGCNA]{blockwiseModules}} uses for fine-tuning and
-    removing genes from modules. This is not an ideal behavior by WGCNA.}
+    \code{WGCNA::\link[WGCNA]{blockwiseModules}} uses for fine-tuning
+    and removing genes from modules. This is not an ideal behavior by
+    WGCNA.}
+
+  \item{doReturNetworks}{
+    A boolean value to determine whether to return \code{Network}, which
+    is relatively a big matrix (typically Gbs). Set to \code{FALSE} not
+    to waste memory.
+  }
 }
 
 \value{
@@ -69,7 +76,8 @@ combine.networks(nets, contributions, outPath, midfix="",
   \item{Network}{
     The adjacency matrix of the combined network}
   \item{denominators}{
-    A matrix, each cell of which is the sum of weights of all networks contributing to the edge corresponding to that cell}
+    A matrix, each cell of which is the sum of weights of all networks
+    contributing to the edge corresponding to that cell}
   \item{power}{
     The power (beta) value used for the combined network}
   \item{fits}{

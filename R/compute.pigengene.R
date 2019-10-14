@@ -37,11 +37,18 @@ compute.pigengene <- function(
                 "samples...")
     message.if(me=m1, verbose=verbose-1)
     ## Main computation:
-    eigenResults <- moduleEigengenes(myDat, modules[colnames(myDat)], verbose=verbose-4)
-    names(eigenResults$varExplained) <- colnames(eigenResults$eigengenes)
-    rownames(eigenResults$eigengenes) <- rownames(myDat)
-    result[["eigenResults"]] <- eigenResults
-    eigengenes <- eigenResults$eigengenes
+    mERes <- WGCNA::moduleEigengenes(myDat, modules[colnames(myDat)], verbose=verbose-4)
+    names(mERes$varExplained) <- colnames(mERes$eigengenes)
+    rownames(mERes$eigengenes) <- rownames(myDat)
+    ## What if a module has only 1 gene? WGCNA return NaNs.
+    sgms <- names(which(table(modules)==1)) ## Single gene modules
+    if(length(sgms)>0){
+        mERes$eigengenes[, paste0("ME", sgms)] <- myDat[, match(sgms, modules[colnames(myDat)])]
+    }
+    result[["eigenResults"]] <- mERes
+    eigengenes <- mERes$eigengenes
+    if(any(is.na(eigengenes)))
+        warning("NA values in eigengenes!")
     message.if("Computing memberships...", verbose=verbose-1)
     n1 <- nrow(eigengenes)
     membership <- stats::cor(balancedData,
@@ -119,7 +126,6 @@ compute.pigengene <- function(
             stop("Although doPlot is TRUE, I cannot save the plots because saveFile is NULL !")
         }
         sf <- file.path(dirname(saveFile),"plots")
-        ##sf <- gsub(saveFile, pattern="\\.RData$", replacement="")
         dc <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")
         dc <- dc[1:length(unique(Labels))]
         plot.pigengene(x=pigengene, saveDir=sf,

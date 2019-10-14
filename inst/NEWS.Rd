@@ -2,6 +2,15 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 
+\section{Changes in version 1.11.30 (2019-10-02)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{doRetuNetworks} argument is now added to the
+      \code{combine.networks} function.
+    }
+  }
+}
+
 \section{Changes in version 1.11.28 (2019-10-01)}{
   \subsection{New functions}{
     \itemize{

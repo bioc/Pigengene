@@ -23,27 +23,35 @@ compute.pigengene <- function(
     c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
     Labels <- c1$Labels
-    Data <- Data[names(Labels), ]
+    Data <- Data[names(Labels), , drop=FALSE]
     ## Data:
     genes <- colnames(Data)[modules[colnames(Data)] %in% selectedModules]
-    ##genes <- names(modules)[modules[colnames(Data)] %in% selectedModules]
     balanced <- balance(Data=Data, Labels=Labels,
                         amplification=amplification, verbose=verbose-1, naTolerance=naTolerance)
     balancedData <- balanced$balanced
     myDat <- balancedData[ , genes, drop=FALSE]
     result[['Reptimes']] <- balanced$Reptimes
+    ## Do all modules have at least one gene in columns of Data?
+    hasNoGene <- !selectedModules %in% unique(modules[colnames(myDat)])
+    if(any(hasNoGene)){
+        stop(paste("There is no gene in columns of Data for the following modules.",
+                   "Has selectedModules been set properly?!",
+                   paste(selectedModules[hasNoGene], collapse=", ")))
+    }
     ## Eigengenes:
     m1 <- paste("Computing eigengenes using", ncol(myDat), "genes &", nrow(myDat),
                 "samples...")
     message.if(me=m1, verbose=verbose-1)
     ## Main computation:
-    mERes <- WGCNA::moduleEigengenes(myDat, modules[colnames(myDat)], verbose=verbose-4)
+    mERes <- WGCNA::moduleEigengenes(myDat, modules[colnames(myDat)], verbose=verbose-4,
+                                     scale=TRUE)
     names(mERes$varExplained) <- colnames(mERes$eigengenes)
     rownames(mERes$eigengenes) <- rownames(myDat)
     ## What if a module has only 1 gene? WGCNA return NaNs.
     sgms <- names(which(table(modules)==1)) ## Single gene modules
+    sgms <- intersect(sgms, selectedModules)
     if(length(sgms)>0){
-        mERes$eigengenes[, paste0("ME", sgms)] <- myDat[, match(sgms, modules[colnames(myDat)])]
+        mERes$eigengenes[, paste0("ME", sgms)] <- myDat[, match(sgms, modules[colnames(myDat)]), drop=FALSE]
     }
     result[["eigenResults"]] <- mERes
     eigengenes <- mERes$eigengenes
@@ -61,6 +69,7 @@ compute.pigengene <- function(
     colnames(ann1) <- "Condition"
     matched <- match(paste("ME", selectedModules, sep=''), colnames(eigengenes))
     eigengenesOrdered <- eigengenes[, matched, drop=FALSE]
+
     ## Pvalues:
     if(length(unique(unlist(Labels)))>1){ ## more than one Label
         pvalues.function <- welch.pvalue ## Can be pvalues.manova or welch.pvalue
@@ -93,7 +102,7 @@ compute.pigengene <- function(
         g1 <- names(which(modules==m1))
         g1 <- intersect(g1, rownames(membershipCsv))
         ##^ Maybe columns of Data are fewer than the length of modules.
-        Weight[g1] <- membershipCsv[g1,paste0("ME",m1), drop=FALSE]
+        Weight[g1] <- membershipCsv[g1, paste0("ME",m1), drop=FALSE]
     }
     membershipCsv <- cbind(membershipCsv, "Weight"=Weight[rownames(membershipCsv)])
     if(dOrderByW){

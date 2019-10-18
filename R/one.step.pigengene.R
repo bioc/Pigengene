@@ -1,10 +1,8 @@
-one.step.pigengene <- function(
-    Data, saveDir="Pigengene",
-    Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
-    costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
-    mit="All", ## unique(Labels)[1],
-    verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05)
-{
+one.step.pigengene <- function(Data, saveDir="Pigengene",
+                               Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
+                               costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
+                               mit="All", ## unique(Labels)[1],
+                               verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05){
     ## costRatio: Implemented only for 2 classes.
     ##^Determines how severe it is to misclassify a sample accross types.
     ##^E.g., if costRatio=2, misclassification of a sample of the 1st type is
@@ -18,7 +16,7 @@ one.step.pigengene <- function(
         dataNum <- length(Data)
     } else {
         m1 <- paste("Pigengene started analizing", nrow(Data),
-                "samples using", ncol(Data), "genes...")
+                    "samples using", ncol(Data), "genes...")
         message.if(me=m1, verbose=verbose)
         if(verbose>1){
             print(table(Labels))

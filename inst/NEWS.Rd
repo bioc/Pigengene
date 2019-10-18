@@ -2,6 +2,15 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 
+\section{Changes in version 1.11.32 (2019-10-18)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{Data} argument of \code{compute.pigengene} can now
+      be a matrix with only 1 column. 
+    }
+  }
+}
+
 \section{Changes in version 1.11.30 (2019-10-02)}{
   \subsection{Changes in existing functions}{
     \itemize{

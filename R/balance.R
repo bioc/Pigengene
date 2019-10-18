@@ -1,6 +1,4 @@
-balance <- function(
-    Data, Labels, amplification=5, verbose=0, naTolerance=0.05)
-{
+balance <- function(Data, Labels, amplification=5, verbose=0, naTolerance=0.05){
     ## Balances Data by oversampling based on Labels so that all types
     ##^have roughly the same number of samples.
     message.if(me="Balancing...", verbose=verbose)
@@ -13,7 +11,7 @@ balance <- function(
     c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data
     Labels <- c1$Labels
-    Data <- Data[names(Labels), ]
+    Data <- Data[names(Labels), , drop=FALSE]
     condNames <- unique(Labels)
     for(h1 in condNames){
         assign(paste("nCond", h1, sep=""), sum(Labels==h1))

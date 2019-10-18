@@ -85,13 +85,16 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
     if(!do0Mem){
         genes <- intersect(genes, names(orderedModules[orderedModules!=0]))
     }
-    png2(aFile=plotMemFile)
-    pheatmap(abs(membership[genes, ]), annotation_colors=typeColor,
+    
+    if(length(membership)>1){ ## otherwise, pheatmap will threw an error.
+        png2(aFile=plotMemFile)
+        pheatmap(abs(membership[genes, ]), annotation_colors=typeColor,
              cluster_rows=FALSE, cluster_cols=FALSE, fontsize=fontsize,
              show_rownames=FALSE)
-    dof()
-    message.if(paste("membership was plotted in:", plotMemFile), verbose=verbose-2)
-    ##
+        dof()
+        message.if(paste("membership was plotted in:", plotMemFile), verbose=verbose-2)
+        ##
+    }
     png2(aFile=notRowsPlotFile)
     heatNotRows <- pheatmap.type(Data=pigengene$eigengenes, cluster_cols=doClusterCols,
                                  fontsize=fontsize, annRow=pigengene$annotation,

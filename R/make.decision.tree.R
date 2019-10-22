@@ -1,12 +1,10 @@
-make.decision.tree <- function(
-    pigengene, Data=pigengene$Data,
-    Labels=structure(pigengene$annotation[rownames(pigengene$eigengenes),1],
-        names=rownames(pigengene$eigengenes)),
-    testD=NULL, testL=NULL, 
-    selectedFeatures=NULL, saveDir='C5Trees', minPerLeaf=NULL, 
-    useMod0=FALSE, costRatio=1, toCompact=NULL, noise=0, noiseRepNum=10, 
-    doHeat=TRUE, verbose=0, naTolerance=0.05)
-{
+make.decision.tree <- function(pigengene, Data=pigengene$Data,
+                               Labels=structure(pigengene$annotation[rownames(pigengene$eigengenes),1],
+                                                names=rownames(pigengene$eigengenes)),
+                               testD=NULL, testL=NULL, 
+                               selectedFeatures=NULL, saveDir='C5Trees', minPerLeaf=NULL, 
+                               useMod0=FALSE, costRatio=1, toCompact=NULL, noise=0, noiseRepNum=10, 
+                               doHeat=TRUE, verbose=0, naTolerance=0.05){
     ##^Make a decision tree.
     ##pigengene: from compute.pigengene, the $eigengenes part are the potential
     ##^predictors. The $orderedModules part is needed by compact.tree
@@ -118,12 +116,12 @@ make.decision.tree <- function(
         ## ignore trees that do not have any leafs, find most general proper tree
         atmp <- max(minPerLeaf)
         while(is.na(get.used.features(c5TreeS[[as.character(atmp)]])) & atmp >min(minPerLeaf)){
-            atmp=atmp-1
+            atmp <- atmp-1
         }
         if(!is.na(get.used.features(c5TreeS[[as.character(atmp)]]))){
             toCompact <- atmp}
         else{ ##no proper trees found
-            toCompact <- FALSE }
+                toCompact <- FALSE }
     }
     message.if(paste("toCompact:", toCompact), verbose=verbose)
     if(toCompact){

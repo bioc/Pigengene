@@ -28,7 +28,8 @@ wgcna.one.step <- function(
     result[["moduleColors"]] <- moduleColors
     result[["power"]] <- power
     if(verbose>0){
-        message(paste(length(unique(modules)), "modules were identified:"))
+        message(paste(length(unique(modules)),
+                      "modules were identified with the following sizes:"))
         print(table(modules))
     }
     sizeFile <- NULL

@@ -78,8 +78,6 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
         rm(wData)
     }
 
-
-
     ## Now use combine.networks()
     if(dataNum!=1){    
         ##Combine listed data frames into one dataframe, Labels into one vector
@@ -89,12 +87,10 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 	extractedIDs <- rownames(DataEig)
 	if(any(duplicated(extractedIDs)))
 	    stop("Cannot have same row ID in multiple data sets.")
-
 	rownames(DataEig) <- names(LabelsEig)
 	wgRes <- combine.networks(nets=nets, contributions=cont, outPath=saveDir,     
                                   RsquaredCut=RsquaredCut, minModuleSize=20,   
                                   datExpr=DataEig)
-
     } else {
 	DataEig <- DataI
 	LabelsEig <- LabelsI
@@ -106,7 +102,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
     pigengene <- compute.pigengene(Data=DataEig, Labels=LabelsEig,
                                    modules=wgRes$modules,
                                    saveFile=combinedPath(saveDir, 'pigengene.RData'),
-                                   doPlot='TRUE', verbose=verbose, dOrderByW=dOrderByW, naTolerance=naTolerance)
+                                   doPlot='TRUE', verbose=verbose, dOrderByW=dOrderByW,
+                                   naTolerance=naTolerance)
     results[["pigengene"]] <- pigengene
     ## Multiple conditions?
     if(length(unique(unlist(Labels)))<2){
@@ -122,7 +119,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
         bnArgs$bnPath <- if(!is.null(bnArgs$bnPath)) bnArgs$bnPath else bnPath
         bnArgs$doShuffle <- if(!is.null(bnArgs$doShuffle)) bnArgs$doShuffle else TRUE
         bnArgs$tasks <- if(!is.null(bnArgs$tasks)) bnArgs$tasks else "All"
-        bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed, naTolerance=naTolerance))
+        bnArgs <- c(bnArgs, list(pigengene=pigengene, bnNum=bnNum, verbose=verbose-1, seed=seed,
+                                 naTolerance=naTolerance))
         ## Call
         learnt <- do.call(learn.bn, bnArgs)
         results[["leanrtBn"]] <- learnt

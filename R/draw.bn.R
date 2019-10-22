@@ -3,8 +3,7 @@ draw.bn <- function(
     DiseaseCol="darkgreen", DiseaseFill="red", 
     DiseaseChildFill="pink", ##"olivedrab1"
     nodeCol="darkgreen", nodeFill="yellow", moduleNamesFile=NULL, 
-    mainText=NULL, nodeFontSize=14 * 1.1, verbose=0)
-{
+    mainText=NULL, nodeFontSize=14 * 1.1, verbose=0){
     ## BN: an object of class BN.
     ## plotFile: set to NULL not to save the plot.
     ## nodeFontSize: the default is 14 in Rgraphviz package.
@@ -48,7 +47,7 @@ draw.bn <- function(
                            main=mainText)
     if (!is.null(plotFile)) {
         dev.off()
-        message.if(paste("The BN graph was plotted in:", plotFile), verbose=verbose-1)
+        message.if(paste("The BN graph was plotted in:", plotFile), verbose=verbose)
     }
     result[["gr"]] <- gr
     result[["plotted"]] <- plotted

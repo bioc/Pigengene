@@ -31,7 +31,7 @@ importFrom(grDevices, dev.new, dev.off, png, rgb)
 importFrom(graphics, abline, arrows, barplot, hist, legend,
            par, plot.new, points)
 importFrom(utils, assignInNamespace, capture.output, read.csv,
-           tail, write.csv)
+           tail, write.csv, object.size)
 importFrom(stats, manova, p.adjust, predict, quantile,
            rnorm, runif, sd, summary.aov, t.test, var) ## cor was not imported because:
 ## cor must be imported from WGCA otherwise stats::cor will be used by WGCNA functions leading to errors.

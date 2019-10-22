@@ -7,8 +7,7 @@ learn.bn <- function(
     onCluster=!(which.cluster()$cluster=="local"), 
     inds=1:ceiling(bnNum/perJob), perJob=2, 
     maxSeconds=5*60, timeJob="00:10:00", bnCalculationJob=NULL, 
-    seed=NULL, verbose=0, naTolerance=0.05)
-{
+    seed=NULL, verbose=0, naTolerance=0.05){
     ## Sets the parameters and learns BN for a module. --Habil.
     ## trainingCases: are the patients that are used for training the model.
     ##^ Set to "All" to use all.
@@ -144,12 +143,10 @@ learn.bn <- function(
     }
 
     if("graph" %in% tasks){
-        res[["scorePlot"]] <- draw.scores(
-            candidates=candidates, verbose=verbose-1, 
-            savePath=dirname(scoreFile))
-        res[["graphs"]] <- draw.bnS(
-            consensusFile=consensusFile, verbose=verbose-1, 
-            consensusThresh=consensusThresh)
+        res[["scorePlot"]] <- draw.scores(candidates=candidates, verbose=verbose-1, 
+                                          savePath=dirname(scoreFile))
+        res[["graphs"]] <- draw.bnS(consensusFile=consensusFile, verbose=verbose-1,
+                                    consensusThresh=consensusThresh)
     }
     ##
     message.if("learn.bn() took:", verbose=verbose)

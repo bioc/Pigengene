@@ -2,6 +2,14 @@
 \title{News for \R Package \pkg{Pigenegene}}
 
 
+\section{Changes in version 1.11.34 (2019-10-21)}{
+  \subsection{General}{
+    \itemize{
+      \item The pipeline is now explained step by step in the vignette.  
+    }
+  }
+}
+
 \section{Changes in version 1.11.32 (2019-10-18)}{
   \subsection{Changes in existing functions}{
     \itemize{

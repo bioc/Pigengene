@@ -1,6 +1,4 @@
-calculate.beta <- function(
-    saveFile=NULL, RsquaredCut=0.8, Data,  doThreads=FALSE, verbose=0)
-{
+calculate.beta <- function(saveFile=NULL, RsquaredCut=0.8, Data,  doThreads=FALSE, verbose=0){
     ## RsquaredCut: The default in WGCNA is 0.85 but it may be too much for WGCNA.
     message.if(me="Calculating beta...", verbose=verbose)
     result <- list()

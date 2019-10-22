@@ -237,6 +237,11 @@ fit <- bnlearn::bn.fit(x=bn, data=learnt$consensus1$Data, method="bayes",iss=10)
 
 ## The conditional probability table for a child of the Disease node:
 fit[[childrenD[1]]]
+
+## The fitted Bayesian network can be used for predicting the labels
+## (i.e., values of the Disease node).
+l2 <- predict(object=fit, node="Disease", data=learnt$consensus1$Data, method="bayes-lw")
+table(Labels, l2)
 }
 
 \keyword{ optimize }

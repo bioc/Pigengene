@@ -2,13 +2,15 @@
 % likely to be overwritten.
 %% Modified using Sweave2knitr().
 
-% \VignetteIndexEntry{Pigengene: Computing and using eigengenes}
+%\VignetteIndexEntry{Pigengene: Computing and using eigengenes}
 %\VignetteDepends{Pigengene}
 %\VignetteKeywords{Gene expression, Network, Biomedical Informatics, Systems Biology}
 %\VignettePackage{Pigengene}
 %\VignetteEngine{knitr::knitr}
 
+%% Commands:
 \newcommand{\pipa}{\Biocpkg{Pigengene} }
+\newcommand{\E}{\mathcal{E}}
 
 \documentclass[12pt]{article}
 
@@ -82,8 +84,17 @@ are useful for supervised or unsupervised analyses.
 
 \subsection{What is an eigengene?}
 In most functions of this package, eigenegenes are computed or used as robust
-biological signatures. Briefly, each eigengene is a weighted average of the
-expression of all genes in a given set of genes (also known as a gene module or a cluster of genes).
+biological signatures. Briefly, each eigengene $\E$ is a weighted average of the
+expression of all genes in a given set of $n$ genes
+(also known as a gene module or a cluster of genes).
+
+%%\begin{ceqn}
+\begin{equation}
+    \E=\alpha_1 g_1 + \alpha_2 g_2+ \dots +  \alpha_n g_n,
+    \label{eq:eigen}
+\end{equation}
+%%\end{ceqn}
+\noindent where $\alpha_i$ represents the weight corresponding to gene $g_i$.
 The weights are adjusted  in a way that the explained variance is maximized. 
 This guarantees that the loss in the biological information in minimized.
 
@@ -139,10 +150,111 @@ Each row corresponds to a sample, and each column represents an eigengene.
 <<pigengene, fig.width=5, fig.height=5, echo=TRUE>>=
 dim(p1$pigengene$eigengenes)
 p1 <- pheatmap.type(p1$pigengene$eigengenes,annRow=Disease,show_rownames=FALSE)
-
-
 @ 
- 
+
+\subsection{Running the \pipa pipeline step by step}
+If you are curious about the specific steps in the \pipa pipeline, or you need to run some steps
+with different settings, you can follow the steps below. The results will be similar to the output
+of the \Rcode{one.step.pigengene} function. The first step is quality control to make sure that the
+matrices have row and column names, and do not include too many \Rcode{NA} values:
+
+<<qc, echo=TRUE>>=
+## QC:
+checked <- check.pigengene.input(Data=d1, Labels=Labels)
+DataI <- checked$Data
+LabelsI <- checked$Labels
+@
+
+We oversample the data such that the number of cases in each condition is almost balanced.
+<<balance, echo=TRUE>>=
+wData <- balance(Data=DataI, Labels=LabelsI, verbose=1)$balanced
+@
+
+Weighted gene co-expression network analysis (WGCNA) \cite{langfelder2008wgcna} does not assume any
+cutoff (i.e., hard threshold) on the correlation values. Instead, it raises the correlation values
+to a power so that the correlation values that are close to zero diminish. This hyperparameter is
+called $\beta$, and can be estimated using as follows:
+<<beta, echo=TRUE>>=
+betaI <- calculate.beta(RsquaredCut=0.8, Data=wData, verbose=1)$power
+saveDir <- "steps" ## Results will be saved in this folder.
+dir.create(saveDir)
+@
+
+Once we have an estimate for $\beta$, WGCNA can be done in one step using the following function to
+identify gene modules (i.e., clusters):
+<<wgcna, echo=TRUE>>=
+## WGCNA
+wgRes <- wgcna.one.step(Data=wData, seed=1, power=betaI,
+      saveDir=saveDir, verbose=1)
+@
+The output of \Rcode{wgcna.one.step} is a list of objects including \Rcode{modules},
+which is a numeric vector named with genes. Genes that map to the same numeric value
+are considered to be in the same module. We use this information to compute an eigengene for every module. 
+<<eigengenes, echo=TRUE>>=
+## Eigengenes:
+pigengene <- compute.pigengene(Data=DataI, Labels=LabelsI,
+	     	saveFile=file.path(saveDir, 'pigengene.RData'),
+                modules=wgRes$modules, verbose=1)
+class(pigengene)
+print(dim(pigengene$eigengenes)) ##This is the eigengenes matrix.
+print(pigengene$eigengenes[1:3,1:4])
+@
+The number of columns in the eigengene matrix is equal to the number of modules, and the number of
+rows is equal to the number of samples. 
+
+Eigengenes can be used as robust biological signatures (i.e., features in machine learning terms) for
+classification, clustering, exploratory analysis, etc. For example, we can use them as random
+variables to fit a Bayesian network to data \cite{agrahari2018applications}.
+<<bn, echo=TRUE>>=
+## Learning the BN structure:
+library(bnlearn)
+learnt <- learn.bn(pigengene=pigengene, bnPath=file.path(saveDir, "bn"),
+       	  	bnNum=10, ## In real applications, at least 100-1000.
+		seed=1, verbose=1)
+BN <- learnt$consensus1$BN
+@
+The \Rcode{learn.bn} function has many arguments. See the corresponding documentation and 
+publication  \cite{agrahari2018applications} for technical details.
+Because usually thousands of individual networks are needed, it is wise to train many models in
+parallel on a cluster, which can be done with appropriate settings for the \Rcode{learn.bn} input
+arguments. We can replot the consensus Bayesian network, which is already saved on disk,
+using the \Rcode{draw.bn} function.
+<<draw, echo=TRUE, eval=FALSE>>=
+drawn <- draw.bn(BN)
+## By construction, the Disease node can have no parents. 
+@
+
+The \Rcode{learn.bn} function tries to find the best structure for the optimum Bayesian network. The
+conditional probability tables are yet to be inferred from the data.
+<<bnParam, echo=TRUE>>=
+## Fit the parameters of the Bayesian network:
+fit <- bn.fit(x=BN, data=learnt$consensus1$Data, method="bayes", iss=10)
+##where learnt$consensus1$Data is the discretized data matrix.
+
+## The conditional probability table for one of the children of the Disease node:
+selectedFeatures <- children("Disease", x=BN)
+print(fit[[selectedFeatures[1]]])
+@
+
+The fitted Bayesian network can be used for predicting the labels (i.e., values of the Disease node).
+<<bnPrediction, echo=TRUE>>=
+l2 <- predict(object=fit, node="Disease", data=learnt$consensus1$Data, method="bayes-lw")
+table(LabelsI, l2)
+@
+
+Eigengenes can also be used in predictive models simpler than a Bayesian network. For example, a
+decision tree can be fitted using the \Rcode{make.decision.tree} function  \cite{foroushani2016large}.
+<<trees, echo=TRUE>>=
+## Decision trees:
+treePath <- file.path(saveDir, 'C5Trees')
+dir.create(path=treePath)
+treeRes <- make.decision.tree(pigengene=pigengene, Data=DataI,
+	       selectedFeatures=selectedFeatures, saveDir=treePath,
+       	       verbose=1, toCompact=FALSE)
+@
+If \Rcode{selectedFeatures="All"}, the \Rcode{make.decision.tree} function automatically selects a
+``minimal'' subset of eigengenes in order to prevent overfitting.
+
 
 \subsection{Citation}
 The methodology and an interesting application of \pipa on studying

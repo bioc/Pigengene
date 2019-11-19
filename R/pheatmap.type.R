@@ -11,12 +11,12 @@ pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], doTranspose=FA
     if(is.null(rownames(annRow)))
         stop("annrow must have row names!")
     if(any(! rownames(annRow) %in% rownames(Data)))
-        stop("annRow has rows that are not present in Data!")
+        stop("annRow has rows that are not present in rows of Data!")
     ## Put all samples in the same condition together.
     annRow <- annRow[order(annRow[, 1]), , drop=FALSE]
     samplesOriginalOrder <- rownames(Data)
     ##Data <- Data[rownames(annRow), , drop=FALSE]
-    if(conditions=="Auto")
+    if(conditions[1]=="Auto")
         conditions <- unique(as.character(annRow[, 1]))
     if(any(!conditions %in% unique(as.character(annRow[, 1])))){
         warning("Some of the conditions are not in annRow.")

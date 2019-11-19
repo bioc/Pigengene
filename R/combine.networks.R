@@ -25,7 +25,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
         denominators[rownames(netI), colnames(netI)] <- denominators[rownames(netI), colnames(netI)] +
             contributions[[ind]]
     }
-    netwok <- network/denominators
+    network <- network/denominators
 
     ##Diagonal elements should be all 1
     diag(network) <- 1

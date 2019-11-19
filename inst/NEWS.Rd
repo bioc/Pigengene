@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.13.4 (2019-11-19)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item In the \code{combine.network()} function, the \code{netwok}
+      typo was fixed.
+    }
+  }
+}
 
 \section{Changes in version 1.11.34 (2019-10-21)}{
   \subsection{General}{

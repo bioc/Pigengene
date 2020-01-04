@@ -35,7 +35,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
     }
 
     nets <- list()
-    cont <- list()
+    cont <- c()
     checkedData <- list()    
     checkedLabels <- list()    
     for(ind in 1:dataNum){
@@ -46,7 +46,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
             DataI <- Data[[ind]]
             LabelsI <- Labels[[ind]]
             ## contribution from the given data set DataI
-	    cont[[ind]] <- nrow(DataI)
+	    cont[ind] <- nrow(DataI)
         }
         ## QC: 
 	c1 <- check.pigengene.input(Data=DataI, Labels=LabelsI, na.rm=TRUE, naTolerance=naTolerance)

@@ -1,6 +1,6 @@
 combine.networks <- function(nets, contributions, outPath, midfix="", powerVector=1:20,
                              verbose=1, RsquaredCut=0.75, minModuleSize=5, doRemoveTOM=TRUE,
-                             datExpr, doReturNetworks=FALSE){
+                             datExpr, doReturNetworks=FALSE, doSave=FALSE){
 
     ## QC:
     if(length(contributions) != length(nets)){
@@ -21,9 +21,9 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
     for(ind in 1:length(nets)){
         netI <- nets[[ind]]
         network[rownames(netI), colnames(netI)] <- network[rownames(netI), colnames(netI)] +
-            contributions[[ind]] * netI
+            contributions[ind] * netI
         denominators[rownames(netI), colnames(netI)] <- denominators[rownames(netI), colnames(netI)] +
-            contributions[[ind]]
+            contributions[ind]
     }
     network <- network/denominators
 
@@ -93,12 +93,14 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
     if(doReturNetworks)
         result[["Network"]] <- netwok
 
-    ##Save results
-    file1 <- file.path(outPath, paste0("combinedNetwork", midfix, ".RData"))
-    result[["combinedNetworkFile"]] <- file1
     combinedNetwork <- result
-    save(combinedNetwork, file=file1)
-    if(verbose>0)
-        print(paste("combinedNetwork was saved in", file1))
+    ##Save results
+    if(doSave){
+        file1 <- file.path(outPath, paste0("combinedNetwork", midfix, ".RData"))
+        result[["combinedNetworkFile"]] <- file1
+        save.if(x1=combinedNetwork, file=file1, verbose=verbose)
+    }
+    
+    ## Output:
     return(combinedNetwork)
 }

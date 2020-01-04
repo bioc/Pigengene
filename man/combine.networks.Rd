@@ -15,7 +15,7 @@
 \usage{
 combine.networks(nets, contributions, outPath, midfix="",
     powerVector=1:20, verbose=1, RsquaredCut=0.75, minModuleSize=5,
-    doRemoveTOM=TRUE, datExpr, doReturNetworks=FALSE)
+    doRemoveTOM=TRUE, datExpr, doReturNetworks=FALSE, doSave=FALSE)
 }
 
 \arguments{
@@ -62,8 +62,13 @@ combine.networks(nets, contributions, outPath, midfix="",
 
   \item{doReturNetworks}{
     A boolean value to determine whether to return \code{Network}, which
-    is relatively a big matrix (typically Gbs). Set to \code{FALSE} not
+    is relatively a big matrix (typically GBs). Set to \code{FALSE} not
     to waste memory.
+  }
+  \item{doSave}{
+    A boolean value to determine whether the whole output of this
+    function (typically 1-2 GBs) should be saved as \code{combinedNetwork}.
+    Set to \code{FALSE} not to waste disk space.
   }
 }
 
@@ -103,12 +108,18 @@ combine.networks(nets, contributions, outPath, midfix="",
 }
 
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-## TODO, can be similar to the wgcna.one.step() example.
+data(aml)
+data(mds)
+nets <- list()
+## Make the coexpression networks:
+nets[["aml"]] <- abs(stats::cor(aml[,1:200]))
+nets[["mds"]] <- abs(stats::cor(mds[,1:200]))
+## Combine them:
+combined <- combine.networks(nets=nets, contributions=c(nrow(aml), nrow(mds)),
+                 outPath=".", datExpr=rbind(aml, mds)[,1:200])
+print(table(combined$modules))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ cluster }% use one of  RShowDoc("KEYWORDS")
-\keyword{ graphs }% __ONLY ONE__ keyword per line
+\keyword{cluster}% use one of  RShowDoc("KEYWORDS")
+\keyword{graphs}% __ONLY ONE__ keyword per line

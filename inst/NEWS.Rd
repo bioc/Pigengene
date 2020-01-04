@@ -1,10 +1,18 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.13.6 (2020-01-03)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item \code{doSave} was added to the \code{combine.networks()} function.
+    }
+  }
+}
+
 \section{Changes in version 1.13.4 (2019-11-19)}{
   \subsection{Bug Fixes}{
     \itemize{
-      \item In the \code{combine.network()} function, the \code{netwok}
+      \item In the \code{combine.networks()} function, the \code{netwok}
       typo was fixed.
     }
   }
@@ -61,7 +69,7 @@
 \section{Changes in version 1.11.24 (2019-09-03)}{
   \subsection{Bug Fixes}{
     \itemize{
-      \item In the \code{combine.network()} function,
+      \item In the \code{combine.networks()} function,
       \code{selectedModules} does not need to be \code{"All"}. Also, if
       \code{saveFile=NULL}, nothing will be saved without any error.
     }
@@ -72,7 +80,7 @@
   \subsection{Changes in existing functions}{
     \itemize{
       \item \code{Data} and \code{Labels} can now be lists, which will be combined using 
-      \code{combine.network()} before analysis.
+      \code{combine.networks()} before analysis.
     }
   }
 }

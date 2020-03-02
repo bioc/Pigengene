@@ -8,7 +8,7 @@ gene.mapping <- function(ids,
     if(length(outputType) >1 | length(outputDb) >1){
         res <- c()
         ## Creating a column for each desired output type or DB:
-        if(class(outputDb)=="list"){
+        if(inherits(outputDb, "list")){
             outputDbList <- outputDb
         } else { ## It is a single Db,
             outputDbList <- list(outputDb)
@@ -52,13 +52,13 @@ gene.mapping <- function(ids,
         key <- unlist(lapply(X=key, FUN=versrem))
     key0 <- key
     ## The default db: ## AFTER ACCEPTANCE
-    if(class(inputDb)=="character"){
+    if(inherits(inputDb, "character")){
         if(inputDb=="Human")
             inDbChar <- "org.Hs.eg.db"
     } else {
         inDbChar <- inputDb$packageName
     }
-    if(class(outputDb)=="character"){
+    if(inherits(outputDb, "character")){
         if(outputDb=="Human")
             outDbChar <- "org.Hs.eg.db"
     } else {

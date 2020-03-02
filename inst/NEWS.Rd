@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.13.14 (2020-03-03)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item \code{inherits(a, b)} is now used instead of \code{class(a)==b}.
+    }
+  }
+}
+
 \section{Changes in version 1.13.6 (2020-01-03)}{
   \subsection{Changes in existing functions}{
     \itemize{

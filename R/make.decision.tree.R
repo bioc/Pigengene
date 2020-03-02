@@ -27,7 +27,7 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
     Data <- Data[names(Labels), ]
     ##Data <- Data[rownames(pigengene$eigengenes), ]
     ## QC:
-    if(class(pigengene)!="pigengene")
+    if(!inherits(pigengene, "pigengene"))
         stop("pigengene must be an object of class pigengene!")
     c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
     Data <- c1$Data

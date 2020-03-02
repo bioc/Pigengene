@@ -8,7 +8,7 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
     result <- list()
     pigengene <- x
     ##QC:
-    if(class(pigengene)!="pigengene")
+    if(!inherits(pigengene, "pigengene"))
         stop("pigengene must be of class 'pigengene' !")
     ## FILES:
     if(!is.null(saveDir)){

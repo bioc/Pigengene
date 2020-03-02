@@ -12,7 +12,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
     results[["call"]] <- match.call()
 
     dataNum <- 1
-    if(class(Data) =="list"){
+    if(inherits(Data, "list")){
         dataNum <- length(Data)
     } else {
         m1 <- paste("Pigengene started analizing", nrow(Data),
@@ -28,7 +28,13 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
         stop("saveDir cannot have space!")
     dir.create(path=saveDir, recursive=TRUE, showWarnings=FALSE)
 
+    if(is.null(testD) & !is.null(testLabels)){
+        warning("testLabels is ignored because testD is NULL.")
+        testLabels <- NULL
+    }
     if(!is.null(testD)){
+        if(is.null(testLabels))
+            stop("testLabels is NULL while testD is not NULL!")
         ct <- check.pigengene.input(Data=testD, Labels=testLabels, na.rm=TRUE, naTolerance=naTolerance)
         testD <- ct$Data
         testLabels <- ct$Labels

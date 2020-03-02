@@ -25,7 +25,9 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
   must be named. For example, from RNA-Seq data, log(RPKM+1) can be used.}
   
   \item{Labels}{
-  A (preferably named) vector containing the Labels (condition types) for the training Data. Or, if Data is a list, a list of label vectors corresponding to the data sets in Data.
+  A (preferably named) vector containing the Labels (condition types)
+  for the training Data. Or, if Data is a list, a list of label vectors
+  corresponding to the data sets in Data.
   Names must agree with rows of \code{Data}.}
 
   \item{saveDir}{
@@ -33,11 +35,13 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
 
   \item{testD}{
   Test expression data with syntax similar to \code{Data},
-  possibly with different rows and columns.}
+  possibly with different rows and columns. This argument is optional
+  and can be set to \code{NULL} if test data are not available.}
 
   \item{testLabels}{
   A (preferably named) vector containing the Labels (condition types) for
-  the test Data.}
+  the test Data. This argument is optional and can be set to \code{NULL}
+  if test data are not available.}
 
   \item{doBalance}{
   Boolean. Whether the data should be oversampled before identifying the modules

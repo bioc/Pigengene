@@ -1,7 +1,5 @@
-project.eigen <- function(
-    Data, saveFile=NULL, pigengene, 
-    naTolerance=0.05, verbose=0, ignoreModules=c())
-{
+project.eigen <- function(Data, saveFile=NULL, pigengene, 
+                          naTolerance=0.05, verbose=0, ignoreModules=c()){
     ## Projects expression on the given (MILE) eigenspace.
     ## Data: expression matrix with genes on columns.
     ## eigenFile: produced by compute.pigengene().
@@ -17,6 +15,9 @@ project.eigen <- function(
     modules <- pigengene$orderedModules ## numeric, named by genes
     membership <- pigengene$membership ## (number of genes) * (number of modules)
     geoEigengenes <- pigengene$eigengenes
+    if(any(is.na(membership))){
+        stop("NA in pigengene$membership!")
+    }
     p1 <- c() ## projected matrix
     notMatched <- c()
     tooNaGenes <- c()
@@ -49,7 +50,7 @@ project.eigen <- function(
         colnames(p1)[ncol(p1)] <- moduleName
         if(any(is.na(matching)) & verbose >1)
             message(paste("In module", moduleName, sum(is.na(matching)), 
-                        "genes out of", length(genes), "did not match."))
+                          "genes out of", length(genes), "did not match."))
     }##End for (m1 in unique(modules)).
     ## All matched?
     notMatchedNum <- length(notMatched)

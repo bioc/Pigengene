@@ -1,5 +1,5 @@
 get.used.features <- function(c5Tree){
-    if(class(c5Tree) !="C5.0")
+    if(!inherits(c5Tree,"C5.0"))
         stop("The class of c5Tree argument must be 'C5.0' !")
     
     v1 <- unlist(strsplit(c5Tree$tree, 'att'))[-1]

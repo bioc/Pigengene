@@ -2,6 +2,8 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
                              verbose=1, RsquaredCut=0.75, minModuleSize=5, doRemoveTOM=TRUE,
                              datExpr, doReturNetworks=FALSE, doSave=FALSE){
 
+    message.if("Combining networks...", verbose=verbose)
+    message.if(paste("RsquaredCut:", RsquaredCut), verbose=verbose-1)
     ## QC:
     if(length(contributions) != length(nets)){
         stop("nets and contributions must have the same length!")
@@ -37,6 +39,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
                                                         powerVector=powerVector,
                                                         blockSize=maxBlockSize,
                                                         verbose=verbose-1, RsquaredCut=RsquaredCut)
+    message.if(paste("power:", pstPower$powerEstimate), verbose=verbose-1)
     result[["power"]] <- pstPower$powerEstimate
     result[["fits"]] <- pstPower$fitIndices
 

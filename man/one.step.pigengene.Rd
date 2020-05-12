@@ -51,7 +51,7 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
   \item{RsquaredCut}{
   A threshold in the range [0,1] used to estimate the power. A higher value
   can increase power. For technical use only. See \code{\link[WGCNA]{pickSoftThreshold}} 
-  for more details.}
+  for more details. A larger value generally leads to more modules.}
 
   \item{costRatio}{
   A numeric value, the relative cost of misclassifying a sample from the first

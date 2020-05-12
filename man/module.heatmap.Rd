@@ -6,18 +6,19 @@
 \description{
 This function takes as input a tree and an object from 
 \code{\link{pigengene-class}} and per any module used in the tree,
-it plots one gene expression heatmap.}
+it plots one gene expression heatmap. Alternatively, it can plot
+a heatmap for every module in the given \code{pigengene} object.}
 
 \usage{
-module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
+module.heatmap(c5Tree=NULL, pigengene, saveDir, testD = NULL,
   testL = NULL, pos = 0, verbose=0, doAddEigengene=TRUE, scalePngs=1, ...)
 }
 
 \arguments{
   \item{c5Tree}{
     A decision tree of class \code{C50} that uses module eigengenes, 
-    or \code{NULL}. If \code{NULL}, expression plots for
-    all modules are created.}
+    or \code{NULL}. If \code{NULL}, expression plots for all modules are
+    created.}
 
   \item{pigengene}{
     A object of \code{\link{pigengene-class}}, output of 
@@ -32,7 +33,7 @@ module.heatmap(c5Tree, pigengene, saveDir, testD = NULL,
 
   \item{pos}{
     Number of genes to discard. Interpreted the same way as in
-    \code{\link{compact.tree}} ad \code{\link{preds.at}}}
+    \code{\link{compact.tree}} and \code{\link{preds.at}}}
 
   \item{verbose}{
     The integer level of verbosity. 0 means silent and higher values    
@@ -72,15 +73,18 @@ A list of:
      data(mds)
      data(pigengene)
      d1 <- rbind(aml,mds)
+
+     ## Plotting the heatmaps of all modules:
+     module.heatmap(pigengene=pigengene, saveDir="heatmaps", pos=0, verbose=1)
     
      ## Fiting the trees:
      trees <- make.decision.tree(pigengene=pigengene, Data=d1,
        saveDir="trees", minPerLeaf=14:15, doHeat=FALSE,verbose=3,
        toCompact=15)
 
-     ## Plotting:
+     ## Plotting the heatmaps of only the modules in the tree:
      module.heatmap(c5Tree=trees$c5Trees[["15"]], pigengene=pigengene, 
-         saveDir="heatmaps", pos=0, verbose=1)
+         saveDir="treeHeatmaps", pos=0, verbose=1)
 
 }
 

@@ -42,7 +42,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 
     nets <- list()
     cont <- c()
-    checkedData <- list()    
+    checkeData <- list()    
     checkedLabels <- list()    
     for(ind in 1:dataNum){
         if(dataNum==1){
@@ -58,7 +58,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 	c1 <- check.pigengene.input(Data=DataI, Labels=LabelsI, na.rm=TRUE, naTolerance=naTolerance)
         DataI <- c1$Data
         LabelsI <- c1$Labels
-	checkedData[[ind]] <- DataI
+	checkeData[[ind]] <- as.data.frame(DataI)
 	checkedLabels[[ind]] <- LabelsI
         ## Data for WGCNA:
         wData <- switch(mit,
@@ -79,6 +79,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
                                     power=betaI,
                                     saveDir=saveDir, verbose=verbose-1)
         } else {
+            message.if("Computing correlation...", verbose=verbose-1)
             nets[[ind]] <- abs(stats::cor(wData))
         }
         rm(wData)
@@ -87,7 +88,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
     ## Now use combine.networks()
     if(dataNum!=1){    
         ##Combine listed data frames into one dataframe, Labels into one vector
-        DataEig <- dplyr::bind_rows(checkedData)
+        message.if("Binding data...",  verbose=verbose-2)
+        DataEig <- as.matrix(dplyr::bind_rows(checkeData))
         LabelsEig <- unlist(checkedLabels)
 	## check for duplicates
 	extractedIDs <- rownames(DataEig)
@@ -96,7 +98,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 	rownames(DataEig) <- names(LabelsEig)
 	wgRes <- combine.networks(nets=nets, contributions=cont, outPath=saveDir,     
                                   RsquaredCut=RsquaredCut, minModuleSize=20,   
-                                  datExpr=DataEig)
+                                  datExpr=DataEig, verbose=verbose-1)
     } else {
 	DataEig <- DataI
 	LabelsEig <- LabelsI
@@ -139,8 +141,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
         if(learnt$use.Effect)
             selectedFeatures <- c(selectedFeatures, parents("Effect", x=BN))
         selectedFeatures <- setdiff(selectedFeatures, c("Disease", "Effect"))
-        if(length(selectedFeatures)==0){
-            warning("The condition variable has no child. BN results will be ignored.")
+        if(length(selectedFeatures)<2){
+            warning("The condition variable has <2 children. BN results will be ignored.")
             selectedFeatures <- NULL
         }
     }

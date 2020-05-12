@@ -1,6 +1,18 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.13.44 (2020-04-21)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item \code{one.step.pigengene} now talks more, and automatically
+      converts input data frames to matrices.
+      \item \code{module.heatmap} now talks more, and does not get stuck
+      if a module has only one gene, or if the expression levels of some
+      genes in a module are not available in the data.
+    }
+  }
+}
+
 \section{Changes in version 1.13.14 (2020-03-03)}{
   \subsection{Changes in existing functions}{
     \itemize{

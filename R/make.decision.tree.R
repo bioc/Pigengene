@@ -57,10 +57,15 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
     if(length(unique(Labels))>2 & costRatio!=1){
         warning("costRatio for multiClass case not supported yet, reverting to costRatio=1.")
     }
+    message.if("I use the following features to make the tree:", verbose=verbose-1)
+    message.if(paste(selectedFeatures, collapse=", "))
 
     inpD <- as.data.frame(cbind(pigengene$eigengenes[names(Labels), selectedFeatures], Labels))
     assign('inpD', inpD , envir=parent.env(parent.frame()), inherits=TRUE)
     colnames(inpD) <- c(selectedFeatures, 'Labels')
+    if(ncol(inpD)<3)
+        stop("Cannot make a tree with only one variable!")
+    
     ## Costs:
     mycosts <- matrix(1, nrow=length(unique(Labels)), ncol=length(unique(Labels)))
     diag(mycosts)=0

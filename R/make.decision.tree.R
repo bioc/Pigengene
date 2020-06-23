@@ -58,9 +58,9 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
         warning("costRatio for multiClass case not supported yet, reverting to costRatio=1.")
     }
     message.if("I use the following features to make the tree:", verbose=verbose-1)
-    message.if(paste(selectedFeatures, collapse=", "))
+    message.if(paste(selectedFeatures, collapse=", "), verbose=verbose-1)
 
-    inpD <- as.data.frame(cbind(pigengene$eigengenes[names(Labels), selectedFeatures], Labels))
+    inpD <- cbind(as.data.frame(pigengene$eigengenes[names(Labels), selectedFeatures]), Labels)
     assign('inpD', inpD , envir=parent.env(parent.frame()), inherits=TRUE)
     colnames(inpD) <- c(selectedFeatures, 'Labels')
     if(ncol(inpD)<3)
@@ -86,7 +86,7 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
         mycols <- rgb(expand.grid(c(0:1), (0:1), (0:1)))[c(2, 5, 3, 1, 4, 6:7)]
         errQs <- table(predict(c5Tr, inpD), lbls)
         errs <- colSums(errQs)-diag(errQs)
-        Acc <- 1-round((sum(errs)/sum(errQs))*100)/100## accuracy
+        Acc <- 1-round((sum(errs)/sum(errQs))*100)/100 ## accuracy
         adf <- (log2(log2(nchar(c5Tr$output))))
         extr <- adf*sum(nchar(unique(lbls)))*max(1, log10(1+length(grep(" freq", unlist(strsplit(c5Tr$tree, "=")))))^3)
         pngfn <- combinedPath(dir=saveDir, fn=paste('C5tree', h1, '.png', sep=''))
@@ -109,9 +109,7 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
         ## Build a tree that models the Labels as a function of the pigenegenes, 
         ##^ there should be at least h1 cases in each leaf, do not boost.
         c5Tr <- C5.0(as.factor(Labels)~., data=inpD, control=c5cnt, trials=1, costs=mycosts)
-        ##fn <- combinedPath(dir=saveDir, fn=paste('C5tree', h1, '.RData', sep=''))
-        ##save(inpD, c5Tr, file=fn)
-        fitD <- cbind(fitD, (unlist(get.fitted.leaf(c5Tr, inpD))))
+        fitD <- cbind(fitD, unlist(get.fitted.leaf(c5Tr, inpD)))
         colnames(fitD)[ncol(fitD)] <- h1  
         c5Tr$info <- pngplot(c5Tr, h1, saveDir)
         c5TreeS[[as.character(h1)]] <- c5Tr ## Habil named with characters.

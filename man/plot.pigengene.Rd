@@ -10,7 +10,7 @@ weights (memberships), and so on. Saves the plots in png format.}
 
 \usage{
 \method{plot}{pigengene}(x, saveDir = NULL, 
-  DiseaseColors = c("red", "cyan"), 
+  DiseaseColors="Auto", 
   fontsize = 35, doShowColnames = TRUE, fontsizeCol = 25, 
   doClusterCols = ncol(pigengene$eigengenes) > 1, 
   verbose = 2, doShowRownames = "Auto", 
@@ -26,7 +26,9 @@ weights (memberships), and so on. Saves the plots in png format.}
     The dirctory for saving the plots}
 
   \item{DiseaseColors}{
-    A vector of characters determining color for each disease}
+    A vector of characters determining color for each disease. Names
+    should match the values in the first column of
+    \code{x$annotation}.}
 
   \item{fontsize}{
   Passd to \code{\link{pheatmap.type}}}

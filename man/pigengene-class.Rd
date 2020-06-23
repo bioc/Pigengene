@@ -33,7 +33,7 @@ and other related information.}
       (row of \code{Data}).} 
     \item{\code{eigengenes}}{
       The matrix of eigengenes ordered based on \code{selectedModules} 
-      if provided.}
+      if provided. Rows correspond to samples.}
     \item{\code{membership}}{
       The matrix of weights of genes (rows) in all modules (columns).}
     \item{\code{orderedModules}}{
@@ -41,7 +41,7 @@ and other related information.}
       based on module number.}
     \item{\code{annotation}}{
       A data frame containing labeling information useful in plotting. 
-      It has one column named "Condition". Rows have sample names.}
+      It has a column named "Condition". Rows have sample names.}
     \item{\code{saveFile}}{
       The file where the \code{pigengene} object is saved.}
     \item{\code{weightsCsvFile}}{

@@ -67,7 +67,7 @@ A list of:
      Disease <- c(rep("AML",nrow(d1)), rep("MDS",nrow(d2)))
      Disease <- as.data.frame(Disease)
      rownames(Disease) <- c(rownames(d1), rownames(d2))
-     p1 <- pheatmap.type(rbind(d1,d2),annRow=Disease,show_rownames=FALSE)
+     p1 <- pheatmap.type(Data=rbind(d1,d2),annRow=Disease,show_rownames=FALSE)
 }
 
 \keyword{ hplot }

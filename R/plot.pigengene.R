@@ -1,4 +1,4 @@
-plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
+plot.pigengene <- function(x, saveDir=NULL, DiseaseColors="Auto",
                            fontsize=35, doShowColnames=TRUE, fontsizeCol=25,
                            doClusterCols=ncol(pigengene$eigengenes)>1, verbose=2,
                            doShowRownames="Auto",
@@ -28,29 +28,47 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
         pvaluePlotFile <- NULL
 
     }
-    conds <- unique(pigengene$annotation[, 1]) ##c(cond1, cond2)
-    if(length(conds)!= length(DiseaseColors)){
-        stop("The number of DiseaseColors must agree with the pigengene$annotation!")
-    }
-    names(DiseaseColors) <- conds
     log.pvalue <- pigengene$log.pvalue
     orderedModules <- pigengene$orderedModules
     membership <- pigengene$membership
+    
+    ## DiseaseColors
+    defaultCols <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")
+    conds <- unique(as.character(pigengene$annotation[, 1])) ##c(cond1, cond2)
+    if(DiseaseColors[1]=="Auto"){
+        DiseaseColors <- defaultCols[1:length(conds)] 
+        names(DiseaseColors) <- conds
+    }
+    if(verbose>2){
+        message("DiseaseColors:")
+        print(DiseaseColors)
+    }
+    if(length(conds)!= length(DiseaseColors)){
+        stop("The number of DiseaseColors must agree with the number of levels in x$annotation!")
+    }
+    if(any(!names(DiseaseColors) %in% conds)){
+        stop("Names of DiseaseColors must be among the levels of x$annotation!")
+    }
     typeColor <- list(DiseaseColors)
     names(typeColor) <- colnames(pigengene$annotation)
+
+    ## Helper local functions:
     png2 <- function(aFile, pngf=pngfactor, ...){
         if(!is.null(aFile)){
             ## 2 times larger than normal png.
             png(aFile, width=480*pngf, height=480*pngf, ...)
+            message.if(paste("A plot is being saved at:", aFile), verbose=verbose-4)
         }else{
             dev.new()
         }
     }
+
     dof <- function(){
         if(!is.null(saveDir)){
             dev.off()
         }
     }
+    
     if(doShowRownames=="Auto")
         doShowRownames <- nrow(pigengene$eigengenes) < 100
     ## Pvalues:
@@ -86,7 +104,7 @@ plot.pigengene <- function(x, saveDir=NULL, DiseaseColors=c("red", "cyan"),
         genes <- intersect(genes, names(orderedModules[orderedModules!=0]))
     }
     
-    if(length(membership)>1){ ## otherwise, pheatmap will threw an error.
+    if(min(dim(membership))>1){ ## otherwise, pheatmap will threw an error.
         png2(aFile=plotMemFile)
         pheatmap(abs(membership[genes, ]), annotation_colors=typeColor,
              cluster_rows=FALSE, cluster_cols=FALSE, fontsize=fontsize,

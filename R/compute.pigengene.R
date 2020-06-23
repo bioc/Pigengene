@@ -54,7 +54,7 @@ compute.pigengene <- function(
         mERes$eigengenes[, paste0("ME", sgms)] <- myDat[, match(sgms, modules[colnames(myDat)]), drop=FALSE]
     }
     result[["eigenResults"]] <- mERes
-    eigengenes <- mERes$eigengenes
+    eigengenes <- as.matrix(mERes$eigengenes)
     if(any(is.na(eigengenes)))
         warning("NA values in eigengenes!")
     message.if("Computing memberships...", verbose=verbose-1)
@@ -139,11 +139,11 @@ compute.pigengene <- function(
             stop("Although doPlot is TRUE, I cannot save the plots because saveFile is NULL !")
         }
         sf <- file.path(dirname(saveFile),"plots")
-        dc <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")
-        dc <- dc[1:length(unique(Labels))]
+        ##dc <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")
+        ##dc <- dc[1:length(unique(Labels))]
         plot.pigengene(x=pigengene, saveDir=sf,
                        selectedModules=selectedModules, verbose=verbose,
-                       DiseaseColors=dc)
+                       DiseaseColors="Auto")
     }
     return(pigengene)
 }

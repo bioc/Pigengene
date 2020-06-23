@@ -27,9 +27,13 @@ pheatmap.type <- function(Data, annRow, type=colnames(annRow)[1], doTranspose=FA
     ann1 <- c()
     for(cond in conditions){
         condSamples <- rownames(annRow)[which(annRow==cond)]  
-        pa <- pheatmap(Data[condSamples, , drop=FALSE], cluster_cols=FALSE, silent=TRUE)
-        pheatmapS[[as.character(cond)]] <- pa
-        o2 <- pa$tree_row$order
+        if(length(condSamples)>1){
+            pa <- pheatmap(Data[condSamples, , drop=FALSE], cluster_cols=FALSE, silent=TRUE)
+            pheatmapS[[as.character(cond)]] <- pa
+            o2 <- pa$tree_row$order
+        } else {
+            o2 <- 1
+        }
         dataPlot <- rbind(dataPlot, Data[condSamples[o2], , drop=FALSE])
         ann1 <- rbind(ann1, annRow[condSamples[o2], , drop=FALSE])
     }

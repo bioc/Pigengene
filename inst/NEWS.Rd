@@ -1,6 +1,21 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.15.12 (2020-06-22)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{DiseaseColors} argument in the
+      \code{plot.pigengene} function can now be set automatically.
+    }
+  }
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item \code{pheatmap.type} now works fine even when the number of
+      samples in a condition is only 1.
+    }
+  }
+}
+
 \section{Changes in version 1.13.44 (2020-04-21)}{
   \subsection{Changes in existing functions}{
     \itemize{

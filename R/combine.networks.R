@@ -92,7 +92,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
 
     ## Clean up:
     if(doRemoveTOM)
-        remove(file=tomFile)
+        unlink(tomFile)
     if(doReturNetworks)
         result[["Network"]] <- netwok
 

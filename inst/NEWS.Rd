@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.15.14 (2020-09-08)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item \code{combine.networks} now really removes the TOM file when
+      \code{doRemoveTOM=TRUE}.
+    }
+  }
+}
+
 \section{Changes in version 1.15.12 (2020-06-22)}{
   \subsection{Changes in existing functions}{
     \itemize{

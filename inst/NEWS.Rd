@@ -4,8 +4,8 @@
 \section{Changes in version 1.15.14 (2020-09-08)}{
   \subsection{Bug Fixes}{
     \itemize{
-      \item \code{combine.networks} now really removes the TOM file when
-      \code{doRemoveTOM=TRUE}.
+      \item \code{combine.networks} now really removes the big TOM file
+      when \code{doRemoveTOM=TRUE}.
     }
   }
 }

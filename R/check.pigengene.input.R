@@ -28,7 +28,7 @@ check.pigengene.input <- function(Data, Labels, na.rm=FALSE, naTolerance=0.05){
     if(length(intersect(rownames(Data), names(Labels)))==0)
         stop("Row of Data have no intersection with names of Labels!")
     Data <- Data[names(Labels), , drop=FALSE]
-    result[["Data"]] <- Data
+    result[["Data"]] <- as.matrix(Data)
     result[["Labels"]] <- Labels
     return(result)
 }

@@ -1,5 +1,5 @@
-module.heatmap <- function(c5Tree=NULL, pigengene, saveDir, testD=NULL, testL=NULL, 
-                           pos=0, verbose=0, doAddEigengene=TRUE,  scalePngs=1,... ){
+module.heatmap <- function(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir, testD=NULL, testL=NULL, 
+                           pos=0, verbose=0, doAddEigengene=TRUE,  scalePngs=1, ...){
     ## Takes a decision tree and a pigengene as input
     ## and creates one heatmap for each module
     ## pos > 0 removes genes similar to compact.tree behavior
@@ -9,22 +9,36 @@ module.heatmap <- function(c5Tree=NULL, pigengene, saveDir, testD=NULL, testL=NU
     trainDir <- combinedPath(saveDir, 'train')
     testDir <- combinedPath(saveDir, 'test')
     allDir <- combinedPath(saveDir, 'all')
+
+    ## Expression data:
+    if(!is.null(Data)){
+        D1 <- Data
+    } else {
+        D1 <- pigengene$Data
+    }
+    
+    ## QC:
     if(!is.null(c5Tree)){
-        message.if("Plotting the heatmaps for the nodes of the tree...", verbose=verbose)
+        message.if("Plotting the heatmaps for the nodes of the tree, mes ignored.",
+                   verbose=verbose)
         feats <- get.used.features(c5Tree=c5Tree)
         plotDir <- trainDir
-    } else {
-        message.if("Plotting the heatmaps for all modules...", verbose=verbose)
+    } else { ## no c5Tree,
         feats <- colnames(pigengene$eigengenes)
+        if(is.null(mes)){
+            message.if("Plotting the heatmaps for all modules...", verbose=verbose)
+        } else {
+            feats <- intersect(feats, mes)
+        }
         plotDir <- allDir
     }
     message.if("Features:", verbose=verbose-1)
     message.if(paste(feats, collapse=", "), verbose=verbose-1)
     modules0 <- pigengene$orderedModules
-    ## It is possible that a gene is not present in the pigengene$Data, but be in the modules,
+    ## It is possible that a gene is not present in the D1 (pigengene$Data), but be in the modules,
     ##^ for example, when two datasets are used and the gene is NA in one of the datasets.
     ## We cannot include such genes in the heatmap.
-    modules <- modules0[intersect(names(modules0), colnames(pigengene$Data))]
+    modules <- modules0[intersect(names(modules0), colnames(D1))]
     if(length(modules0) > length(modules)){
         warning(paste("Data are not available for", length(modules0)-length(modules), "genes in the modules."))
     }
@@ -47,12 +61,15 @@ module.heatmap <- function(c5Tree=NULL, pigengene, saveDir, testD=NULL, testL=NU
             ret <- ((x-min(x))/(max(x)-min(x)))}
         return(ret)}
     mkpngs <- function(f1, Data, saveDir1, anR){
-        if(ncol(Data)<2){
-            message.if("I need at least 2 columns (genes) to plot a heatmap. Skipped.", verbose=verbose-3)
+        if(ncol(Data) - doAddEigengene <2){
+            errorMessage <- paste("I need at least 2 columns (genes) to plot a heatmap.",
+                                  f1, "skipped.")
+            message.if(errorMessage, verbose=verbose-3)
             return(NULL)
         }
         dir.create(path=saveDir1, recursive=TRUE, showWarnings=FALSE)
-        message.if(paste("Plotting heatmaps for",f1,"with",ncol(Data),"columns in:", saveDir1), verbose=verbose)
+        message.if(paste("Plotting heatmaps for",f1,"with",ncol(Data),"columns in:", saveDir1),
+                   verbose=verbose)
         legwidth=16*max(nchar(as.character(anR)))
         ##legwidth=16*max(nchar(as.character(pigengene$annotation[, 1])))
         if(scalePngs!=1){
@@ -82,7 +99,6 @@ module.heatmap <- function(c5Tree=NULL, pigengene, saveDir, testD=NULL, testL=NU
         dev.off()
     }
     
-    D1 <- pigengene$Data
     anR <- pigengene$annotation
     colnames(anR) <- 'type'
     ##Check
@@ -107,22 +123,22 @@ module.heatmap <- function(c5Tree=NULL, pigengene, saveDir, testD=NULL, testL=NU
     ## combined expression plot of the genes in relevant modules
     if(!is.null(c5Tree)){
         ## Subsetting only the genes in the modules:
-        Data <- rmnas(D1[, names(modules)[which(modules %in%gsub("ME", "", feats))]])
-        mkpngs(f1="combined", Data=Data, saveDir1=plotDir, anR=anR)
+        Data1 <- rmnas(D1[, names(modules)[which(modules %in%gsub("ME", "", feats))]])
+        mkpngs(f1="combined", Data=Data1, saveDir1=plotDir, anR=anR)
         if(!is.null(anRtest)){
-            testdata <- rmnas(D1test[, match(colnames(Data), colnames(D1test))])
+            testdata <- rmnas(D1test[, match(colnames(Data1), colnames(D1test))])
             mkpngs(f1="combined", Data=testdata, saveDir1=testDir, anR=anRtest)
         }
     }
     ## Per module plots
     for(f1 in feats){
         message.if(paste("Module:", f1), verbose=verbose-1)
-        Data <- rmnas(D1[, names(modules)[which(modules==gsub("ME", "", f1))], drop=FALSE])
+        Data1 <- rmnas(D1[, names(modules)[which(modules==gsub("ME", "", f1))], drop=FALSE])
         if(doAddEigengene)
-            Data <- cbind(Data,pigengene$eigengenes[rownames(Data),f1,drop=FALSE])
-        mkpngs(f1=f1, Data=Data, saveDir1=plotDir, anR=anR)
+            Data1 <- cbind(Data1, pigengene$eigengenes[rownames(Data1),f1,drop=FALSE])
+        mkpngs(f1=f1, Data=Data1, saveDir1=plotDir, anR=anR)
         if(!is.null(anRtest)){
-            testdata <- rmnas(D1test[, match(colnames(Data), colnames(D1test))])
+            testdata <- rmnas(D1test[, match(colnames(Data1), colnames(D1test))])
             mkpngs(f1=f1, Data=testdata, saveDir1=testDir, anR=anRtest)
         }
     }

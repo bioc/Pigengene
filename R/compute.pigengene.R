@@ -53,6 +53,7 @@ compute.pigengene <- function(
     if(length(sgms)>0){
         mERes$eigengenes[, paste0("ME", sgms)] <- myDat[, match(sgms, modules[colnames(myDat)]), drop=FALSE]
     }
+    mERes$eigengenes <- as.matrix(mERes$eigengenes)
     result[["eigenResults"]] <- mERes
     eigengenes <- as.matrix(mERes$eigengenes)
     if(any(is.na(eigengenes)))

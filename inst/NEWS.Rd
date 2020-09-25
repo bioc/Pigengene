@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.15.16 (2020-09-22)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The modules can now be determined in the
+      \code{module.heatmap} function using the new \code{mes} argument.
+    }
+  }
+}
+
 \section{Changes in version 1.15.14 (2020-09-08)}{
   \subsection{Bug Fixes}{
     \itemize{

@@ -136,7 +136,7 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
         c5Res[['compacted']] <- compactC5Tr
         if(doHeat){
             heatCompact <- module.heatmap(
-                c5Tree=tc5, pigengene=pigengene, 
+                c5Tree=tc5, pigengene=pigengene, mes=NULL,
                 saveDir=combinedPath(saveDir, "heatmaps_compact"), 
                 testD=testD, testLabels=testL, 
                 pos=compactC5Tr$pos, verbose=verbose-1)
@@ -157,7 +157,7 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
     ## Plot heatmaps:
     if(doHeat){
         heat <- module.heatmap(
-            c5Tree=tc5, pigengene=pigengene, 
+            c5Tree=tc5, pigengene=pigengene, mes=NULL,
             saveDir=combinedPath(saveDir, "heatmaps"), 
             testD=testD, testLabels=testL, pos=0, 
             verbose=verbose-1)

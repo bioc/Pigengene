@@ -10,7 +10,7 @@ it plots one gene expression heatmap. Alternatively, it can plot
 a heatmap for every module in the given \code{pigengene} object.}
 
 \usage{
-module.heatmap(c5Tree=NULL, pigengene, saveDir, testD = NULL,
+module.heatmap(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir, testD = NULL,
   testL = NULL, pos = 0, verbose=0, doAddEigengene=TRUE, scalePngs=1, ...)
 }
 
@@ -23,6 +23,16 @@ module.heatmap(c5Tree=NULL, pigengene, saveDir, testD = NULL,
   \item{pigengene}{
     A object of \code{\link{pigengene-class}}, output of 
     \code{\link{compute.pigengene}}}
+
+  \item{Data}{
+    The gene expression matrix with genes on columns and samples on
+    rows. Set it to NULL to use the data in the \code{pigengene}
+    input argument.}
+
+  \item{mes}{
+    A character vector that determines which modules to plot, e.g.,
+    c("ME3","ME5"). Set it to \code{NULL} to plot a heatmap for every
+    module. This argument will be ignored if \code{c5Tree} is not \code{NULL}.}
 
   \item{saveDir}{
     Directory to save the plots}

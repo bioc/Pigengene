@@ -1,4 +1,4 @@
-module.heatmap <- function(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir, testD=NULL, testL=NULL, 
+module.heatmap <- function(c5Tree=NULL, pigengene, mes=NULL, saveDir, testD=NULL, testL=NULL, 
                            pos=0, verbose=0, doAddEigengene=TRUE,  scalePngs=1, ...){
     ## Takes a decision tree and a pigengene as input
     ## and creates one heatmap for each module
@@ -11,11 +11,7 @@ module.heatmap <- function(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir,
     allDir <- combinedPath(saveDir, 'all')
 
     ## Expression data:
-    if(!is.null(Data)){
-        D1 <- Data
-    } else {
-        D1 <- pigengene$Data
-    }
+    D1 <- pigengene$Data
     
     ## QC:
     if(!is.null(c5Tree)){
@@ -34,6 +30,9 @@ module.heatmap <- function(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir,
     }
     message.if("Features:", verbose=verbose-1)
     message.if(paste(feats, collapse=", "), verbose=verbose-1)
+    ## QC:
+    if(length(feats)==0)
+        stop("No features to plot!")
     modules0 <- pigengene$orderedModules
     ## It is possible that a gene is not present in the D1 (pigengene$Data), but be in the modules,
     ##^ for example, when two datasets are used and the gene is NA in one of the datasets.
@@ -109,7 +108,7 @@ module.heatmap <- function(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir,
     if(any(sort(rownames(anR))!=sort(rownames(D1))))
         stop("Not a valid pigengene object because row names differ in 'Data' and annotations!")
     anR <- anR[rownames(D1),,drop=FALSE]
-    ##rownames(anR) <- rownames(D1)
+
     ## for testD
     D1test <- NULL
     anRtest <- NULL
@@ -118,7 +117,6 @@ module.heatmap <- function(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir,
         anRtest <- as.data.frame(testL)
         colnames(anRtest) <- 'type'
         anRtest <- anRtest[rownames(D1test),,drop=FALSE]
-        ##rownames(anRtest) <- rownames(D1test) 
     }
     ## combined expression plot of the genes in relevant modules
     if(!is.null(c5Tree)){

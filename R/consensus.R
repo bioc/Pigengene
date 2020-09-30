@@ -27,6 +27,7 @@ consensus <- function(
     ##^ Without cpdag=FALSE, edges to Disease may occur. --Habil.
     if(threshold=="Auto"){
         threshold <- mean(f1[, "strength"])+sd(f1[, "strength"])
+        threshold <- min(threshold, 1)
         message.if(paste("threshold is automatically determined to be:", threshold), 
                    verbose=verbose)
     }

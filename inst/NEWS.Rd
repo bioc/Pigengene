@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.15.20 (2020-09-28)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item When automatically computing the \code{threshold} in the
+      \code{consensus} function, we now do not allow it to be more than
+      1 to be compatible with bnlearn 4.6.1.
+    }
+  }
+}
+
 \section{Changes in version 1.15.16 (2020-09-22)}{
   \subsection{Changes in existing functions}{
     \itemize{

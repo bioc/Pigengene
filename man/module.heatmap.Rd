@@ -10,7 +10,7 @@ it plots one gene expression heatmap. Alternatively, it can plot
 a heatmap for every module in the given \code{pigengene} object.}
 
 \usage{
-module.heatmap(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir, testD = NULL,
+module.heatmap(c5Tree=NULL, pigengene, mes=NULL, saveDir, testD = NULL,
   testL = NULL, pos = 0, verbose=0, doAddEigengene=TRUE, scalePngs=1, ...)
 }
 
@@ -24,11 +24,6 @@ module.heatmap(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir, testD = NUL
     A object of \code{\link{pigengene-class}}, output of 
     \code{\link{compute.pigengene}}}
 
-  \item{Data}{
-    The gene expression matrix with genes on columns and samples on
-    rows. Set it to NULL to use the data in the \code{pigengene}
-    input argument.}
-
   \item{mes}{
     A character vector that determines which modules to plot, e.g.,
     c("ME3","ME5"). Set it to \code{NULL} to plot a heatmap for every
@@ -39,7 +34,8 @@ module.heatmap(c5Tree=NULL, pigengene, Data=NULL, mes=NULL, saveDir, testD = NUL
 
   \item{testD, testL}{
     Optional. The matrix of (independent) test
-    expression data and the corresponding vector of labels}
+    expression data, and the corresponding vector of labels. \code{testL}
+    must be named according to the row names of \code{testD}.}
 
   \item{pos}{
     Number of genes to discard. Interpreted the same way as in

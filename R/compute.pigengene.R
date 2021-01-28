@@ -62,7 +62,7 @@ compute.pigengene <- function(
     n1 <- nrow(eigengenes)
     membership <- stats::cor(balancedData,
                              as.matrix(eigengenes[rownames(balancedData), , drop=FALSE]))
-    ## If a gene is almost constant, the above correlation may be NA altough
+    ## If a gene is almost constant, the above correlation may be NA although
     ## that gene is definitely in module 0,
     ## and NOT in any other module.
     membership[colSds(balancedData) < 10^(-8), ] <- as.numeric(colnames(membership)=="ME0")

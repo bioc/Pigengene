@@ -14,7 +14,7 @@ indFileName <- function(dir=NULL, moduleNum, perJob, ind, typePhrase="bnet.indv"
                 break
         }
         if(length(files)==0) {
-            stop(pate("No file at",
+            stop(paste("No file at",
                       were ,"to get the number of repetitions automatically!"))
         }
         bnets <- get(load(files[1])) ## bnets

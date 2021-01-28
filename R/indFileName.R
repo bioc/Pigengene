@@ -1,19 +1,21 @@
-indFileName <- function (dir=NULL, moduleNum, perJob, ind, typePhrase="bnet.indv"){
+indFileName <- function(dir=NULL, moduleNum, perJob, ind, typePhrase="bnet.indv", verbose=0){
     result <- list()
-    if (perJob=="Auto") {
-        if (is.null(dir)) 
+    message.if("indFileName", verbose=verbose)
+    if(perJob=="Auto") {
+        message.if(dir, verbose=verbose-1)
+        if(is.null(dir)) 
             stop("I need the path to directory to get the number of replicates automatically!")
         where <- file.path(dir,paste("mod.", moduleNum, ".*.", "bnet.indv", 
                                      ".", ind, ".RData", sep=""))
-        for (whereI in where) {
+        for(whereI in where) {
             files <- list.files(path=dirname(whereI), pattern=basename(whereI), 
                                 full.names=TRUE)
-            if (length(files) > 0) 
+            if(length(files) > 0) 
                 break
         }
-        if (length(files)==0) {
-            print(where)
-            stop("No file here to get the number of repetitions automatically!")
+        if(length(files)==0) {
+            stop(pate("No file at",
+                      were ,"to get the number of repetitions automatically!"))
         }
         bnets <- get(load(files[1])) ## bnets
         bnet.indv <- bnets$bnet.indv

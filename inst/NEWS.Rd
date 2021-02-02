@@ -1,6 +1,17 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.17.10 (2021-02-02)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item When building the Ubuntu, Neda got an error message on
+      building the vignette "argument is of length zero". It was due to
+      her old version of BiocStyle, 2.14.4. To solve this issue,
+      Pigengene now depends BiocStyle Version >= 2.19.1. 
+    }
+  }
+}
+
 \section{Changes in version 1.15.20 (2020-09-28)}{
   \subsection{Changes in existing functions}{
     \itemize{

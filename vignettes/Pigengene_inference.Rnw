@@ -105,19 +105,11 @@ The first step is to load the package and data in \R{}:
 
 <<loading, fig.width=6, fig.height=6, echo=TRUE>>=
 library(Pigengene)
-@
-<<loading4, fig.width=6, fig.height=6, echo=TRUE>>=
 data(aml)
 data(mds)
-@
-<<loading3, fig.width=6, fig.height=6, echo=TRUE>>=
 d1 <- rbind(aml,mds)
-@
-<<loadingTemp2, fig.width=6, fig.height=6, echo=TRUE>>=
 Labels <- c(rep("AML",nrow(aml)),rep("MDS",nrow(mds)))
 names(Labels) <- rownames(d1)
-@
-<<loadingTemp, fig.width=6, fig.height=6, echo=TRUE>>=
 Disease <- as.data.frame(Labels)
 h1 <- pheatmap.type(d1[,1:20],annRow=Disease,show_rownames=FALSE)
 @ 

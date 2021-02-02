@@ -12,16 +12,17 @@ network analysis, computes eigengenes, learns a Bayesian network, fits
 decision trees, and compact them.}
 
 \usage{
-one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL, 
-  testLabels = NULL, doBalance = TRUE, RsquaredCut=0.8, costRatio = 1, toCompact = FALSE, bnNum = 0,
-  bnArgs = NULL, useMod0 = FALSE, mit = "All", verbose = 0, doHeat = TRUE, 
-  seed = NULL, dOrderByW = TRUE, naTolerance=0.05)
+one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL, 
+  testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8, costRatio=1,
+  toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, mit="All",
+  verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05)
 }
 
 \arguments{
   \item{Data}{
-  A matrix or data frame (or list of matrices or data frames) containing the training expression data, with genes 
-  corresponding to columns and rows corresponding to samples. Rows and columns 
+  A matrix or data frame (or list of matrices or data frames) containing
+  the training expression data, with genes  corresponding to columns and
+  rows corresponding to samples. Rows and columns 
   must be named. For example, from RNA-Seq data, log(RPKM+1) can be used.}
   
   \item{Labels}{
@@ -50,7 +51,7 @@ one.step.pigengene(Data, saveDir = "Pigengene", Labels, testD = NULL,
 
   \item{RsquaredCut}{
   A threshold in the range [0,1] used to estimate the power. A higher value
-  can increase power. For technical use only. See \code{\link[WGCNA]{pickSoftThreshold}} 
+  can increase power. For technical use only. See \code{\link[WGCNA]{pickSoftThreshold}}
   for more details. A larger value generally leads to more modules.}
 
   \item{costRatio}{

@@ -108,6 +108,8 @@ library(Pigengene)
 data(aml)
 data(mds)
 d1 <- rbind(aml,mds)
+@
+<<loadingTemp2, fig.width=6, fig.height=6, echo=TRUE>>=
 Labels <- c(rep("AML",nrow(aml)),rep("MDS",nrow(mds)))
 names(Labels) <- rownames(d1)
 @

@@ -107,6 +107,8 @@ The first step is to load the package and data in \R{}:
 library(Pigengene)
 data(aml)
 data(mds)
+@
+<<loading3, fig.width=6, fig.height=6, echo=TRUE>>=
 d1 <- rbind(aml,mds)
 @
 <<loadingTemp2, fig.width=6, fig.height=6, echo=TRUE>>=

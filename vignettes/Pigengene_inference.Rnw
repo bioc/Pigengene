@@ -105,6 +105,8 @@ The first step is to load the package and data in \R{}:
 
 <<loading, fig.width=6, fig.height=6, echo=TRUE>>=
 library(Pigengene)
+@
+<<loading4, fig.width=6, fig.height=6, echo=TRUE>>=
 data(aml)
 data(mds)
 @

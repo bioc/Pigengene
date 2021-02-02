@@ -7,7 +7,8 @@
       \item When building the Ubuntu, Neda got an error message on
       building the vignette "argument is of length zero". It was due to
       her old version of BiocStyle, 2.14.4. To solve this issue,
-      Pigengene now depends BiocStyle Version >= 2.19.1. 
+      Pigengene now depends BiocStyle Version >= 2.19.1. Even 2.18.1
+      might be enough with R 4.0.3.
     }
   }
 }

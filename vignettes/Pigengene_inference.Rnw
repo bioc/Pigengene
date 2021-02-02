@@ -101,15 +101,11 @@ This guarantees that the loss in the biological information in minimized.
 \subsection{A toy example}
 For a quick start, the application of \pipa pipeline on some leukemia dataset is
 demonstrated below \cite{mills2009microarray}. 
-The first step is to load the package and data in
+The first step is to load the package and data in \R{}:
 
-<<oneStepTest, echo=TRUE>>=
-at1 <- 1+4
+<<loading, fig.width=6, fig.height=6, echo=TRUE>>=
+library(Pigengene)
 @
-
-##<<loading, fig.width=6, fig.height=6, echo=TRUE>>=
-##library(Pigengene)
-##@
 <<loading4, fig.width=6, fig.height=6, echo=TRUE>>=
 data(aml)
 data(mds)

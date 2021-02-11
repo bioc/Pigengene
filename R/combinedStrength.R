@@ -1,12 +1,11 @@
-combinedStrength <- function(
-    dir, bnInputFile=NULL, moduleNum, repsPerRun, inds, 
-    typePhrase="bnet.strength", resdir=".", doSave=TRUE, 
-    threshold=0.5, saveFile="Auto", bnet=NULL) 
-{
+combinedStrength <- function(dir, bnInputFile=NULL, moduleNum, repsPerRun, inds,
+                             typePhrase="bnet.strength", resdir=".", doSave=TRUE, 
+                             threshold=0.5, saveFile="Auto", bnet=NULL){
     
     print("Compbining results from multiple jobs and computing strenght...")
-    indFileNameRes <- indFileName(dir, moduleNum, repsPerRun, 
+    indFileNameRes <- indFileName(dir=dir, moduleNum=moduleNum, perJob=repsPerRun, 
                                   ind=inds, typePhrase=typePhrase)
+
     fn <- indFileNameRes$names
     repsPerRun <- indFileNameRes$perJob
     print(paste("Looking at files with", repsPerRun, "repetition..."))

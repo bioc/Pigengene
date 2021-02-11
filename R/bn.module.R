@@ -5,8 +5,8 @@ bn.module <- function(
     doLocal="Auto", saveToPath, selectedFeatures=NULL, bnCalculationJob=NULL, 
     timeJob=NULL, algo="hc", verbose=0, 
     partition=NULL, selected=NULL, Data=NULL, Labels=NULL, 
-    pvalGenes=NULL, maxSeconds=5*60, moduleFile="Auto", doShuffle=TRUE, naTolerance=0.05)
-{
+    pvalGenes=NULL, maxSeconds=5*60, moduleFile="Auto", doShuffle=TRUE, naTolerance=0.05){
+
     ##
     result <- list()
     message.if(paste("Start learning", bnNum, "BNs for module", moduleNum, "using", algo), 

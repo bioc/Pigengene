@@ -147,7 +147,6 @@ bn.calculation <- function(
         fn <- indFileName(moduleNum=moduleNum, perJob=perJob, ind=ind, typePhrase="bnet.indv")$names
         files["bnet.indv"] <- combinedPath(resultPath, fn)
         bnets <- list("bnet.indv"=bnet.indv)
-        ##message.if(paste("Saving bnets in:", files["bnet.indv"]))
         save.if(bnets, file=files["bnet.indv"], verbose=verbose)
         candlist1 <- cbind(files["bnet.indv"], 1:perJob)
         colnames(candlist1) <- c("File", "Index")
@@ -175,8 +174,9 @@ bn.calculation <- function(
     result[["algo"]] <- algo
     result[["bnet"]] <- bnet
     bnCalculated <- result
-    ##save.if(bnet, learnt, file=files["bnet"])
     save.if(bnCalculated, file=files["bnet"], verbose=verbose)
-    ##print("bnCalculated was saved in:", file=files["bnet"])
+    ## Does the saved file disappear on Bioconductor server?
+    if(!file.exists(files["bnet"]))
+        stop(paste("What happened to the file that I just saved at:", files["bnet"]))
     return(result)
 } ## End of function.

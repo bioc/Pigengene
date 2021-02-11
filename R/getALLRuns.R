@@ -6,6 +6,12 @@ getALLRuns <- function (dir, moduleNum, perJob, inds=1:100){
     ## x below will contain the hypothetical list of results
     ## I.e. what one would expect based on submitted/planned jobs
     result <- list()
+
+    ## Do we have the files in dir?
+    m1 <- "No files here to get the number of repetitions automatically!\n"
+    if(perJob=="Auto" & length(list.files(dir))==0)
+        stop(paste(m1, dir))
+    
     indFileNames <- indFileName(dir=dir, moduleNum=moduleNum, 
                                 perJob=perJob, ind=inds)
     x <- combinedPath(dir, indFileNames$names)

@@ -57,8 +57,7 @@ bn.calculationS <- function(
                                   maxSeconds=maxSeconds, 
                                   doShuffle=doShuffle, verbose=as.numeric(opt$verbose))
             files[[as.character(ind)]] <- bns[["files"]]
-        }
-        else { ## on cluster
+        } else { ## on cluster
             if(is.null(bnCalculationJob))
                 stop("A bnCalculationJob script should be provided to submit the jobs to the cluster!")
             s1 <- sbatch(sourceFile=bnCalculationJob, doSubmit=TRUE, 

@@ -159,7 +159,7 @@ A list with the following components:
   Foroushani A, Agrahari R, Docking R, Karsan A, and Zare H.
   In preparation.}
 
-\author{Amir Foroushani, Habil Zare, and Rupesh Agrahari}
+\author{Amir Foroushani, Habil Zare, Rupesh Agrahari, and  Meghan Short}
 
 \note{
 The individual functions are exported to facilitated running the pipeline 

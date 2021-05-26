@@ -88,16 +88,24 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
         errs <- colSums(errQs)-diag(errQs)
         Acc <- 1-round((sum(errs)/sum(errQs))*100)/100 ## accuracy
         adf <- (log2(log2(nchar(c5Tr$output))))
-        extr <- adf*sum(nchar(unique(lbls)))*max(1, log10(1+length(grep(" freq", unlist(strsplit(c5Tr$tree, "=")))))^3)
+        max1 <- max(1, log10(1+length(grep(" freq", unlist(strsplit(c5Tr$tree, "=")))))^3)
+        extr <- adf*sum(nchar(unique(lbls)))*max1
         pngfn <- combinedPath(dir=saveDir, fn=paste('C5tree', h1, '.png', sep=''))
-        myinfo <- paste("minCases:", h1 , "Acc:", Acc , "Misclassified:" , paste(errs, names(errs), sep=' ', collapse='...'))
+        myinfo <- paste("minCases:", h1 , "Acc:", Acc , "Misclassified:" ,
+                        paste(errs, names(errs), sep=' ', collapse='...'))
+        order1 <- order(unique(lbls))
+        treeCols <- mycols[order1]
+        if(length(order1)==2)
+            treeCols <- rev(treeCols)
+        ##^Habil: I think it is a bug in the C50 plot(), 2021-05-25.
         png(pngfn, height=max(1, adf*0.6)*480, width=extr+(max(1, adf*0.8)*480))
         plot.new()
         temp <- legend("topleft", legend="", inset=-0.005, bty='n')
-        plot(c5Tr, gp=grid::gpar(col ="blue"), legend.=temp, 
-             main=myinfo, tp_args=list("fill" = mycols))
-        temp <- legend("topleft", legend = unique(lbls)[order(unique(lbls))], 
-                       text.col=mycols, inset=-0.005, bty='n', ncol=ceiling(length(unique(lbls))/4))
+        plot(c5Tr, gp=grid::gpar(col ="gray30"), legend.=temp, 
+             main=myinfo, tp_args=list("fill"=treeCols))
+        temp <- legend("topleft", legend=unique(lbls)[order1],
+                       text.col=mycols[order1],
+                       inset=-0.005, bty='n', ncol=ceiling(length(unique(lbls))/4))
         dev.off()
         return(myinfo)
     }

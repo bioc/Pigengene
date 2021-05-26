@@ -5,7 +5,7 @@
 
 \description{
      This function projects (new) expression data onto the eigengenes
-     of modules from another dataset. It is usfull for comparing the
+     of modules from another dataset. It is useful for comparing the
      expression behaviour of modules accross (biologically related yet
      independent) datasets, for evaluating the performance of a
      classifier on new datasets, and for examining the robustness of a

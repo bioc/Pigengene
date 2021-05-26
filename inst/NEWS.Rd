@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.19.8 (2021-05-25)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item The C50 plot function seems to have different behavior when
+      the number of Labels is 2. Habil reverse the color to fix the
+      resulting bug.
+    }
+  }
+}
+
 \section{Changes in version 1.17.10 (2021-02-02)}{
   \subsection{Bug Fixes}{
     \itemize{

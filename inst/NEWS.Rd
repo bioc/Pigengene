@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.19.10 (2021-06-25)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{message.if()} function can now write the message
+      in a text file.
+    }
+  }
+}
+
 \section{Changes in version 1.19.8 (2021-05-25)}{
   \subsection{Bug Fixes}{
     \itemize{

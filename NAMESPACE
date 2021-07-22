@@ -40,7 +40,7 @@ importFrom(WGCNA, blockwiseModules, moduleEigengenes, allowWGCNAThreads, pickSof
 
 ## Exports:
 ##exportPattern("^[[:alpha:]]+")
-##exportClasses(pigengene) ## This is an S3 class.
+##exportClasses(pigengene) ## This is an S3 class and does not need exportation.
 export(one.step.pigengene, check.pigengene.input, balance, calculate.beta,
        wgcna.one.step, compute.pigengene, plot.pigengene, pheatmap.type,
        project.eigen, learn.bn, draw.bn, make.decision.tree, get.used.features,

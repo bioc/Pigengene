@@ -5,7 +5,7 @@
 
 \description{
      This function is a wrapper function for
-     \code{\link[WGCNA]{blockwiseModules}} and passes its arguments to it. 
+     WGCNA::\code{\link[WGCNA]{blockwiseModules}} and passes its arguments to it. 
      Some other arguments are fixed.}
 
 \usage{
@@ -49,7 +49,7 @@ wgcna.one.step(Data, power, saveDir=".", blockSize = "All", saveTOMs = FALSE,
 
 \details{
 \code{Data, power, blockSize, saveTOMs, verbose,} and \code{seed}
-are passd to \code{\link[WGCNA]{blockwiseModules}}.
+are passed to WGCNA::\code{\link[WGCNA]{blockwiseModules}}.
 }
 
 

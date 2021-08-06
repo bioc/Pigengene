@@ -1,6 +1,20 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.19.24 (2021-08-06)}{
+  \subsection{New functions}{
+    \itemize{
+      \item The \code{get.enriched.pw()} function is added. 
+    }
+  }
+   \subsection{Bug Fixes}{
+       \itemize{
+         \item A bug fix in the \code{gene.mapping()} function that used to occur
+         when we had multiple output databases. 
+    }
+  }
+}
+
 \section{Changes in version 1.19.10 (2021-06-25)}{
   \subsection{Changes in existing functions}{
     \itemize{

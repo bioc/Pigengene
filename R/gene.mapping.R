@@ -1,9 +1,8 @@
-gene.mapping <- function(ids,
-                         inputType="REFSEQ", outputType="SYMBOL", leaveNA=TRUE, 
+gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=TRUE, 
                          inputDb="Human", outputDb=inputDb, verbose=0){
     ## inputDb: Input database.
-    ##^It can be org.Hs.eg.db for human and org.Mm.eg.db for mouse.
-
+    ##^It can be 'Human' or org.Hs.eg.db for human and 'Mouse' or org.Mm.eg.db for mouse.
+ 
     ## Sinlge or multiple output types?
     if(length(outputType) >1 | length(outputDb) >1){
         res <- c()
@@ -15,11 +14,9 @@ gene.mapping <- function(ids,
         }
         for(od in outputDbList){
             for(ot in outputType){
-                mapTo <- paste(od$packageName, ot, sep="-")
-                if(verbose >0){
-                    print("Mapping to:")
-                    print(mapTo)
-                }
+                odChar <- type2char(type1=od)
+                mapTo <- paste(odChar, ot, sep="-")
+                message.if(cat("Mapping to: ", mapTo, "\n"), verbose=verbose)
                 mapped <- gene.mapping(ids=ids, inputType=inputType, outputType=ot, leaveNA=TRUE, 
                                        inputDb=inputDb, outputDb=od, verbose=verbose-1)
                 mapped <- mapped[,"output1", drop=FALSE]
@@ -29,7 +26,7 @@ gene.mapping <- function(ids,
         }
         return(res)
     }
-    
+
     ## Cleaning:
     addAt <- FALSE
     if(outputType=="ENTREZIDat") {
@@ -52,18 +49,9 @@ gene.mapping <- function(ids,
         key <- unlist(lapply(X=key, FUN=versrem))
     key0 <- key
     ## The default db: ## AFTER ACCEPTANCE
-    if(inherits(inputDb, "character")){
-        if(inputDb=="Human")
-            inDbChar <- "org.Hs.eg.db"
-    } else {
-        inDbChar <- inputDb$packageName
-    }
-    if(inherits(outputDb, "character")){
-        if(outputDb=="Human")
-            outDbChar <- "org.Hs.eg.db"
-    } else {
-        outDbChar <- outputDb$packageName
-    }
+    inDbChar <- type2char(type1=inputDb)
+    outDbChar <- type2char(type1=outputDb)
+
     inputTypeOrig <- inputType
     ## Check the availability of the database:
     if("org.Hs.eg.db" %in% c(inDbChar,outDbChar) & !require(org.Hs.eg.db))

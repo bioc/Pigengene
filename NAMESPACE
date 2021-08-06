@@ -18,13 +18,17 @@ importFrom(dplyr, bind_rows)
 importFrom(graphics, axis)
 importFrom(stats, as.dist)
 importFrom(gdata, humanReadable)
-
+importFrom(clusterProfiler, enrichGO, enrichKEGG, simplify, dotplot)
+importFrom(ReactomePA, enrichPathway)
+importFrom(ggplot2, ggsave, ggtitle, theme, element_text)
+importFrom(openxlsx, write.xlsx)
+importFrom(DBI, dbGetQuery)
 
 ## Imported by WGCNA but not installed with it:
 import(GO.db)
 importFrom(impute, impute.knn)
 importFrom(preprocessCore, normalize.quantiles)
-importFrom(stats, as.formula, oneway.test, setNames)
+importFrom(stats, as.formula, oneway.test, setNames, na.omit)
 
 ## Recommended by Bioconductor:
 importFrom(grDevices, dev.new, dev.off, png, rgb)
@@ -46,5 +50,5 @@ export(one.step.pigengene, check.pigengene.input, balance, calculate.beta,
        project.eigen, learn.bn, draw.bn, make.decision.tree, get.used.features,
        get.fitted.leaf, module.heatmap, compact.tree, get.genes, preds.at,
        pvalues.manova, gene.mapping, dcor.matrix, check.nas, combine.networks,
-       save.if, message.if)
+       save.if, message.if, get.enriched.pw)
 S3method(plot, pigengene)

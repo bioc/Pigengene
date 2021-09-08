@@ -42,6 +42,8 @@ combine.networks <- function(nets, contributions, outPath, midfix="", powerVecto
     message.if(paste("power:", pstPower$powerEstimate), verbose=verbose-1)
     result[["power"]] <- pstPower$powerEstimate
     result[["fits"]] <- pstPower$fitIndices
+    if(is.na(pstPower$powerEstimate))
+        stop("Consider a lower value for RsquaredCut, power is NA!")
 
     ##Tom module for blockwiseModule function
     TOM <- as.dist(WGCNA::TOMsimilarity(adjMat=network^pstPower$powerEstimate,

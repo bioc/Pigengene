@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.19.30 (2021-09-08)}{
+   \subsection{Bug Fixes}{
+       \itemize{
+         \item The \code{averaged.network()} function does not
+	 have the \code{nodes} argument in bnlearn Version >=4.7, and
+	 thus this argument was removed.
+    }
+  }
+}
+
 \section{Changes in version 1.19.24 (2021-08-06)}{
   \subsection{New functions}{
     \itemize{

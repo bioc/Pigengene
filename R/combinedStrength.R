@@ -55,7 +55,7 @@ combinedStrength <- function(dir, bnInputFile=NULL, moduleNum, repsPerRun, inds,
     absNumMir <- absNum[mirInds]
     f1[, 3] <- f1[, 3]/length(fn)
     f1[, 4] <- absNum/(absNum + absNumMir)
-    c1 <- averaged.network(f1, colnames(Data), threshold=threshold)
+    c1 <- averaged.network(strength=f1, threshold=threshold)
     c12 <- pdag2dag(c1, colnames(Data))
     sc <- bnlearn::score(c12, Data, "bde")
     scBIC <- bnlearn::score(c12, Data, "bic")

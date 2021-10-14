@@ -2,7 +2,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
                                Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
                                costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
                                mit="All", ## unique(Labels)[1],
-                               verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05){
+                               verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05, doNetOnly=FALSE){
     ## costRatio: Implemented only for 2 classes.
     ##^Determines how severe it is to misclassify a sample accross types.
     ##^E.g., if costRatio=2, misclassification of a sample of the 1st type is
@@ -68,7 +68,10 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
         ## WGCNA:
         if(doBalance)
             wData <- balance(Data=wData, Labels=LabelsI, verbose=verbose-1, naTolerance=naTolerance)$balanced
+        message.if("Computing correlation...", verbose=verbose-1)
+        nets[[ind]] <- abs(stats::cor(wData))
         if(dataNum==1){
+            print("dataNum==1")
             calculateBetaRes <- calculate.beta(saveFile=NULL, RsquaredCut=RsquaredCut,
                                                Data=wData, verbose=verbose-1)
             results[["betaRes"]] <- calculateBetaRes
@@ -78,15 +81,20 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
             wgRes <- wgcna.one.step(Data=wData, seed=seed,
                                     power=betaI,
                                     saveDir=saveDir, verbose=verbose-1)
-        } else {
-            message.if("Computing correlation...", verbose=verbose-1)
-            nets[[ind]] <- abs(stats::cor(wData))
+            results[["moduleRes"]] <- wgRes
+            modules <- wgRes$modules
+            ##browser()
+            if(doNetOnly){
+                warning("Identify modules took time, but is not needed when doNetOnly==TRUE")
+            }
+            results[["netMatrix"]] <- nets[[ind]]
         }
         rm(wData)
     }
-
+    
     ## Now use combine.networks()
-    if(dataNum!=1){    
+    if(dataNum!=1){
+        print("dataNum!=1")
         ##Combine listed data frames into one dataframe, Labels into one vector
         message.if("Binding data...",  verbose=verbose-2)
         DataEig <- as.matrix(dplyr::bind_rows(checkeData))
@@ -96,22 +104,32 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 	if(any(duplicated(extractedIDs)))
 	    stop("Cannot have same row ID in multiple data sets.")
 	rownames(DataEig) <- names(LabelsEig)
-	wgRes <- combine.networks(nets=nets, contributions=cont, outPath=saveDir,     
+	combined <- combine.networks(nets=nets, contributions=cont, outPath=saveDir,     
                                   RsquaredCut=RsquaredCut, minModuleSize=20,   
-                                  datExpr=DataEig, verbose=verbose-1)
-    } else {
+                                  datExpr=DataEig, verbose=verbose-1, doReturNetworks=doNetOnly,
+                                  doIdentifyModule=!doNetOnly)
+        results[["netMatrix"]] <- combined$netMatrix
+        results[["combined"]] <- combined
+        if(!doNetOnly){
+            modules <- combined$modules
+        }
+         
+    } else { ##dataNum=1
 	DataEig <- DataI
 	LabelsEig <- LabelsI
     }
-
-
-    results[["moduleRes"]] <- wgRes
+    ##browser()
+    if(doNetOnly){
+        return(results)
+    }
+    
     ## Eigengenes:
     pigengene <- compute.pigengene(Data=DataEig, Labels=LabelsEig,
-                                   modules=wgRes$modules,
+                                   modules=modules,
                                    saveFile=combinedPath(saveDir, 'pigengene.RData'),
                                    doPlot='TRUE', verbose=verbose, dOrderByW=dOrderByW,
                                    naTolerance=naTolerance)
+
     results[["pigengene"]] <- pigengene
     ## Multiple conditions?
     if(length(unique(unlist(Labels)))<2){

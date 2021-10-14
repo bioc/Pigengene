@@ -31,7 +31,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="",powerVector
 
     ##Diagonal elements should be all 1
     diag(network) <- 1
-                                      
+                                  
     ## Recall identify modules function to return modules
     if (doIdentifyModule){
         identifiedMod <- identify.modules(network=network, outPath=outPath, midfix="",
@@ -43,7 +43,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="",powerVector
         result[["modules"]] <- identifiedMod$modules
         result[["net"]] <- identifiedMod$net
     }
-
+    
     ## Clean up:
     if(doRemoveTOM)
         unlink(tomFile)

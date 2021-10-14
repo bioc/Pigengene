@@ -31,7 +31,7 @@ consensus <- function(
         message.if(paste("threshold is automatically determined to be:", threshold), 
                    verbose=verbose)
     }
-    c1 <- averaged.network(strength=f1, nodes=colnames(Data), threshold=threshold)
+    c1 <- averaged.network(strength=f1, threshold=threshold)
     c12 <- pdag2dag(c1, ordering=colnames(Data))
     sc <- score(c12, Data, "bde")
     scBIC <- score(c12, Data, "bic")

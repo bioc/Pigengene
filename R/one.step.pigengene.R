@@ -2,7 +2,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
                                Labels, testD=NULL, testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8,
                                costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
                                mit="All", ## unique(Labels)[1],
-                               verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05, doNetOnly=FALSE){
+                               verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05,
+                               doNetOnly=FALSE, idType="ENTREZID", pathwayDb=NULL, OrgDb=org.Hs.eg.db){
     ## costRatio: Implemented only for 2 classes.
     ##^Determines how severe it is to misclassify a sample accross types.
     ##^E.g., if costRatio=2, misclassification of a sample of the 1st type is
@@ -118,11 +119,21 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 	DataEig <- DataI
 	LabelsEig <- LabelsI
     }
-    ##browser()
+
     if(doNetOnly){
         return(results)
     }
+    results[["moduleRes"]] <- wgRes
     
+    ## PW analysis
+    if(!is.null(pathwayDb)){
+        moduleMembers <- setNames(paste0("ME", wgRes$modules), 
+                          nm=sub("_[^_]+$", "", names(wgRes$modules)))
+        moduList <- split(names(moduleMembers), f=moduleMembers)
+        pw1 <- get.enriched.pw(genes=moduList, idType=idType, pathwayDb=pathwayDb, 
+                               Org=NULL, OrgDb=OrgDb, outPath=saveDir, verbose=verbose)
+    }
+
     ## Eigengenes:
     pigengene <- compute.pigengene(Data=DataEig, Labels=LabelsEig,
                                    modules=modules,

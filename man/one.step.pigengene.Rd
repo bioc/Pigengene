@@ -15,7 +15,8 @@ decision trees, and compact them.}
 one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL, 
   testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8, costRatio=1,
   toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, mit="All",
-  verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05)
+  verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05, 
+  idType="ENTREZID", pathwayDb=NULL, OrgDb=org.Hs.eg.db)
 }
 
 \arguments{
@@ -89,22 +90,34 @@ one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL,
   contribute to the the tree will be plotted.}
 
   \item{seed}{
-    Random seed to ensure reproducibility.}
+  Random seed to ensure reproducibility.}
 
   \item{dOrderByW}{
   If \code{TRUE}, the genes will be ordered in the csv file based on their
   absolute weight in the corresponding module.}
   
   \item{naTolerance}{
-    Upper threshold on the fraction of entries per gene that
-    can be missing. Genes with a larger fraction of missing
-    entries are ignored. For genes with smaller fraction of NA
-    entries, the missing values are imputed from their average
-    expression in the other samples.  
-    See \code{\link{check.pigengene.input}}.}
+  Upper threshold on the fraction of entries per gene that
+  can be missing. Genes with a larger fraction of missing
+  entries are ignored. For genes with smaller fraction of NA
+  entries, the missing values are imputed from their average
+  expression in the other samples. See \code{\link{check.pigengene.input}}.}
 
+  \item{idType}{
+  A string describing the type of input gene ID e.g., "ENTREZID", "REFSEQ", 
+  "SYMBOL".}
 
+  \item{pathwayDb}{
+  A character vector determining which enrichment database to be used by the
+  \code{\link{get.enriched.pw}} function e.g., "GO", "KEGG", "REACTOME", or
+  "NCG". Set to \code{NULL} to skip the pathway enrichment analysis.}
+
+  \item{OrgDb}{
+  The reference data base to be used. Use e.g. \code{org.Ce.eg.db} for 'Celegans'
+  when analysing Celegans data. If \code{OrgDb} is not \code{NULL}, \code{Org} 
+  must be \code{NULL}.}
 }
+
 \details{
 This is the main function of the package Pigengene and performs several
 steps: First, modules are identified in the training expression data,
@@ -175,6 +188,7 @@ step-by-step in a customized way.}
 \code{\link[WGCNA]{blockwiseModules}}}
 
 \examples{
+library(org.Hs.eg.db)
 data(aml)
 data(mds)
 d1 <- rbind(aml,mds)

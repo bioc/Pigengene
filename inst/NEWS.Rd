@@ -1,6 +1,30 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.19.30 (2021-09-08)}{
+   \subsection{Bug Fixes}{
+       \itemize{
+         \item The \code{averaged.network()} function does not
+	 have the \code{nodes} argument in bnlearn Version >=4.7, and
+	 thus this argument was removed.
+    }
+  }
+}
+
+\section{Changes in version 1.19.24 (2021-08-06)}{
+  \subsection{New functions}{
+    \itemize{
+      \item The \code{get.enriched.pw()} function is added. 
+    }
+  }
+   \subsection{Bug Fixes}{
+       \itemize{
+         \item A bug fix in the \code{gene.mapping()} function that used to occur
+         when we had multiple output databases. 
+    }
+  }
+}
+
 \section{Changes in version 1.19.10 (2021-06-25)}{
   \subsection{Changes in existing functions}{
     \itemize{

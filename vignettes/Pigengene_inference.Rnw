@@ -255,6 +255,24 @@ treeRes <- make.decision.tree(pigengene=pigengene, Data=DataI,
 If \Rcode{selectedFeatures="All"}, the \Rcode{make.decision.tree} function automatically selects a
 ``minimal'' subset of eigengenes in order to prevent overfitting.
 
+We can perform an over--representation pathway analysis based on the selected
+features in the decision tree using the \Rcode{get.enriched.pw} function.
+<<selectedFeatures, echo=TRUE>>=
+## Access tree results
+usedFeatures <- get.used.features(c5Tree=treeRes$c5Trees[["17"]])
+moduleMembers <- setNames(paste0("ME", wgRes$modules), 
+                          nm=sub("_[^_]+$", "", names(wgRes$modules)))
+modMembersUsed <- moduleMembers[moduleMembers %in% usedFeatures]
+moduList <- split(names(modMembersUsed), f=modMembersUsed)
+
+library(org.Hs.eg.db)
+pw1 <- get.enriched.pw(genes=moduList, idType="ENTREZID", pathwayDb="KEGG",
+                      Org=NULL, OrgDb=org.Hs.eg.db, outPath=saveDir, verbose=1)
+@
+The output is saved for each selected module under the ``moduleName\_enrichment'' 
+folder. There is a subfolder that includes an excel file and plot(s). Each sheet 
+in the excel file corresponds to a pathway database (KEGG in the above example). 
+Each row is an overrepresented pathway.
 
 \subsection{Citation}
 The methodology and an interesting application of \pipa on studying

@@ -23,7 +23,7 @@ Description: Pigengene package provides an efficient way to infer
         probabilistic dependencies between modules, and builds a
         decision tree based on the expression of eigengenes.
 License: GPL (>=2)
-Imports: bnlearn (>= 4.4.1), C50 (>= 0.1.2), MASS, matrixStats, partykit, Rgraphviz, 
+Imports: bnlearn (>= 4.7), C50 (>= 0.1.2), MASS, matrixStats, partykit, Rgraphviz, 
         WGCNA, GO.db, impute, preprocessCore, grDevices,  
         graphics, stats, utils, parallel, pheatmap (>= 1.0.8), dplyr, gdata,
         clusterProfiler, ReactomePA, ggplot2, openxlsx, DBI

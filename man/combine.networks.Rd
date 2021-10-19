@@ -15,7 +15,7 @@
 \usage{
 combine.networks(nets, contributions, outPath, midfix="",
     powerVector=1:20, verbose=1, RsquaredCut=0.75, minModuleSize=5,
-    doRemoveTOM=TRUE, datExpr, doReturNetworks=FALSE, doSave=FALSE)
+    doRemoveTOM=TRUE, datExpr, doReturNetworks=FALSE, doSave=FALSE, doIdentifyModule=TRUE)
 }
 
 \arguments{
@@ -69,6 +69,11 @@ combine.networks(nets, contributions, outPath, midfix="",
     A boolean value to determine whether the whole output of this
     function (typically 1-2 GBs) should be saved as \code{combinedNetwork}.
     Set to \code{FALSE} not to waste disk space.
+  }
+  \item{doIdentifyModule}{
+    A boolean value to determine whether modules should be
+    identified. Set it to \code{FALSE} if you just need the network, not
+    the modules.
   }
 }
 

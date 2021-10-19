@@ -82,13 +82,13 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
             wgRes <- wgcna.one.step(Data=wData, seed=seed,
                                     power=betaI,
                                     saveDir=saveDir, verbose=verbose-1)
-            results[["moduleRes"]] <- wgRes
+            results[["wgRes"]] <- wgRes
             modules <- wgRes$modules
             ##browser()
             if(doNetOnly){
                 warning("Identify modules took time, but is not needed when doNetOnly==TRUE")
             }
-            results[["netMatrix"]] <- nets[[ind]]
+            results[["Network"]] <- nets[[ind]]
         }
         rm(wData)
     }
@@ -109,7 +109,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
                                   RsquaredCut=RsquaredCut, minModuleSize=20,   
                                   datExpr=DataEig, verbose=verbose-1, doReturNetworks=doNetOnly,
                                   doIdentifyModule=!doNetOnly)
-        results[["netMatrix"]] <- combined$netMatrix
+        results[["Network"]] <- combined$Network
         results[["combined"]] <- combined
         if(!doNetOnly){
             modules <- combined$modules
@@ -123,12 +123,12 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
     if(doNetOnly){
         return(results)
     }
-    results[["moduleRes"]] <- wgRes
+    results[["modules"]] <- modules
     
     ## PW analysis
     if(!is.null(pathwayDb)){
-        moduleMembers <- setNames(paste0("ME", wgRes$modules), 
-                          nm=sub("_[^_]+$", "", names(wgRes$modules)))
+        moduleMembers <- setNames(paste0("ME", modules), 
+                          nm=sub("_[^_]+$", "", names(modules)))
         moduList <- split(names(moduleMembers), f=moduleMembers)
         pw1 <- get.enriched.pw(genes=moduList, idType=idType, pathwayDb=pathwayDb, 
                                Org=NULL, OrgDb=OrgDb, outPath=saveDir, verbose=verbose)

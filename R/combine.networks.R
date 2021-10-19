@@ -37,7 +37,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="",powerVector
         identifiedMod <- identify.modules(network=network, outPath=outPath, midfix="",
                                        powerVector=powerVector, verbose=verbose-1,
                                        RsquaredCut=RsquaredCut, minModuleSize=minModuleSize,
-                                       doRemoveTOM=TRUE, datExpr=datExpr, doSave=FALSE)
+                                       doRemoveTOM=doRemoveTOM, datExpr=datExpr, doSave=FALSE)
         result[["power"]] <- identifiedMod$power
         result[["fits"]] <- identifiedMod$fits
         result[["modules"]] <- identifiedMod$modules
@@ -45,8 +45,6 @@ combine.networks <- function(nets, contributions, outPath, midfix="",powerVector
     }
     
     ## Clean up:
-    if(doRemoveTOM)
-        unlink(tomFile)
     if(doReturNetworks)
         result[["Network"]] <- network
 

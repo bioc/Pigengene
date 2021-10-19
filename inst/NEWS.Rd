@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.19.50 (2021-10-14)}{
+  \subsection{New functions}{
+    \itemize{
+      \item Neda added the \code{identify.modules()},
+      \code{make.filter()}, and \code{apply.filter()} functions, but not
+      exported them yet. 
+    }
+  }
+}
+
 \section{Changes in version 1.19.30 (2021-09-08)}{
    \subsection{Bug Fixes}{
        \itemize{

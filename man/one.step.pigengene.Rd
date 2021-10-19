@@ -16,7 +16,7 @@ one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL,
   testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8, costRatio=1,
   toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, mit="All",
   verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05, 
-  idType="ENTREZID", pathwayDb=NULL, OrgDb=org.Hs.eg.db)
+  doNetOnly=FALSE, idType="ENTREZID", pathwayDb=NULL, OrgDb=org.Hs.eg.db)
 }
 
 \arguments{
@@ -103,6 +103,10 @@ one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL,
   entries, the missing values are imputed from their average
   expression in the other samples. See \code{\link{check.pigengene.input}}.}
 
+  \item{doNetOnly}{
+  If \code{TRUE}, the pipeline does not continue after making the
+  network and identifying the modules, e.g., eigengenes will not be computed.}
+
   \item{idType}{
   A string describing the type of input gene ID e.g., "ENTREZID", "REFSEQ", 
   "SYMBOL".}
@@ -149,8 +153,10 @@ self explanatory directories, heatmaps and plots are created and stored under
 \value{
 A list with the following components:
 \item{call}{The call that created the results.}
+\item{modules}{A named vector. Names are genes IDs and values are
+  the corresponding module number.}
 \item{wgRes}{A list. The results of WGCNA clustering of the Data by
-  \code{\link{wgcna.one.step}}.}
+  \code{\link{wgcna.one.step}} if \code{Data} is one matrix.}
 \item{betaRes}{A list. The automatically selected beta (power) parameter
   which was used for the WGCNA clustering. It is the result of the call to
   \code{calculate.beta} using the expression data of \code{mit} conditions(s).}

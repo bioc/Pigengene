@@ -86,7 +86,6 @@ correlation network analysis. BMC Bioinformatics 2008, 9:559}
 
 \examples{
      data(aml)
-     data(mds)
      wgRes <- wgcna.one.step(Data=aml[,1:200], seed=1, power=7,
                                  saveDir="wgcna", verbose=1)
 }

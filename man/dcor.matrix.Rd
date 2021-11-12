@@ -58,11 +58,11 @@ dcor1 <- dcor.matrix(Data=aml[,1:5])
 dcor1
 
 ## Comparison with Pearson:
-cor1 <- abs(cor(aml[,1:5]))
+cor1 <- abs(stats::cor(aml[,1:5]))
 ## With 202 samples, distance and Pearson correlations do not differ much:
 dcor1-cor1 
 dcor2 <- dcor.matrix(Data=aml[1:20,1:5])
-cor2 <- abs(cor(aml[1:20,1:5]))
+cor2 <- abs(stats::cor(aml[1:20,1:5]))
 ## Distance correlation is more robust if fewer samples are available:
 dcor2-cor2
 plot(dcor2-cor1,cor1-cor2,xlim=c(-0.5,0.5),ylim=c(-0.5,0.5))

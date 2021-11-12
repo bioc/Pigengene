@@ -13,7 +13,7 @@
 }
 
 \usage{
-make.filter(network, epsilon, outPath=NULL).
+make.filter(network, epsilon, outPath=NULL)
 }
 
 \arguments{

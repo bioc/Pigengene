@@ -34,7 +34,7 @@ combine.networks <- function(nets, contributions, outPath, midfix="",powerVector
                                   
     ## Recall identify modules function to return modules
     if (doIdentifyModule){
-        identifiedMod <- identify.modules(network=network, outPath=outPath, midfix="",
+        identifiedMod <- determine.modules(network=network, outPath=outPath, midfix="",
                                        powerVector=powerVector, verbose=verbose-1,
                                        RsquaredCut=RsquaredCut, minModuleSize=minModuleSize,
                                        doRemoveTOM=doRemoveTOM, datExpr=datExpr, doSave=FALSE)

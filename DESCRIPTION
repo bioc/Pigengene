@@ -1,7 +1,7 @@
 Package: Pigengene
 Type: Package
 Title: Infers biological signatures from gene expression data
-Version: 1.21.2
+Version: 1.21.34
 Date: 2016-03-31
 Author: Habil Zare, Amir Foroushani, Rupesh Agrahari, Meghan Short, Isha Mehta, and Neda Emami
 Maintainer: Habil Zare <zare@u.washington.edu>
@@ -26,8 +26,8 @@ License: GPL (>=2)
 Imports: bnlearn (>= 4.7), C50 (>= 0.1.2), MASS, matrixStats, partykit, Rgraphviz, 
         WGCNA, GO.db, impute, preprocessCore, grDevices,  
         graphics, stats, utils, parallel, pheatmap (>= 1.0.8), dplyr, gdata,
-        clusterProfiler, ReactomePA, ggplot2, openxlsx, DBI
+        clusterProfiler, ReactomePA, ggplot2, openxlsx, DBI, DOSE
 Suggests: org.Hs.eg.db (>= 3.7.0), org.Mm.eg.db (>= 3.7.0), biomaRt (>= 2.30.0),
-        knitr, AnnotationDbi, energy, DOSE
+        knitr, AnnotationDbi, energy
 VignetteBuilder: knitr
 NeedsCompilation: no

@@ -11,7 +11,6 @@ apply.filter <- function(gamma, filt, Data, doNormalize=FALSE){
     if(inherits(Data, "list")){##Data is a list
         filterred <- list()
         print(paste("gamma", gamma))
-        print(paste("epsilon", epsilon))
         for(i1 in 1:length(Data)){
             d1 <- Data[[i1]]
             f1 <- apply.filter(gamma=gamma, filt=filt, Data=d1)

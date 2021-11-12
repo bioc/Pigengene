@@ -46,7 +46,7 @@ formula, where sData is the scaled \code{Data} and filtN is the normalized or un
 
 \seealso{
 \code{\link{make.filter}},
-\code{\link{identify.modules}}
+\code{\link{determine.modules}}
 }
 
 \examples{

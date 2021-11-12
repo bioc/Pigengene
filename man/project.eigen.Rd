@@ -103,7 +103,7 @@ original modules.}
      ## How robust projecting is?
      p2 <- project.eigen(Data=d1, pigengene = p1, verbose = 1)
      plot(p1$eigengenes[,"ME1"],p2$projected[,"ME1"])
-     cor(p1$eigengenes[,"ME1"],p2$projected[,"ME1"])
+     stats::cor(p1$eigengenes[,"ME1"],p2$projected[,"ME1"])
 
 }
 

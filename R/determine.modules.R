@@ -1,4 +1,4 @@
-identify.modules <- function(network, outPath, midfix="", powerVector=1:20,
+determine.modules <- function(network, outPath, midfix="", powerVector=1:20,
                              verbose=1, RsquaredCut=0.75, minModuleSize=5, doRemoveTOM=FALSE,
                              datExpr, doSave=FALSE){
     ## It identifies modules of the  network by using of WGCNA(). 

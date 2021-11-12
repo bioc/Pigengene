@@ -1,5 +1,5 @@
-\name{identify.modules}
-\alias{identify.modules}
+\name{determine.modules}
+\alias{determine.modules}
 
 \title{
   Identifies modules of the network
@@ -7,19 +7,19 @@
 
 \description{
     Takes as input a \code{network} (i.e., weighted graph) and identifies modules
-    (i.e., clusters of similar genes) using \code{\link[WGCNA]{WGCNA}}.
-    Additionally, it produces a plot showing the number of genes in each module.
+    (i.e., clusters of similar genes) using  \code{WGCNA::\link[WGCNA]{blockwiseModules}}.
+    It also produces a plot showing the number of genes in each module.
 }
 
 \usage{
-identify.modules(network, outPath, midfix="", powerVector=1:20,
+determine.modules(network, outPath, midfix="", powerVector=1:20,
 		verbose=1, RsquaredCut=0.75, minModuleSize=5, doRemoveTOM=FALSE,
-                datExpr, doSave=FALSE).
+                datExpr, doSave=FALSE)
 }
 
 \arguments{
   \item{network}{
-    An adjacency matrix of the network that is built using \code{\link{combine.network}}.}
+    An adjacency matrix of the network that is built using \code{\link{combine.networks}}.}
 
   \item{outPath}{
     A string to the path where plots and results will be saved.}
@@ -86,7 +86,7 @@ data(aml)
 network <- abs(stats::cor(aml[,1:200]))
 
 ##Identifying modules
-identifiedMod <- identify.modules(network=network, outPath=".", datExpr=aml[,1:200])
+identifiedMod <- determine.modules(network=network, outPath=".", datExpr=aml[,1:200])
 print(table(identifiedMod$modules))
 }
 

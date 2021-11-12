@@ -54,9 +54,9 @@ gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=T
 
     inputTypeOrig <- inputType
     ## Check the availability of the database:
-    if("org.Hs.eg.db" %in% c(inDbChar,outDbChar) & !require(org.Hs.eg.db))
+    if("org.Hs.eg.db" %in% c(inDbChar, outDbChar) & !require(org.Hs.eg.db))
        stop("org.Hs.eg.db package is required by gene.mapping()!")
-    if("org.Mm.eg.db" %in% c(inDbChar,outDbChar) & !require(org.Mm.eg.db))
+    if("org.Mm.eg.db" %in% c(inDbChar, outDbChar) & !require(org.Mm.eg.db))
        stop("org.Mm.eg.db package is required by gene.mapping()!")
     ## Change char to database package:
     inputDb <- get(inDbChar)

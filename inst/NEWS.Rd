@@ -1,6 +1,24 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.21.34 (2021-11-12)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Habil renamed \code{identify.modules()} to
+      \code{determine.modules()}.
+    }
+  }
+}
+
+\section{Changes in version 1.21.30 (2021-11-12)}{
+  \subsection{New functions}{
+    \itemize{
+      \item Neda exported \code{identify.modules()},
+      \code{make.filter()}, and \code{apply.filter()} functions.
+    }
+  }
+}
+
 \section{Changes in version 1.19.50 (2021-10-14)}{
   \subsection{New functions}{
     \itemize{

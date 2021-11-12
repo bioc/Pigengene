@@ -61,7 +61,7 @@ identify.modules <- function(network, outPath, midfix="", powerVector=1:20,
     names(modules) <- rownames(network)
     result[["modules"]] <- modules
     result[["net"]] <- net
-    ##browser()
+
     ## Plot:
     png(filename=file.path(outPath, paste0("Module_sizes", midfix, ".png")),
         height=2*480, width=2*480, res=2.5*72)

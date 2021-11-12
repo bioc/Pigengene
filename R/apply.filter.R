@@ -8,7 +8,6 @@ apply.filter <- function(gamma, filt, Data, doNormalize=FALSE){
     ## Output: filterred, the filterred matrix.
     
     result <- list()
-    ##browser()
     if(inherits(Data, "list")){##Data is a list
         filterred <- list()
         print(paste("gamma", gamma))
@@ -23,11 +22,8 @@ apply.filter <- function(gamma, filt, Data, doNormalize=FALSE){
         ## QC	
         if(any(!colnames(Data) %in% colnames(filt)))
             stop("filt and Data must have the same number of columns!")
-        ##test a brower()
         Data <- as.matrix(Data)
         ##Applying a filter on the Data
-        warning("Data must be scaled here, before applying the filter")
-        ##browser()
         meanData <- colMeans(Data)
         DataSds <- colSds(Data)
         sData <- scale(Data)
@@ -36,7 +32,7 @@ apply.filter <- function(gamma, filt, Data, doNormalize=FALSE){
         if(doNormalize){
             filtN <- filtN / rep(rowSums(filtN), each=nrow(filtN))
         }
-        filterred <- gamma*sData %*% filtN+(1-gamma)*sData
+        filterred <- (gamma*sData %*% filtN) + ((1-gamma)*sData)
         filterred <- t(t(filterred) * DataSds)
         filterred <- t(t(filterred) + meanData)
     }

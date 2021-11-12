@@ -6,7 +6,6 @@ make.filter <- function(network, epsilon, outPath=NULL){
     ##they are connected with an edge with weight 1.
     ##network: a matrix of similarity for the network.
     ##epsilon: the threshold described above.
-    ##Output: filt, the filter matrix.
 
     result <- list()
 
@@ -33,3 +32,6 @@ make.filter <- function(network, epsilon, outPath=NULL){
     result[["filt"]] <- filt
     return(result)
 }
+
+
+    

@@ -45,10 +45,11 @@ importFrom(WGCNA, blockwiseModules, moduleEigengenes, allowWGCNAThreads, pickSof
 ## Exports:
 ##exportPattern("^[[:alpha:]]+")
 ##exportClasses(pigengene) ## This is an S3 class and does not need exportation.
-export(one.step.pigengene, check.pigengene.input, balance, calculate.beta,
+export(one.step.pigengene,
+       check.pigengene.input, balance, calculate.beta,
        wgcna.one.step, compute.pigengene, plot.pigengene, pheatmap.type,
        project.eigen, learn.bn, draw.bn, make.decision.tree, get.used.features,
        get.fitted.leaf, module.heatmap, compact.tree, get.genes, preds.at,
        pvalues.manova, gene.mapping, dcor.matrix, check.nas, combine.networks,
-       save.if, message.if, get.enriched.pw)
+       save.if, message.if, get.enriched.pw, apply.filter, identify.modules, make.filter)
 S3method(plot, pigengene)

@@ -3,7 +3,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
                                costRatio=1, toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE,
                                mit="All", ## unique(Labels)[1],
                                verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05,
-                               doNetOnly=FALSE, idType="ENTREZID", pathwayDb=NULL, OrgDb=org.Hs.eg.db){
+                               doNetOnly=FALSE, doReturNetworks=doNetOnly, idType="ENTREZID",
+                               pathwayDb=NULL, OrgDb=org.Hs.eg.db){
     ## costRatio: Implemented only for 2 classes.
     ##^Determines how severe it is to misclassify a sample accross types.
     ##^E.g., if costRatio=2, misclassification of a sample of the 1st type is
@@ -107,7 +108,8 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
 	rownames(DataEig) <- names(LabelsEig)
 	combined <- combine.networks(nets=nets, contributions=cont, outPath=saveDir,     
                                   RsquaredCut=RsquaredCut, minModuleSize=20,   
-                                  datExpr=DataEig, verbose=verbose-1, doReturNetworks=doNetOnly,
+                                  datExpr=DataEig, verbose=verbose-1,
+                                  doReturNetworks=doReturNetworks,
                                   doIdentifyModule=!doNetOnly)
         results[["Network"]] <- combined$Network
         results[["combined"]] <- combined

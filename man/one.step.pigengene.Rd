@@ -16,7 +16,8 @@ one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL,
   testLabels=NULL, doBalance=TRUE, RsquaredCut=0.8, costRatio=1,
   toCompact=FALSE, bnNum=0, bnArgs=NULL, useMod0=FALSE, mit="All",
   verbose=0, doHeat=TRUE, seed=NULL, dOrderByW=TRUE, naTolerance=0.05, 
-  doNetOnly=FALSE, idType="ENTREZID", pathwayDb=NULL, OrgDb=org.Hs.eg.db)
+  doNetOnly=FALSE, doReturNetworks=doNetOnly, idType="ENTREZID",
+  pathwayDb=NULL, OrgDb=org.Hs.eg.db)
 }
 
 \arguments{
@@ -106,6 +107,11 @@ one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL,
   \item{doNetOnly}{
   If \code{TRUE}, the pipeline does not continue after making the
   network and identifying the modules, e.g., eigengenes will not be computed.}
+
+  \item{doReturNetworks}{
+    A boolean value to determine whether to return \code{Network}, which
+    is relatively a big matrix (typically GBs). Set to \code{FALSE} not
+    to waste memory.}
 
   \item{idType}{
   A string describing the type of input gene ID e.g., "ENTREZID", "REFSEQ", 

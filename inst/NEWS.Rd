@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.21.36 (2021-11-16)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Habil added the \code{doReturNetworks} argument to \code{one.step.pigengene()}.
+    }
+  }
+}
+
 \section{Changes in version 1.21.34 (2021-11-12)}{
   \subsection{Changes in existing functions}{
     \itemize{

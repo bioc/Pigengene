@@ -41,10 +41,10 @@ Maintainer: Habil Zare <zare@txstate.edu>
 }
 
 \references{
-  Large-scale gene network analysis reveals the significance of extracellular 
-  matrix pathway and homeobox genes in acute myeloid leukemia,
-  Foroushani A, Agrahari R, Docking R, Karsan A, and Zare H.
-  In preparation.}
+Foroushani, Amir, et
+al. "Large-scale gene network analysis reveals the significance of extracellular
+matrix pathway and homeobox genes in acute myeloid leukemia: an introduction to
+the Pigengene package and its applications." BMC medical genomics 10.1 (2017): 1-15.}
 
 \keyword{ package }
 \keyword{ datasets }

@@ -96,7 +96,7 @@ Isha Mehta, and Habil Zare}
 library(org.Hs.eg.db)
 genes <- c("NM_170730", "NM_001013580", "NM_002142", "NM_003417", "NM_000082",
            "NM_006158", "NM_006047", "NM_022356", "NM_003979", "NM_001030", "NM_022872")
-p1 <- get.enriched.pw(genes=genes, idType="REFSEQ", pathwayDb="KEGG", Org="Human", 
+p1 <- get.enriched.pw(genes=genes, idType="REFSEQ", pathwayDb="GO", Org="Human", 
                       outPath=getwd(), verbose=1)
 }
 

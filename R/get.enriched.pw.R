@@ -150,7 +150,7 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
                                   names(subListData)]
     if(length(noEnrichment) != 0)
         message.if(me=paste("No enriched pathways found using",noEnrichment,"database"),
-                   verbose=verbose-1)
+                   verbose=verbose)
     result[["EnrichResults"]] <- subEnrichedList
     result[["noEnrichment"]] <- noEnrichment
 
@@ -158,6 +158,9 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
     xlsFile <- file.path(resultPath, paste0("ORA_results_", pvalueCutoff, "_",
                                             pAdjustMethod, ".xlsx"))
     if(length(subListData) > 0){
+        if(file.exists(xlsFile)){
+            file.remove(xlsFile)
+        }
         write.xlsx(x=subListData, file=xlsFile)
     }
 
@@ -171,6 +174,10 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
                                                  pAdjustMethod, ".png"))
         ggsave(plotFile, device="png", width=10, height=10, dpi="retina")
     }
+
+    message.if(me=paste("Plots and an excel file are saved at:", resultPath), 
+               verbose=verbose)
+
 
     return(result)
 }

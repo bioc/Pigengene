@@ -1,6 +1,17 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.21.40 (2022-04-15)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Habil changed the default value from
+      \code{hu.mouse(host="useast.ensembl.org", ...)} to
+      \code{hu.mouse(host="www.ensembl.org", ...)} to
+      prevent a check error on Bioconductor.
+    }
+  }
+}
+  
 \section{Changes in version 1.21.36 (2021-11-16)}{
   \subsection{Changes in existing functions}{
     \itemize{

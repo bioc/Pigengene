@@ -28,6 +28,7 @@ gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=T
     }
 
     ## Cleaning:
+    message.if("Cleaning...", verbose=verbose-5)
     addAt <- FALSE
     if(outputType=="ENTREZIDat") {
         addAt <- TRUE
@@ -54,6 +55,7 @@ gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=T
 
     inputTypeOrig <- inputType
     ## Check the availability of the database:
+    message.if("Checking the availability of the database...", verbose=verbose-5)
     if("org.Hs.eg.db" %in% c(inDbChar, outDbChar) & !require(org.Hs.eg.db))
        stop("org.Hs.eg.db package is required by gene.mapping()!")
     if("org.Mm.eg.db" %in% c(inDbChar, outDbChar) & !require(org.Mm.eg.db))
@@ -63,15 +65,17 @@ gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=T
     outputDb <- get(outDbChar)
 
     ## QC:
+    message.if("QC...", verbose=verbose-5)
     possibleKeys <- AnnotationDbi::keytypes(inputDb)
     possibleCols <- AnnotationDbi::columns(outputDb)
     if(!inputType %in% possibleKeys)
         stop(paste(inputType, "not in possible keys:", paste(possibleKeys, collapse=", ")))
     if(!outputType %in% possibleCols)
         stop(paste(outputType, "not in possible cols:", paste(possibleKeys, collapse=", ")))
-    
+
     ## Mapping between species:
     if(inDbChar!= outDbChar){
+        message.if("Mapping between species...", verbose=verbose-4)
         ens <- gene.mapping(ids=key, inputType=inputType, outputType="ENSEMBL", 
                             inputDb=inputDb, verbose=verbose-1, leaveNA=TRUE)[, 3]
         ends <- ens[!is.na(ens)]
@@ -84,6 +88,7 @@ gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=T
     } ## else: input and output databases are the same. 
     ##
     if(require(AnnotationDbi)){
+        message.if("Selecting...", verbose=verbose-5)
         q1B <- AnnotationDbi::select(outputDb, keys=key, columns=outputType,
                                      keytype=inputType)
     } else {

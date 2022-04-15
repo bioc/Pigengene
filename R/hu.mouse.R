@@ -1,10 +1,11 @@
-hu.mouse <- function(host="useast.ensembl.org", verbose=0, mouseHomologFilter="with_mmusculus_homolog")
+hu.mouse <- function(host="www.ensembl.org", verbose=0, mouseHomologFilter="with_mmusculus_homolog"){
     ##mouseHomologFilter used to be ""with_homolog_mmus"" in older versions of biomaRt.
-{
-    ## Uses Biomart Ensembel to compute a table with human ensembl genes
+    ##
+    ## This function uses Biomart Ensembel to compute a table with human ensembl genes
     ##^ at the first column and their homologs at the second column.
     result <- list()
     ##
+    message.if("Using Biomart Ensembel to map homolog genes...", verbose=verbose)
     attributes <- c("ensembl_gene_id", "mmusculus_homolog_ensembl_gene")
     if (require(biomaRt)){
         ensembl <- biomaRt::useMart(biomart="ENSEMBL_MART_ENSEMBL", 
@@ -16,6 +17,7 @@ hu.mouse <- function(host="useast.ensembl.org", verbose=0, mouseHomologFilter="w
     } else {
         stop("biomaRt package is required by hu.mouse()!")
     }
+    message.if("Biomart Ensembel DONE.", verbose=verbose)
     expected <- "ensembl_gene_id-mmusculus_homolog_ensembl_gene"
     if(paste(colnames(homologs), collapse="-") != expected)
         stop("Unexpected output from biomaRt::getBM !")

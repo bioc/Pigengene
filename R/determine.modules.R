@@ -15,10 +15,13 @@ determine.modules <- function(network, outPath, midfix="", powerVector=1:20,
     ##block size for both power estimation and blockwiseModule
     maxBlockSize <- nrow(network)
     ##power
+    if(verbose<2)
+        sink(nullfile()) ## To suppress the table printed by WGCNA.
     pstPower <- WGCNA::pickSoftThreshold.fromSimilarity(similarity=network,
                                                         powerVector=powerVector,
                                                         blockSize=maxBlockSize,
                                                         verbose=verbose-1, RsquaredCut=RsquaredCut)
+    sink()
     message.if(paste("power:", pstPower$powerEstimate), verbose=verbose-1)
     result[["power"]] <- pstPower$powerEstimate
     result[["fits"]] <- pstPower$fitIndices

@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.23.4 (2022-05-23)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The beta table can now be suppressed in the
+      \code{determine.modules} function.
+    }
+  }
+}
+
 \section{Changes in version 1.21.40 (2022-04-15)}{
   \subsection{Changes in existing functions}{
     \itemize{

@@ -41,7 +41,8 @@ determine.modules(network, outPath, midfix="", powerVector=1:20,
     for more details.}
 
   \item{minModuleSize}{
-    The value that controls the minimum number of genes per module.}
+    The value that controls the minimum number of genes per module.
+    See \code{WGCNA::\link[WGCNA]{blockwiseModules}}.}
   
   \item{doRemoveTOM}{
     A boolean determining whether the big TOM file must remove or not.}

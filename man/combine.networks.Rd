@@ -49,7 +49,8 @@ combine.networks(nets, contributions, outPath, midfix="",
   for more details.}
 
   \item{minModuleSize}{
-    The value that controls the minimum number of genes per module.}
+    The value that controls the minimum number of genes per module.
+    See \code{WGCNA::\link[WGCNA]{blockwiseModules}}.}
   
   \item{doRemoveTOM}{
     A boolean determining the big TOM file must remove or not.}  

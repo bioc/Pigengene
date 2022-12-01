@@ -43,7 +43,6 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
     loaded <- try(require(OrgDb$packageName, character.only=TRUE))
     if(inherits(loaded, "try-error") | !loaded)
        stop("The package determined by OrgDb input is not installed!")
-    ## browser()
     if(!any(ont %in% c("BP", "MF", "CC")))
         stop("ont cannot take values other than BP, MF or CC!")
     if(inherits(OrgDb, "character"))
@@ -102,7 +101,6 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
         genes <- na.omit(targetConv$ENTREZID)
     }
     genes <- na.omit(genes)
-    ## browser()
 
     tables <- list()
     enrichmentS <- list()
@@ -143,13 +141,34 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
         }
     }
     
-    ## browser()
+    ## Adding gene symbols
+    for (tableInd in 1:length(tables)) {
+        table1 <- tables[[tableInd]]
+        if (nrow(table1)==0)
+            next
+        geneSymbols <- c()
+        for (ri in 1:nrow(table1)) {
+            overlapGenes <- table1[ri , "geneID"]
+            geneIds <- unlist(strsplit(overlapGenes, split="/"))
+            mapped <- gene.mapping(ids=geneIds, inputDb="Human" ,
+                                   inputType="ENTREZID", outputType="SYMBOL", verbose=verbose-2)
+            mapped <- mapped[ ,"output2"]
+            mapped <- mapped[!is.na(mapped)]
+            geneSymbols <- c(geneSymbols, paste(mapped, collapse=" ")) 
+        }
+        table1 <- cbind(table1, geneSymbols)
+        ## Moving the "Count" column to the last column
+        table1 <- cbind(table1[ ,colnames(table1)!= "Count"], Count=table1[ ,"Count"])
+        tables[[tableInd]] <- table1
+    }
+
+    ## Excluding empty databases
     subListData <- Filter(function(x) nrow(x) > 0, tables)
     subEnrichedList <- enrichmentS[names(subListData)]
     noEnrichment <- names(tables)[!names(tables) %in%
                                   names(subListData)]
     if(length(noEnrichment) != 0)
-        message.if(me=paste("No enriched pathways found using",noEnrichment,"database"),
+        message.if(me=paste("No enriched pathways found using", noEnrichment, "database"), 
                    verbose=verbose)
     result[["EnrichResults"]] <- subEnrichedList
     result[["noEnrichment"]] <- noEnrichment
@@ -164,6 +183,7 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
         write.xlsx(x=subListData, file=xlsFile)
     }
 
+    ## Plot
     for(l1 in names(subEnrichedList)){
         dotplot(subEnrichedList[[l1]], showCategory=30, orderBy="GeneRatio") +
                 ggtitle(paste0(l1, "-Enriched Pathways")) +

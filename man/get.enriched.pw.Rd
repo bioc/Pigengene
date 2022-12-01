@@ -84,7 +84,7 @@ reactome pathway analysis and visualization. Molecular BioSystems 2016, 12(2):47
 }
 
 \author{
-Isha Mehta, and Habil Zare}
+Isha Mehta, Habil Zare, and Sogand Sajedi}
 
 \seealso{
 \code{\link[clusterProfiler]{enrichGO}},

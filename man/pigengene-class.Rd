@@ -25,8 +25,11 @@ and other related information.}
       A named vector reporting the number of repeats for each condition
       in the oversampling process, which is done by the \code{\link{balance}} function.}
     \item{\code{eigenResults}}{
-      The full output of \code{\link[WGCNA]{moduleEigengenes}} function
-      with some fixes, e.g., we change \code{eigengenes} to a matrix,
+      A list including at least \code{eigengenes} and
+      \code{varExplained}. If \code{doWgcna=TRUE}, then 
+      this list will be the full output of
+      \code{\link[WGCNA]{moduleEigengenes}} function with some fixes, e.g.,
+      we change \code{eigengenes} to a matrix,
       and use genes as its row names. Also, \code{varExplained} is named
       according to modules.}
     \item{\code{Data}}{

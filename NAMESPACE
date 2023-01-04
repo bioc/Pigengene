@@ -44,7 +44,7 @@ importFrom(stats, manova, p.adjust, predict, quantile,
 ## cor must be imported from WGCA otherwise stats::cor will be used by WGCNA functions leading to errors.
 importFrom(WGCNA, blockwiseModules, moduleEigengenes, allowWGCNAThreads, pickSoftThreshold,
            labels2colors, sizeGrWindow, plotDendroAndColors, cor)
-## IMPORTANT: In this package, use "stats::cor" instead of "cor" otherwise the "WGCNA::cor" is used by default.
+## IMPORTANT: In this package, use "stats::cor" instead of "cor" otherwise the "WGCNA::cor" is used by default!!!
 
 ## Exports:
 ##exportPattern("^[[:alpha:]]+")

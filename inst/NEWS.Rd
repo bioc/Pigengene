@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.25.10 (2023-01-04)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{doWgcna} option is added to the
+      \code{compute.pigengene} function.
+    }
+  }
+}
+
 \section{Changes in version 1.25.4 (2022-12-01)}{
   \subsection{Changes in existing functions}{
     \itemize{

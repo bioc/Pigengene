@@ -1,13 +1,13 @@
-compute.pigengene <- function(
-    Data, Labels, modules, saveFile="pigengene.RData",
-    selectedModules="All", amplification=5,
-    doPlot=TRUE, verbose=0, dOrderByW=TRUE, naTolerance=0.05){
+compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
+                              selectedModules="All", amplification=5,
+                              doPlot=TRUE, verbose=0, dOrderByW=TRUE, naTolerance=0.05,
+                              doWgcna=FALSE){
     ##
     ## modules: A vector of integers determining module assignments.
     ##^Named by column names of Data.
     message.if(me="Pigengenes...", verbose=verbose)
-    result <- list()
-    result[["call"]] <- match.call()
+    pigengene <- list()
+    pigengene[["call"]] <- match.call()
     if ("All" %in% selectedModules) {
         selectedModules <- unique(modules)
     }
@@ -17,7 +17,7 @@ compute.pigengene <- function(
         pBasename <- gsub(basename(saveFile), pattern="\\.RData$", replacement="_pvalue")
         pvalueCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste(pBasename, ".csv", sep=""))
         membershipCsvFile <- combinedPath(dir=dirname(saveFile), fn=paste("membership.csv", sep=""))
-        result[["weightsCsvFile"]] <- membershipCsvFile
+        pigengene[["weightsCsvFile"]] <- membershipCsvFile
     }
     ## QC:
     c1 <- check.pigengene.input(Data=Data, Labels=Labels, na.rm=TRUE, naTolerance=naTolerance)
@@ -29,33 +29,67 @@ compute.pigengene <- function(
     balanced <- balance(Data=Data, Labels=Labels,
                         amplification=amplification, verbose=verbose-1, naTolerance=naTolerance)
     balancedData <- balanced$balanced
-    myDat <- balancedData[ , genes, drop=FALSE]
-    result[['Reptimes']] <- balanced$Reptimes
+    pigengene[['Reptimes']] <- balanced$Reptimes
+    origIds <- balanced$origSampleInds
+    pigengene[["Data"]] <- Data
+    rm(balanced, Data) ## Memory usage matters for big Data
+    gc()
     ## Do all modules have at least one gene in columns of Data?
-    hasNoGene <- !selectedModules %in% unique(modules[colnames(myDat)])
+    hasNoGene <- !selectedModules %in% unique(modules[genes])
     if(any(hasNoGene)){
         stop(paste("There is no gene in columns of Data for the following modules.",
                    "Has selectedModules been set properly?!",
                    paste(selectedModules[hasNoGene], collapse=", ")))
     }
     ## Eigengenes:
-    m1 <- paste("Computing eigengenes using", ncol(myDat), "genes &", nrow(myDat),
+    m1 <- paste("Computing eigengenes using", length(genes), "genes &", nrow(balancedData),
                 "samples...")
     message.if(me=m1, verbose=verbose-1)
     ## Main computation:
-    mERes <- WGCNA::moduleEigengenes(myDat, modules[colnames(myDat)], verbose=verbose-4,
-                                     scale=TRUE)
-    names(mERes$varExplained) <- colnames(mERes$eigengenes)
-    rownames(mERes$eigengenes) <- rownames(myDat)
-    ## What if a module has only 1 gene? WGCNA return NaNs.
-    sgms <- names(which(table(modules)==1)) ## Single gene modules
-    sgms <- intersect(sgms, selectedModules)
-    if(length(sgms)>0){
-        mERes$eigengenes[, paste0("ME", sgms)] <- myDat[, match(sgms, modules[colnames(myDat)]), drop=FALSE]
+    if(doWgcna){
+        mERes <- WGCNA::moduleEigengenes(balancedData[ , genes, drop=FALSE],
+                                         modules[genes], verbose=verbose-4,
+                                         scale=TRUE)
+        names(mERes$varExplained) <- colnames(mERes$eigengenes)
+        rownames(mERes$eigengenes) <- rownames(balancedData)
+        ## What if a module has only 1 gene? WGCNA return NaNs.
+        sgms <- names(which(table(modules)==1)) ## Single gene modules
+        sgms <- intersect(sgms, selectedModules)
+        if(length(sgms)>0){
+            sgmGenes <- genes[match(sgms, modules[genes])]
+            mERes$eigengenes[, paste0("ME", sgms)] <- balancedData[, sgmGenes, drop=FALSE]
+        }
+        mERes$eigengenes <- as.matrix(mERes$eigengenes)
+        pigengene[["eigenResults"]] <- mERes
+        eigengenes <- as.matrix(mERes$eigengenes)
+    } else {
+        mERes <- list()
+        for(m2 in unique(modules[genes])){
+            genes2 <- names(which(modules==m2))
+            message.if("Running PCA...", verbose=verbose-2)
+            prcompRes <- prcomp(balancedData[ , genes2, drop=FALSE], scale.=TRUE)
+            var2 <- (prcompRes$sdev^2)[1]/sum(prcompRes$sdev^2)
+            name2 <- paste0("ME", m2)
+            mERes[["varExplained"]][name2] <- var2
+            eigengene2 <- prcompRes$x[,"PC1"]
+            eigengene2 <- eigengene2/sqrt(sum(eigengene2^2))
+            message.if("Aligning module eigengene with average expression...",
+                       verbose=verbose-2)
+            averExpr <- rowMeans(balancedData[ , genes2, drop=FALSE], na.rm=TRUE)
+            corAve  <- cor(averExpr, eigengene2, use="p")
+            if(!is.finite(corAve))
+                corAve <- 0
+            if(corAve<0)
+                eigengene2 <- -eigengene2
+            mERes[["eigengenes"]] <- cbind(mERes$eigengenes, eigengene2)
+            colnames(mERes[["eigengenes"]])[ncol(mERes[["eigengenes"]])] <- name2
+            ## If a module has a single gene,
+            ## the corresponding eigengene is the normalized expression of that genes.
+        }        
+        mERes$eigengenes <- as.matrix(mERes$eigengenes)
+        pigengene[["eigenResults"]] <- mERes
+        eigengenes <- as.matrix(mERes$eigengenes)
     }
-    mERes$eigengenes <- as.matrix(mERes$eigengenes)
-    result[["eigenResults"]] <- mERes
-    eigengenes <- as.matrix(mERes$eigengenes)
     if(any(is.na(eigengenes)))
         warning("NA values in eigengenes!")
     message.if("Computing memberships...", verbose=verbose-1)
@@ -66,7 +100,7 @@ compute.pigengene <- function(
     ## that gene is definitely in module 0,
     ## and NOT in any other module.
     membership[colSds(balancedData) < 10^(-8), ] <- as.numeric(colnames(membership)=="ME0")
-    eigengenes <- eigengenes[balanced$origSampleInds, , drop=FALSE]
+    eigengenes <- eigengenes[origIds, , drop=FALSE]
     ann1 <- as.character(Labels[rownames(eigengenes)])
     ##^ pheatmap cannot work with e.g., TRUE
     ann1 <- as.data.frame(ann1)
@@ -90,16 +124,15 @@ compute.pigengene <- function(
         if(!is.null(saveFile)){
             write.csv(pvalCsv, file=pvalueCsvFile)
         }
-        result[["pvalues"]] <- pvalues
-        result[["log.pvalue"]] <- log.pvalue ## base 10
+        pigengene[["pvalues"]] <- pvalues
+        pigengene[["log.pvalue"]] <- log.pvalue ## base 10
     }
-    result[["Data"]] <- Data
-    result[["Labels"]] <- Labels
-    result[["eigengenes"]] <- eigengenesOrdered
-    result[["membership"]] <- membership
-    result[["orderedModules"]] <- modules[order(modules)]
-    result[["annotation"]] <- ann1
-    result[["saveFile"]] <- saveFile
+    pigengene[["Labels"]] <- Labels
+    pigengene[["eigengenes"]] <- eigengenesOrdered
+    pigengene[["membership"]] <- membership
+    pigengene[["orderedModules"]] <- modules[order(modules)]
+    pigengene[["annotation"]] <- ann1
+    pigengene[["saveFile"]] <- saveFile
     membershipCsv <- cbind(membership, modules[rownames(membership)])
     colnames(membershipCsv)[ncol(membershipCsv)] <- "Module"
     Weight <- c() ## Will add this as a column to the CSV file.
@@ -122,15 +155,14 @@ compute.pigengene <- function(
             ordered <- rbind(ordered, membership1[order(absolute1, decreasing=TRUE), ,drop=FALSE])
         }
         membershipCsv <- ordered
-        result[["heavyToLow"]] <- rownames(membershipCsv)
+        pigengene[["heavyToLow"]] <- rownames(membershipCsv)
     }
     if(!is.null(saveFile)){
         write.csv(file=membershipCsvFile, membershipCsv)
     }
-    result[["weights"]] <- membershipCsv
+    pigengene[["weights"]] <- membershipCsv
 
     ## The Pigengene output:
-    pigengene <- result
     class(pigengene) <- "pigengene"
     save.if(pigengene, file=saveFile, verbose=verbose-1)
 
@@ -140,8 +172,6 @@ compute.pigengene <- function(
             stop("Although doPlot is TRUE, I cannot save the plots because saveFile is NULL !")
         }
         sf <- file.path(dirname(saveFile),"plots")
-        ##dc <- c("red", "cyan", "green", "black", "pink", "brown", "yellow", "orange")
-        ##dc <- dc[1:length(unique(Labels))]
         plot.pigengene(x=pigengene, saveDir=sf,
                        selectedModules=selectedModules, verbose=verbose,
                        DiseaseColors="Auto")

@@ -11,7 +11,7 @@ computes an eigengene for each module using PCA.}
 \usage{
 compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData", 
     selectedModules = "All", amplification = 5, doPlot = TRUE,
-    verbose = 0, dOrderByW = TRUE, naTolerance=0.05)
+    verbose = 0, dOrderByW = TRUE, naTolerance=0.05, doWgcna=FALSE)
 }
 
 
@@ -43,7 +43,8 @@ compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData",
 
   \item{doPlot}{
   Boolean determining whether heatmaps of expression of eigengenes 
-  should be ploted and saved.}
+  should be ploted and saved. Set it to \code{FALSE} for large data to
+  avoid memory exhaustion.}
 
   \item{verbose}{
   The integer level of verbosity. 0 means silent and higher values    
@@ -61,6 +62,12 @@ compute.pigengene(Data, Labels, modules, saveFile = "pigengene.RData",
    expression in the other samples.  
    See \code{\link{check.pigengene.input}}.}
 
+ \item{doWgcna}{
+   If \code{FALSE}, \code{\link[stats]{prcomp}} will be used to compute
+   PCA. Otherwise, \code{WGCNA::\link[WGCNA]{blockwiseModules}} will be
+   used leading to consuming more memory with no advantages. 
+ }
+ 
 }
 
 \details{

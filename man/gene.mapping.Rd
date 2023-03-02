@@ -8,7 +8,7 @@ them to another convention.}
 
 \usage{
 gene.mapping(ids, inputType = "REFSEQ", outputType = "SYMBOL",
-  leaveNA = TRUE, inputDb = "Human", outputDb = inputDb,
+  leaveNA = FALSE, inputDb = "Human", outputDb = inputDb,
   verbose = 0)
 }
 
@@ -25,7 +25,8 @@ gene.mapping(ids, inputType = "REFSEQ", outputType = "SYMBOL",
 
   \item{leaveNA}{
   If \code{TRUE},the IDs that were not matched are left with \code{NA}s in
-  the second column of the output, otherwise the input IDs are returned.}
+  the second column of the output, otherwise (i.e., default) the input
+  IDs are returned.}
 
   \item{inputDb}{
   The input data base. Use \code{org.Hs.eg.db} for human and
@@ -46,7 +47,7 @@ them is returned.}
 
 \value{
 A matrix of characters with 3 columns: input, output1, and
-output2. The last one is guaranteed not to be \code{NA}.}
+output2. The last one is guaranteed not to be \code{NA} if \code{leaveNA=FALSE}.}
 
 \references{
 Pages H, Carlson M, Falcon S and Li N. AnnotationDbi: Annotation

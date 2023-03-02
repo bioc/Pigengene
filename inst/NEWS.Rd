@@ -1,6 +1,17 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.25.12 (2023-03-02)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The default value changed in
+      \code{gene.mapping(leaveNA=FALSE, ...)}.
+    }
+  }
+}
+
+
+
 \section{Changes in version 1.25.10 (2023-01-04)}{
   \subsection{Changes in existing functions}{
     \itemize{

@@ -1,4 +1,4 @@
-gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=TRUE, 
+gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=FALSE, 
                          inputDb="Human", outputDb=inputDb, verbose=0){
     ## inputDb: Input database.
     ##^It can be 'Human' or org.Hs.eg.db for human and 'Mouse' or org.Mm.eg.db for mouse.
@@ -103,6 +103,8 @@ gene.mapping <- function(ids, inputType="REFSEQ", outputType="SYMBOL", leaveNA=T
         nms <- as.character(ids[inds])
         if(length(inds) > 0) {
             f1[inds, "output2"] <- nms
+            message.if("NAs in output1 were replaced by the input IDs in output2",
+                       verbose=verbose-2)
         }
     }
     if(addAt) 

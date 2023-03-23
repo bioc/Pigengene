@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.25.16 (2023-03-22)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Constant genes are now ignored in the
+      \code{compute.pigengene(doWgcna=FALSE,...)} function to prevent a
+      run time error. 
+    }
+  }
+}
+
 \section{Changes in version 1.25.12 (2023-03-02)}{
   \subsection{Changes in existing functions}{
     \itemize{
@@ -9,8 +19,6 @@
     }
   }
 }
-
-
 
 \section{Changes in version 1.25.10 (2023-01-04)}{
   \subsection{Changes in existing functions}{

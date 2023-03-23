@@ -7,6 +7,8 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
     ##^Named by column names of Data.
     message.if(me="Pigengenes...", verbose=verbose)
     pigengene <- list()
+    ## Constants:
+    varEpsilon <- 10^(-8)
     pigengene[["call"]] <- match.call()
     if ("All" %in% selectedModules) {
         selectedModules <- unique(modules)
@@ -66,8 +68,13 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
         mERes <- list()
         for(m2 in unique(modules[genes])){
             genes2 <- names(which(modules==m2))
+            ## Remove constant genes: 
+            genes3 <- genes2[colSds(balancedData[ , genes2, drop=FALSE]) > varEpsilon]
+            ## QC:
+            if(length(genes3)==0)
+                stop(paste("No variable gene in module", m2))
             message.if("Running PCA...", verbose=verbose-2)
-            prcompRes <- prcomp(balancedData[ , genes2, drop=FALSE], scale.=TRUE)
+            prcompRes <- prcomp(balancedData[ , genes3, drop=FALSE], scale.=TRUE)
             var2 <- (prcompRes$sdev^2)[1]/sum(prcompRes$sdev^2)
             name2 <- paste0("ME", m2)
             mERes[["varExplained"]][name2] <- var2
@@ -75,7 +82,7 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
             eigengene2 <- eigengene2/sqrt(sum(eigengene2^2))
             message.if("Aligning module eigengene with average expression...",
                        verbose=verbose-2)
-            averExpr <- rowMeans(balancedData[ , genes2, drop=FALSE], na.rm=TRUE)
+            averExpr <- rowMeans(balancedData[ , genes3, drop=FALSE], na.rm=TRUE)
             corAve  <- cor(averExpr, eigengene2, use="p")
             if(!is.finite(corAve))
                 corAve <- 0
@@ -98,8 +105,8 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
                              as.matrix(eigengenes[rownames(balancedData), , drop=FALSE]))
     ## If a gene is almost constant, the above correlation may be NA although
     ## that gene is definitely in module 0,
-    ## and NOT in any other module.
-    membership[colSds(balancedData) < 10^(-8), ] <- as.numeric(colnames(membership)=="ME0")
+    ## and NOT in any other module. Put it where it belongs to.
+    membership[colSds(balancedData) < varEpsilon, ] <- as.numeric(colnames(membership)=="ME0")
     eigengenes <- eigengenes[origIds, , drop=FALSE]
     ann1 <- as.character(Labels[rownames(eigengenes)])
     ##^ pheatmap cannot work with e.g., TRUE

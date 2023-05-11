@@ -101,8 +101,8 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
         warning("NA values in eigengenes!")
     message.if("Computing memberships...", verbose=verbose-1)
     n1 <- nrow(eigengenes)
-    membership <- stats::cor(balancedData,
-                             as.matrix(eigengenes[rownames(balancedData), , drop=FALSE]))
+    eigengenesBd <- as.matrix(eigengenes[rownames(balancedData), , drop=FALSE])
+    membership <- suppressWarnings(stats::cor(balancedData, eigengenesBd))
     ## If a gene is almost constant, the above correlation may be NA although
     ## that gene is definitely in module 0,
     ## and NOT in any other module. Put it where it belongs to.

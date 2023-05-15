@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.27.2 (2023-05-12)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{compute.pigengene()} function does not warn about
+      almost constant genes.
+    }
+  }
+}
+
 \section{Changes in version 1.25.16 (2023-03-22)}{
   \subsection{Changes in existing functions}{
     \itemize{

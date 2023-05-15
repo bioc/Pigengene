@@ -64,11 +64,11 @@ get.enriched.pw(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
 
 \value{
 A list:
-  \item{EnrichResults}{A list of output of enrichment analysis for different
-                       database analyzed.}
-  \item{noEnrichment}{A vector of database names in which no enriched pathways 
-                      were found.}
-The output is saved for each selected module under the ``moduleName\_enrichment'' 
+\item{EnrichResults}{A list of output of enrichment analysis for different
+  database analyzed.}
+\item{noEnrichment}{A vector of database names in which no enriched pathways 
+  were found.}
+The output is saved for each selected module under the ``moduleName_enrichment'' 
 folder. There is a subfolder that includes an excel file and plot(s). Each sheet 
 in the excel file corresponds to a pathway database (KEGG in the below example). 
 Each row is an overrepresented pathway.

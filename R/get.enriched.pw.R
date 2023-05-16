@@ -47,8 +47,6 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
         stop("ont cannot take values other than BP, MF or CC!")
     if(inherits(OrgDb, "character"))
         stop("OrgDb cannot be a vector!")
-    if(!any(Org %in% c("Human", "Mouse")))
-        warning("KEGG analysis will be done with human reference!")
 
     ## Save results
     result <- list()

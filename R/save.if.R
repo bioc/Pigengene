@@ -1,4 +1,4 @@
-save.if <- function(x1, file, verbose=1){
+save.if <- function(x1, file, compress=TRUE, verbose=1, ...){
     result <- list()
     result[["file"]] <- file
     size <- c()
@@ -11,9 +11,10 @@ save.if <- function(x1, file, verbose=1){
 
     ## Prepare for saving:
     nm <- deparse(substitute(x1))
-    cmdToShow <- paste("save(", nm , ", file='", file, "')", sep="")
+    c1 <- deparse(substitute(compress))
+    cmdToShow <- paste("save(", nm , ", file='", file, "', compress=", c1, ", ...)", sep="")
     ## R has issues with '\' but Windows needs it!
-    cmd <- paste("save(", nm , ", file=file)", sep="")
+    cmd <- paste("save(", nm , ", file=file, compress=", c1, ", ...)", sep="")
     message.if(me=cmdToShow, verbose=verbose)
     assign(nm, x1)
     eval(parse(text=cmd))

@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.27.12 (2023-05-24)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item The \code{compress} argument is added to the \code{save.if()} function.
+    }
+  }
+}
+
 \section{Changes in version 1.27.2 (2023-05-12)}{
   \subsection{Changes in existing functions}{
     \itemize{

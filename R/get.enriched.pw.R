@@ -19,7 +19,7 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
     ## 'Celegans' org. For default org 'Human' and for org 'Mouse' the
     ## databses will be set to \code{org.Hg.eg.db} and \code{org.Mm.eg.db}
         ## respectively.}
-    ## outPath: A file path where results will be saved.
+    ## outPath: The path where results will be saved.
 
     ## This function should return at a minimum, noEnrichment and the list of enrichment results. H?
 
@@ -50,8 +50,10 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
 
     ## Save results
     result <- list()
-    resultPath <- file.path(outPath, "enrichResults")
+    resultPath <- file.path(outPath, "enriched")
+    dir.create(resultPath, showWarnings=FALSE,  recursive=TRUE)
     
+    ##Databases:
     if(!any(Org %in% c("Human", "Mouse")) && !is.null(OrgDb)){
         Org <- as.character(DBI::dbGetQuery(AnnotationDbi::dbconn(OrgDb),
                                             "SELECT value FROM metadata WHERE name='SPECIES'"))
@@ -72,7 +74,7 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
         for(name1 in names(genes)){
             message.if(me=paste("Analysing: ", name1), verbose=verbose-1)
             genes1 <- genes[[name1]]
-            resultPath <- file.path(outPath, paste0(name1, "_enrichResults"))
+            resultPath <- file.path(outPath, paste0(name1, "_enriched"))
             resultS[[name1]] <- get.enriched.pw(genes=genes1, idType=idType,
                                                  pathwayDb=pathwayDb,
                                                  ont=ont, Org=NULL, OrgDb=OrgDb,
@@ -83,8 +85,6 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
         }
         return(resultS)
     }
-
-    dir.create(resultPath, showWarnings=FALSE,  recursive=TRUE)
  
     if(idType!="ENTREZID"){
         message.if(me="Mapping input gene IDs to ENTREZID", verbose=verbose-1)
@@ -168,7 +168,7 @@ get.enriched.pw <- function(genes, idType, pathwayDb, ont=c("BP", "MF", "CC"),
     if(length(noEnrichment) != 0)
         message.if(me=paste("No enriched pathways found using", noEnrichment, "database"), 
                    verbose=verbose)
-    result[["EnrichResults"]] <- subEnrichedList
+    result[["enriched"]] <- subEnrichedList
     result[["noEnrichment"]] <- noEnrichment
 
     ## Save the pathway data in excel sheet

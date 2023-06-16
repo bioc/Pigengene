@@ -73,9 +73,14 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
             ## QC:
             if(length(genes3)==0)
                 stop(paste("No variable gene in module", m2))
-            message.if("Running PCA...", verbose=verbose-2)
-            prcompRes <- prcomp(balancedData[ , genes3, drop=FALSE], scale.=TRUE)
-            var2 <- (prcompRes$sdev^2)[1]/sum(prcompRes$sdev^2)
+            message.if(paste("Running PCA for module", m2, ", which has",
+                              length(genes3),"genes with some variation..."),
+                       verbose=verbose-2)
+            prcompRes <- prcomp(scale(balancedData[ , genes3, drop=FALSE]), scale.=TRUE)
+            ##^ scale() is needed to avoid rare non-convergence by LAPACK,
+            ##although scaling is already done at the top of prcomp()!
+            ##https://stat.ethz.ch/pipermail/r-sig-ecology/2013-January/003493.html
+            var2 <- (prcompRes$sdev[1])^2/sum(prcompRes$sdev^2)
             name2 <- paste0("ME", m2)
             mERes[["varExplained"]][name2] <- var2
             eigengene2 <- prcompRes$x[,"PC1"]

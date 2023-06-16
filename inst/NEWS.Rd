@@ -1,10 +1,12 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
-\section{Changes in version 1.27.12 (2023-05-24)}{
+\section{Changes in version 1.27.16 (2023-06-16)}{
   \subsection{Changes in existing functions}{
     \itemize{
-      \item The \code{compress} argument is added to the \code{save.if()} function.
+      \item Scaling is done in the \code{compute.pigengene()} function
+      to avoid the following error that Sogand detailes on her lano:
+      Error in La.svd(x, nu, nv) : error code 1 from Lapack routine 'dgesdd'
     }
   }
 }

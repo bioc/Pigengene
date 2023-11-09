@@ -37,7 +37,7 @@ apply.filter(gamma, filt, Data, doNormalize=FALSE)
 
 
 \value{
-\item{filtered}{A filterred matrix computed using the gamma*sData %*% filtN + (1-gamma)*sData
+\item{filtered}{A filtered matrix computed using the gamma*sData %*% filtN + (1-gamma)*sData
 formula, where sData is the scaled \code{Data} and filtN is the normalized or unormalized filter.}
 }
 

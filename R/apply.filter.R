@@ -5,16 +5,16 @@ apply.filter <- function(gamma, filt, Data, doNormalize=FALSE){
     ## gamma: This value is used in above formula which was set in runall.R.
     ## filt: the filter matrix which is the output of identify.filter().
     ## Data: the gene experission matrix with samples on rows.
-    ## Output: filterred, the filterred matrix.
+    ## Output: filtered, the filtered matrix.
     
     result <- list()
     if(inherits(Data, "list")){##Data is a list
-        filterred <- list()
+        filtered <- list()
         print(paste("gamma", gamma))
         for(i1 in 1:length(Data)){
             d1 <- Data[[i1]]
             f1 <- apply.filter(gamma=gamma, filt=filt, Data=d1)
-            filterred[[i1]] <- f1$filterred
+            filtered[[i1]] <- f1$filtered
             
         }
     } else {##Data is a matrix
@@ -31,11 +31,11 @@ apply.filter <- function(gamma, filt, Data, doNormalize=FALSE){
         if(doNormalize){
             filtN <- filtN / rep(rowSums(filtN), each=nrow(filtN))
         }
-        filterred <- (gamma*sData %*% filtN) + ((1-gamma)*sData)
-        filterred <- t(t(filterred) * DataSds)
-        filterred <- t(t(filterred) + meanData)
+        filtered <- (gamma*sData %*% filtN) + ((1-gamma)*sData)
+        filtered <- t(t(filtered) * DataSds)
+        filtered <- t(t(filtered) + meanData)
     }
     ## Output:
-    result[["filterred"]] <- filterred
+    result[["filtered"]] <- filtered
     return(result)
 }

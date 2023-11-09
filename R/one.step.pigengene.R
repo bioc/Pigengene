@@ -99,7 +99,7 @@ one.step.pigengene <- function(Data, saveDir="Pigengene",
         print("dataNum!=1")
         ##Combine listed data frames into one dataframe, Labels into one vector
         message.if("Binding data...",  verbose=verbose-2)
-        DataEig <- as.matrix(dplyr::bind_rows(checkeData))
+        DataEig <- as.matrix(dplyr::bind_rows(checkeData)) ##Missing value: NA.
         LabelsEig <- unlist(checkedLabels)
 	## check for duplicates
 	extractedIDs <- rownames(DataEig)

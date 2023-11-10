@@ -25,6 +25,8 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
     ## took out: Data1=NULL, Data2=NULL , testD1=NULL,  testD2=NULL,
     
     message.if("Making decision trees...", verbose=verbose)
+    if(toCompact=="TRUE")
+        toCompact <- NULL
     Data <- Data[names(Labels), ]
     ##Data <- Data[rownames(pigengene$eigengenes), ]
 
@@ -171,7 +173,8 @@ make.decision.tree <- function(pigengene, Data=pigengene$Data,
     if(toCompact){
         ## QC:
         if(! as.character(toCompact) %in% names(c5TreeS))
-            stop(paste("There is no tree with meanPerLeaf:", toCompact))
+            stop(paste("There is no tree with meanPerLeaf:", toCompact,
+                       "\n Bad toCompact value!"))
         tc5 <- c5TreeS[[as.character(toCompact)]]
         compactC5Tr <- compact.tree(c5Tree=tc5, pigengene=pigengene, 
                                     Data=Data, Labels=Labels, 

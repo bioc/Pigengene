@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.29.4 (2023-11-10)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item Setting \code{toCompact} to \code{TRUE} in
+      \code{make.decision.tree()} has the same effect as \code{NULL}.
+    }
+  }
+}
+
 \section{Changes in version 1.29.4 (2023-11-09)}{
   \subsection{Bug Fixes}{
     \itemize{
@@ -17,7 +26,7 @@
     }
   }
 }
-   
+
 \section{Changes in version 1.27.16 (2023-06-16)}{
   \subsection{Changes in existing functions}{
     \itemize{

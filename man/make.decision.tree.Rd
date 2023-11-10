@@ -71,8 +71,8 @@ make.decision.tree(pigengene, Data,
     be compacted (shrunk). Compacting in this context means
     reducing the number of required genes for the calculation of
     the relevant eigengenes and making the predictions using the
-    tree. If \code{NULL} (default), the (persumably) most general
-    proper tree (corresponding to the largest value in the
+    tree. If \code{TRUE} or \code{NULL} (default), the (persumably) most
+    general proper tree (corresponding to the largest value in the
     \code{minPerLeaf} vector for which a tree could be
     constructed) is compacted. Set to \code{FALSE} to turn off compacting.}
 

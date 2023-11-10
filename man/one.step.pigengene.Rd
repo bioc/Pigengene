@@ -64,7 +64,7 @@ one.step.pigengene(Data, saveDir="Pigengene", Labels, testD=NULL,
   An integer value determining which decision tree to shrink. 
   It is the minimum number of genes per leaf imposed when fitting the tree.
   Set to \code{FALSE} to skip compacting, to \code{NULL} to automatically 
-  select the maximum value.}
+  select the maximum value. See \code{\link{make.decision.tree}}.}
 
   \item{bnNum}{
   Desired number of bootstraped Baysian networks. 

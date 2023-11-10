@@ -100,7 +100,17 @@ make.decision.tree(pigengene, Data,
 
 \details{
 This function passes the inut eigengenes and appropriate arguments
-\code{\link[C50]{C5.0}} function from \code{C50} package.}
+to \code{\link[C50]{C5.0}} function from \code{C50} package.
+
+The effect of test data:
+Only when both \code{testD} and \code{testL} are provided,
+the test data will be used for a) compacting the trees, 
+b) plotting heatmaps of expression of genes in the
+compacted and full trees, and
+c) the noise analysis. 
+If either of \code{testD} or \code{testL} is \code{NULL}, then
+\code{Data} and \code{Labels} are instead used for these purposes.
+}
 
 \value{
 A list with following elements:
@@ -110,7 +120,8 @@ A list with following elements:
 \item{c5Trees}{
   A list, with one element of class \code{C5.0} for each attempted
   \code{minNodesperleaf} value.  The list is named with the
-  corresponding values as characters.}
+  corresponding values as characters. An extra \code{info} element is
+  added that includes information on the performance of the tree.}
 \item{minPerLeaf}{
   A numeric vector enumerating all of the attempted
   minPerLeaf values.}
@@ -135,9 +146,6 @@ A list with following elements:
   The cost matrix}
 \item{saveDir}{
   The directory where plots are saved in}
-
-
-
 }
 
 \note{

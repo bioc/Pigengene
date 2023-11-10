@@ -25,7 +25,6 @@ make.filter <- function(network, epsilon, outPath=NULL){
         plot(sort(log10(rowSums(filt))), main=paste("epsilon=", epsilon))
         dev.off()
     }
-    ##browser()
     
     ## Output:
     result[["epsilon"]] <- epsilon

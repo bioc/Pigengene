@@ -1,6 +1,23 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.29.4 (2023-11-09)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item The \code{averaged.network()} function now correctly
+      passed test data to the \code{module.heatmap()} function. 
+    }
+  }
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item More details on the effect of test data in the documentation of
+      \code{one.step.pigengene()} and \code{make.decision.tree()}
+      functions. \code{make.decision.tree()} returns more information on
+      performance.
+    }
+  }
+}
+   
 \section{Changes in version 1.27.16 (2023-06-16)}{
   \subsection{Changes in existing functions}{
     \itemize{

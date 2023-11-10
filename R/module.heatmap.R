@@ -112,12 +112,13 @@ module.heatmap <- function(c5Tree=NULL, pigengene, mes=NULL, saveDir, testD=NULL
     ## for testD
     D1test <- NULL
     anRtest <- NULL
-    if(!is.null(testD)&!is.null(testL)){
+    if(!is.null(testD) & !is.null(testL)){
         D1test <- testD
         anRtest <- as.data.frame(testL)
         colnames(anRtest) <- 'type'
         anRtest <- anRtest[rownames(D1test),,drop=FALSE]
     }
+    
     ## combined expression plot of the genes in relevant modules
     if(!is.null(c5Tree)){
         ## Subsetting only the genes in the modules:
@@ -128,6 +129,7 @@ module.heatmap <- function(c5Tree=NULL, pigengene, mes=NULL, saveDir, testD=NULL
             mkpngs(f1="combined", Data=testdata, saveDir1=testDir, anR=anRtest)
         }
     }
+
     ## Per module plots
     for(f1 in feats){
         message.if(paste("Module:", f1), verbose=verbose-1)

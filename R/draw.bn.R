@@ -7,7 +7,7 @@ draw.bn <- function(
     ## BN: an object of class BN.
     ## plotFile: set to NULL not to save the plot.
     ## nodeFontSize: the default is 14 in Rgraphviz package.
-    message.if(me="Drawing BN ...", verbose=verbose)
+    message.if(me=paste("Drawing a BN at:", plotFile), verbose=verbose)
     result <- list()
     result[["call"]] <- match.call()
     a0 <- Rgraphviz::getDefaultAttrs()

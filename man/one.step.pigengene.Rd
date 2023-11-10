@@ -133,27 +133,36 @@ This is the main function of the package Pigengene and performs several
 steps: First, modules are identified in the training expression data,
 according to mit argument i.e.  based on coexpression behaviour
 in the corresponding conditions. Set it to "All" to use all training data for 
-this step regardless of the condition. Then, if a list of data frames is
-provided in Data, similarity networks on the data sets are computed and
+this step regardless of the condition.
+If a list of data frames is provided in Data, similarity networks
+on the data sets are computed and
 combined into one similarity network for the union of nodes across data
-sets. Then, the eigengenes for each module 
+sets.
+
+Then, the eigengenes for each module 
 and each sample are calculated, where the expression of an eigengene of a
 module in a sample is the weighted average of the expression of the genes in 
 that module in the sample. Technically, an eigengene is the first principal 
 component of the gene expression in a module. PCA ensures that the maximum 
-variance accross all the training samples is explained by the eigengene. 
+variance accross all the training samples is explained by the eigengene.
+
 Next, (optionally --if bnNum is set to a value greater than 0),
 several bootstrapped Bayesian networks are learned and combined into a
 consensus network, in order to detect and illustrate the 
-probabilistic dependencies between the eigengenes and the disease subtype. 
+probabilistic dependencies between the eigengenes and the disease
+subtype.
+
 Next, decisision tree(s) are built that use the module eigengenes, or
 a subset of them, to  distinguish the classes (\code{Labels}). 
 The accurracy of trees is assessed on the train and (if provided) test data. 
 Finally, the number of required genes for the calculation of the relevant 
 eigengenes is reduced (the tree is 'compacted'). The accuracy of the tree 
-is reassessed after removal of each gene. Along the way, several 
+is reassessed after removal of each gene.
+
+Along the way, several 
 self explanatory directories, heatmaps and plots are created and stored under 
-\code{saveDir}.
+\code{saveDir}. See \code{\link{make.decision.tree}} for the effect of
+test data in the process.
 }
 
 \value{

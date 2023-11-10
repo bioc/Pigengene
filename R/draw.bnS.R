@@ -10,7 +10,7 @@ draw.bnS <- function(
     mainText <- NULL
     bde <- c()
     result[["moduleNamesFile"]] <- moduleNamesFile
-    message.if("Plotting graphs...", verbose=verbose)
+    message.if("Drawing BNs...", verbose=verbose)
     if (moduleNum=="E" & !is.null(moduleNamesFile)) {
         if (!file.exists(moduleNamesFile)){
             warning(paste("moduleNamesFile does not exist at:", moduleNamesFile, "Ignored."))

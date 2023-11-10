@@ -1,9 +1,14 @@
-compact.tree <- function(
-    c5Tree, pigengene, Data=pigengene$Data, Labels=pigengene$Labels,
-    testD=NULL, testL=NULL, saveDir=".", verbose=0)
-{
-    ##stopifnot((is.null(testD) & is.null(testL)) |
-    ##!((is.null(testD) & is.null(testL))), "test data?")
+compact.tree <- function(c5Tree, pigengene, Data=pigengene$Data, Labels=pigengene$Labels,
+                         testD=NULL, testL=NULL, saveDir=".", verbose=0){
+    ## QC:
+    if(sum(c(is.null(testD), is.null(testL))) ==1)
+        stop("Only one of testD or testL is NULL!")
+    if(is.null(testD) & is.null(testL)){
+        testD <- Data
+        testL <- Labels
+    }
+
+    ## Preliminaries:
     compRes <- list()
     message.if("Compacting the tree...", verbose=verbose)
     Data <- Data[names(Labels), ]
@@ -16,10 +21,6 @@ compact.tree <- function(
     }
     if(nrow(Data)==0)
         stop("Data has no rows!")
-    if(is.null(testD) & is.null(testL)){
-        testD <- Data
-        testL <- Labels
-    }
     feats <- get.used.features(c5Tree)
     featsN <- as.numeric(gsub(feats, pattern="ME", replacement=""))
     inds <- which(pigengene$orderedModules %in% featsN)

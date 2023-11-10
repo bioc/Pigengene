@@ -37,7 +37,7 @@ bn.calculationS <- function(
         if (scoring !="bde") 
             warning("--scoring is NOT 'bde', ## should be 'bde'")
             if (doTalk) {
-                message("The arguments are set as:")
+                message("The BN arguments are set as:")
                 message(paste(args, collapse=" "))
             }
         if (doLocal) {

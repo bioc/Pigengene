@@ -1,6 +1,4 @@
-draw.scores <- function(
-    candidates, maxUpto=1500, candlist=NULL, verbose=0, savePath)
-{
+draw.scores <- function(candidates, maxUpto=1500, candlist=NULL, verbose=0, savePath){
     result <- list()
     scores <- as.numeric(candidates[, "Score"])
     num <- length(scores)

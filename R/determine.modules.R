@@ -35,7 +35,7 @@ determine.modules <- function(network, outPath, midfix="", powerVector=1:20,
     ##save TOM-module to load again for blockwiseModule
     tomFile <- file.path(outPath, paste0("TomModule", midfix, ".RData"))
     save(TOM, file=tomFile)
-    tempFile <- "./blockwiseTOM-block.1.RData"
+    tempFile <- "blockwiseTOM-block.1.RData"
     if(file.exists(tempFile)){
         file.remove(tempFile)
     }

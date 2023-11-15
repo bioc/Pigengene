@@ -58,7 +58,7 @@ A list of:
  \code{annRow} is used.}
 
 \seealso{
-\code{\link{eigengenes33}}}
+\code{\link{eigengenes33}}, \code{\link[pheatmap]{pheatmap}}}
 
 \examples{
      data(eigengenes33)

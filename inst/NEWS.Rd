@@ -1,7 +1,24 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
-\section{Changes in version 1.29.4 (2023-11-10)}{
+\section{Changes in version 1.29.8 (2023-11-13)}{
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item Using "/" is avoided in  \code{determine.modules} and
+      \code{learn.bn} functions to support running them on Windows.
+      The \code{"toLocal"} task in \code{learn.bn()} and \code{sbatch()}
+      still do not support Windows.
+    }
+  }
+  \subsection{General}{
+    \itemize{
+      \item \code{inst/script/bn.calculation.job.R} is added as an
+      example for the \code{bnCalculationJob} argument. 
+    }
+  }
+}
+
+\section{Changes in version 1.29.6 (2023-11-10)}{
   \subsection{Changes in existing functions}{
     \itemize{
       \item Setting \code{toCompact} to \code{TRUE} in

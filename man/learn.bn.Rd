@@ -140,7 +140,9 @@ learn.bn(pigengene=NULL, Data=NULL, Labels=NULL, bnPath = "bn", bnNum = 100,
   The time in \code{"hh:mm:ss"} format requested for each job if they are running on a computer cluster.}
 
   \item{bnCalculationJob}{
-  A script used to submit jobs to the cluster. Set to \code{NULL} if not using a cluster.}
+  An R script used to submit jobs to the cluster. Set to \code{NULL} if not
+  using a cluster. An example is provided at
+  \code{system.file("script", "bn.calculation.job.R",  package="Pigengene")}}
 
   \item{seed}{
   The random seed that can be set to an integer to reproduce the same results.}
@@ -205,7 +207,9 @@ A list of:
 Amir Foroushani, Habil Zare, and Rupesh Agrahari}
 
 \note{
-Running the jobs on a cluster needs \code{bnCalculationJob} script, which is NOT included in the package yet.}
+Running the jobs on a cluster needs a proper \code{bnCalculationJob}
+script. Also, the unexported function \code{sbatch()} is adopted for a
+particular cluster and may need generalization on other clusters.}
 
 \seealso{
   \code{\link[bnlearn]{bnlearn-package}}, \code{\link{Pigengene-package}}, 

@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.29.10 (2023-11-15)}{
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item More diagnostic messages from \code{scoreCandidates}.
+    }
+  }
+}
+
 \section{Changes in version 1.29.8 (2023-11-13)}{
   \subsection{Bug Fixes}{
     \itemize{

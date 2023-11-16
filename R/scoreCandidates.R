@@ -1,30 +1,30 @@
-scoreCandidates <- function(
-    candlist, scoring="bde", 
-    saveFile=NULL, Data, verbose=0)
-{
+scoreCandidates <- function(candlist, scoring="bde", 
+                            saveFile=NULL, Data, verbose=0){
     ##
     result <- list()
     message.if("Scoring candidates...", verbose=verbose)
     bestBN <- empty.graph(nodes=colnames(Data))
     failedFiles <- vector(mode="character")
     noAccessFiles <- vector(mode="character")
-    x <- unique(candlist[, 1])
+    files <- unique(candlist[, 1])
     candlist <- candlist[, c("File", "Index")]
-    fa <- file.access(x, 0)
+    fa <- file.access(files, 0)
+    message.if(paste("Number of expected files:", nrow(candlist)), verbose=verbose-1)
     if (sum(fa==-1) > 0) {
         message.if("---- cannot access the following files, files do not exist:", verbose=verbose-1)
-        message.if(x[fa==-1], verbose=verbose-1)
-        failedFiles <- as.character(x[fa==-1])
-        x <- x[fa > -1]
+        message.if(files[fa==-1], verbose=verbose-1)
+        failedFiles <- as.character(files[fa==-1])
+        files <- files[fa > -1]
     }
-    fa <- file.access(x, 4)
+    fa <- file.access(files, 4)
     if (sum(fa==-1) > 0) {
         message.if(">>>> cannot access the following files, permission denied:", verbose=verbose-1)
-        message.if(x[fa==-1], verbose=verbose-1)
-        noAccessFiles <- as.character(x[fa==-1])
-        x <- x[fa > -1]
+        message.if(files[fa==-1], verbose=verbose-1)
+        noAccessFiles <- as.character(files[fa==-1])
+        files <- files[fa > -1]
     }
-    candlist <- candlist[(candlist[, 1] %in% x), ]
+    candlist <- candlist[(candlist[, 1] %in% files), , drop=FALSE]
+    message.if(paste("Number of available files:", nrow(candlist)), verbose=verbose-1)
     scs <- vector(mode="numeric", length=nrow(candlist))
     candlist <- cbind(candlist, scs)
     colnames(candlist)[ncol(candlist)] <- "Score"

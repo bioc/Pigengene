@@ -1,6 +1,20 @@
 \name{NEWS}
 \title{News for \R Package \pkg{Pigenegene}}
 
+\section{Changes in version 1.31.2 (2024-06-21)}{
+  \subsection{General}{
+    \itemize{
+      \item Links to \code{project.eigen} were added in related
+      fucntions docs.
+    }
+  }
+  \subsection{Changes in existing functions}{
+    \itemize{
+      \item \code{doMinimize} was added to \code{compute.pigengene}.
+    }
+  }
+}
+
 \section{Changes in version 1.29.10 (2023-11-15)}{
   \subsection{Changes in existing functions}{
     \itemize{

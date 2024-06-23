@@ -41,10 +41,11 @@ Maintainer: Habil Zare <zare@txstate.edu>
 }
 
 \references{
-Foroushani, Amir, et
-al. "Large-scale gene network analysis reveals the significance of extracellular
-matrix pathway and homeobox genes in acute myeloid leukemia: an introduction to
-the Pigengene package and its applications." BMC medical genomics 10.1 (2017): 1-15.}
+  Foroushani, Amir, et al.
+  "Large-scale gene network analysis reveals the significance of extracellular
+  matrix pathway and homeobox genes in acute myeloid leukemia: an introduction to
+  the Pigengene package and its applications."
+  BMC medical genomics 10.1 (2017): 1-15.}
 
 \keyword{ package }
 \keyword{ datasets }
@@ -53,7 +54,8 @@ the Pigengene package and its applications." BMC medical genomics 10.1 (2017): 1
 
 \seealso{
 \code{\link[Pigengene]{Pigengene-package}},
-\code{\link{one.step.pigengene}}, \code{\link{compute.pigengene}}, 
+\code{\link{one.step.pigengene}}, \code{\link{compute.pigengene}},
+\code{\link{project.eigen}},
 \code{WGCNA::\link[WGCNA]{blockwiseModules}}}
 
 

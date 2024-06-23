@@ -1,11 +1,11 @@
 compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
                               selectedModules="All", amplification=5,
                               doPlot=TRUE, verbose=0, dOrderByW=TRUE, naTolerance=0.05,
-                              doWgcna=FALSE){
+                              doWgcna=FALSE, doMinimize=FALSE){
     ##
     ## modules: A vector of integers determining module assignments.
     ##^Named by column names of Data.
-    message.if(me="Pigengenes...", verbose=verbose)
+    message.if(me="Pigengene computation...", verbose=verbose)
     pigengene <- list()
     ## Constants:
     varEpsilon <- 10^(-8)
@@ -188,5 +188,12 @@ compute.pigengene <- function(Data, Labels, modules, saveFile="pigengene.RData",
                        selectedModules=selectedModules, verbose=verbose,
                        DiseaseColors="Auto")
     }
+
+    ## Minimize:
+    if(doMinimize){
+        message.if(me="Minimizing pigengene...", verbose=verbose)
+        pigengene <- pigengene[project.eigen(pigengene=NULL)[["projectionaries"]]]
+    }
+    
     return(pigengene)
 }

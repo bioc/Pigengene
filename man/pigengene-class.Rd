@@ -16,8 +16,11 @@ and other related information.}
 
 \details{
   A object of class \code{pigengene} is the output of 
-  \code{\link{compute.pigengene}} function. 
-  It is a list containing at least the following components:
+  \code{\link{compute.pigengene}} function. It is a list.
+  If \code{doMinimize=TRUE}, only the minimal elements needed to project
+  eigengenes in a new dataset are included
+  (i.e., see \code{project.eigen(pigengene=NULL)[["projectionaries"]]}).
+  Otherwise, it contains at least the following components:
   \itemize{
     \item{\code{call}}{
       The call that created the results.}
@@ -31,7 +34,9 @@ and other related information.}
       \code{\link[WGCNA]{moduleEigengenes}} function with some fixes, e.g.,
       we change \code{eigengenes} to a matrix,
       and use genes as its row names. Also, \code{varExplained} is named
-      according to modules.}
+      according to modules. Setting \code{doWgcna=TRUE} leads to more
+      memory usage and a larger \code{Pigengene} object likely, with no
+      advantage.}
     \item{\code{Data}}{
       The data matrix of gene expression.}
     \item{\code{Labels}}{

@@ -205,6 +205,7 @@ step-by-step in a customized way.}
 \code{\link{calculate.beta}},
 \code{\link{wgcna.one.step}},
 \code{\link{compute.pigengene}},
+\code{\link{project.eigen}},
 \code{\link{learn.bn}}, \code{\link{make.decision.tree}},
 \code{\link[WGCNA]{blockwiseModules}}}
 

@@ -29,7 +29,8 @@ project.eigen(Data, saveFile = NULL, pigengene, naTolerance = 0.05,
 
   \item{pigengene}{
     An object of \code{\link{pigengene-class}}, usually created by  
-    \code{\link{compute.pigengene}}}
+    \code{\link{compute.pigengene}}. If \code{NULL}, only
+    \code{projectionaries} will be returned.}
 
   \item{naTolerance}{
     Upper threshold on the fraction of entries per gene that
@@ -61,6 +62,9 @@ project.eigen(Data, saveFile = NULL, pigengene, naTolerance = 0.05,
 
 \value{
 A list of:
+  \item{projectionaries}{
+    The character vector of names of minimal elements needed to be in
+    the \code{pigengene} object}
   \item{projected}{
     The matrix of inferred (projected) eigengenes}
   \item{replacedNaNum}{
@@ -99,7 +103,8 @@ original modules.}
      toyModules <- eigengenes33$modules[colnames(d1)]
      ## Computing:
      p1 <- compute.pigengene(Data=d1, Labels=Labels, modules=toyModules, 
-        saveFile="pigengene.RData", doPlot=TRUE, verbose=3)
+        saveFile="pigengene.RData", doPlot=TRUE, verbose=3, doMinimize=TRUE)
+
      ## How robust projecting is?
      p2 <- project.eigen(Data=d1, pigengene = p1, verbose = 1)
      plot(p1$eigengenes[,"ME1"],p2$projected[,"ME1"])

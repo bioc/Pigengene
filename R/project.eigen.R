@@ -11,13 +11,28 @@ project.eigen <- function(Data, saveFile=NULL, pigengene,
     ##^set ignoreModules=c(-1).
     message.if("Projecting...", verbose=verbose)
     res <- list()
+
+    ## Essentials:
+    res[["projectionaries"]] <- c("orderedModules", "membership", "eigengenes")
+    if(is.null(pigengene))
+        return(res)
     Data <- as.matrix(Data)
+
+    ## QC:
+    for(n1 in res[["projectionaries"]]){
+        if(! n1 %in% names(pigengene))
+            stop(n1, "is missing in the input pigengene object!")
+    }
+
+    ## From the Pigengene object:
     modules <- pigengene$orderedModules ## numeric, named by genes
     membership <- pigengene$membership ## (number of genes) * (number of modules)
     geoEigengenes <- pigengene$eigengenes
     if(any(is.na(membership))){
         stop("NA in pigengene$membership!")
     }
+
+    ## Initiation: 
     p1 <- c() ## projected matrix
     notMatched <- c()
     tooNaGenes <- c()

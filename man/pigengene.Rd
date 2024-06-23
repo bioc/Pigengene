@@ -20,7 +20,7 @@ genes are included.}
   It is an object of \code{\link{pigengene-class}}.}
 
 \details{
-    The object is made using \code{\link{compute.pigengene}} fucntion
+    The object is made using \code{\link{compute.pigengene}} function
     from \code{\link{aml}} and \code{\link{mds}} data as shown 
     in the examples. The \code{R CMD build --resave-data} trick was used
     to reduce the size of saved object from 3.1 MB to 1.4 MB.}
@@ -35,7 +35,8 @@ genes are included.}
 \seealso{
   \code{\link{Pigengene-package}}, \code{\link{pigengene-class}},
   \code{\link{one.step.pigengene}},
-  \code{\link{mds}}, \code{\link{aml}}, \code{\link{compute.pigengene}}
+  \code{\link{mds}}, \code{\link{aml}}, \code{\link{compute.pigengene}},
+  \code{\link{project.eigen}}
 }
 
 \examples{
